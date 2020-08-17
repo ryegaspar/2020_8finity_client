@@ -51,12 +51,27 @@ export default {
 	modules: [
 		// Doc: https://axios.nuxtjs.org/usage
 		'@nuxtjs/axios',
+		'@nuxtjs/dotenv',
+		'@nuxtjs/auth'
 	],
+
+	auth: {
+		strategies: {
+			local: {
+				endpoints: {},
+				tokenRequired: false,
+				tokenType: false
+			}
+		}
+	},
 	/*
 	** Axios module configuration
 	** See https://axios.nuxtjs.org/options
 	*/
-	axios: {},
+	axios: {
+		baseURL: process.env.BASE_URL + '/',
+		credentials: true
+	},
 	/*
 	** Build configuration
 	** See https://nuxtjs.org/api/configuration-build/
