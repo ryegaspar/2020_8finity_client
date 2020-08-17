@@ -51,18 +51,29 @@ export default {
 	modules: [
 		// Doc: https://axios.nuxtjs.org/usage
 		'@nuxtjs/axios',
-		'@nuxtjs/dotenv',
+		// '@nuxtjs/dotenv',
 		'@nuxtjs/auth'
 	],
 
 	auth: {
 		strategies: {
 			local: {
-				endpoints: {},
+				endpoints: {
+					login: {
+						url: '/login',
+						method: 'post'
+					},
+					user: {
+						url: '/user',
+						method: 'get',
+						propertyName: false,
+					}
+				},
 				tokenRequired: false,
 				tokenType: false
-			}
-		}
+			},
+		},
+		localStorage: false
 	},
 	/*
 	** Axios module configuration

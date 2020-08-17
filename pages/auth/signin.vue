@@ -6,14 +6,21 @@
 
 		<form action="#"
 			  method="post"
-			  class="bg-white rounded-lg p-8 w-full md:w-6/12 lg:w-3/12 shadow-xl">
+			  class="bg-white rounded-lg p-8 w-full md:w-6/12 lg:w-3/12 shadow-xl"
+			  @submit.prevent="submit"
+		>
 			<div class="mb-4">
 				<label for="email"
 					   class="block mb-2 text-gray-400 uppercase text-sm font-bold tracking-tight"
 				>
 					Email address
 				</label>
-				<input type="text" name="email" id="email" class="border-2 border-gray-400 rounded px-3 py-2 w-full">
+				<input type="text"
+					   name="email"
+					   id="email"
+					   class="border-2 border-gray-400 rounded px-3 py-2 w-full"
+					   v-model="form.email"
+				>
 			</div>
 			<div class="mb-6">
 				<label for="password"
@@ -24,7 +31,9 @@
 				<input type="password"
 					   name="password"
 					   id="password"
-					   class="border-2 border-gray-400 rounded px-3 py-2 w-full">
+					   class="border-2 border-gray-400 rounded px-3 py-2 w-full"
+					   v-model="form.password"
+				>
 			</div>
 			<div>
 				<button type="submit"
@@ -38,5 +47,27 @@
 </template>
 
 <script>
-export default {}
+export default {
+	data() {
+		return {
+			form: {
+				email: '',
+				password: '',
+			}
+		}
+	},
+
+	methods: {
+		async submit() {
+			try {
+				await this.$axios.$get('/sanctum/csrf-cookie')
+				await this.$auth.loginWith('local', {data: this.form})
+
+				this.$router.replace({name: 'index'})
+			} catch (e) {
+
+			}
+		}
+	}
+}
 </script>
