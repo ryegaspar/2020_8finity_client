@@ -63,6 +63,10 @@ export default {
 						url: '/login',
 						method: 'post'
 					},
+					logout: {
+						url: '/logout',
+						method: 'post'
+					},
 					user: {
 						url: '/user',
 						method: 'get',

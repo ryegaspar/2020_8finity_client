@@ -15,7 +15,9 @@
 				</li>
 				<li>
 					<a href="#"
-					   class="text-gray-800 font-medium">
+					   class="text-gray-800 font-medium"
+					   @click.prevent="signOut"
+					>
 						Sign out
 					</a>
 				</li>
@@ -37,3 +39,15 @@
 		</ul>
 	</div>
 </template>
+
+<script>
+export default {
+	methods: {
+		async signOut() {
+			await this.$auth.logout();
+
+			this.$router.replace({name: 'index'})
+		}
+	}
+}
+</script>
