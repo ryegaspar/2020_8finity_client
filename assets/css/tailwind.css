@@ -3,5 +3,21 @@
 @import 'tailwindcss/utilities';
 
 body {
-	@apply bg-gray-200 p-6;
+	@apply bg-black-alt p-6;
+}
+
+.loading {
+	@apply cursor-not-allowed opacity-50;
+}
+
+.bg-black-alt  {
+	background:#191919;
+}
+
+.text-black-alt  {
+	color:#191919;
+}
+
+.border-black-alt {
+	border-color: #191919;
 }

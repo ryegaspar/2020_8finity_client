@@ -1,57 +1,43 @@
 <template>
-	<div class="flex flex-col items-center">
-		<h1 class="font-medium text-3xl mb-6 text-center text-gray-600">
-			Sign in.
-		</h1>
-
-		<form action="#"
-			  method="post"
-			  class="bg-white rounded-lg p-8 w-full md:w-6/12 lg:w-3/12 shadow-xl"
-			  @submit.prevent="submit"
-		>
-			<div class="mb-4">
-				<label for="email"
-					   class="block mb-2 text-gray-400 uppercase text-sm font-bold tracking-tight"
-				>
-					Email address
-				</label>
+	<div class="bg-black-alt min-h-screen flex flex-col">
+		<div class="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
+			<form class="bg-gray-800 px-6 py-6 rounded-lg shadow text-gray-400 w-full">
+				<h1 class="mb-6 text-3xl text-center">Login</h1>
 				<input type="text"
-					   name="email"
-					   id="email"
-					   class="border-2 border-gray-400 rounded px-3 py-2 w-full"
-					   v-model="form.email"
-				>
-			</div>
-			<div class="mb-6">
-				<label for="password"
-					   class="block mb-2 text-gray-500 uppercase text-sm font-bold tracking-tight"
-				>
-					Password
-				</label>
+					   class="block border border-gray-800 bg-gray-900 w-full p-3 rounded-lg mb-4 outline-none focus:border-gray-600 appearance-none leading-normal text-gray-400"
+					   name="username"
+					   placeholder="username"
+					   v-model="form.username"
+				/>
+
 				<input type="password"
+					   class="block border border-gray-800 bg-gray-900 w-full p-3 rounded-lg mb-4 outline-none focus:border-gray-600 appearance-none leading-normal text-gray-400"
 					   name="password"
-					   id="password"
-					   class="border-2 border-gray-400 rounded px-3 py-2 w-full"
+					   placeholder="Password"
 					   v-model="form.password"
+				/>
+
+				<button
+					type="submit"
+					v-promise-btn
+					@click.prevent="submit"
+					class="w-full text-center py-3 rounded-lg bg-blue-500 text-white hover:bg-blue-700 focus:outline-none my-1"
 				>
-			</div>
-			<div>
-				<button type="submit"
-						class="w-full bg-blue-500 text-white px-6 py-3 rounded uppercase font-bold"
-				>
-					Sign in
+					Sign In
 				</button>
-			</div>
-		</form>
+			</form>
+		</div>
 	</div>
 </template>
 
 <script>
 export default {
+
 	data() {
 		return {
+			hasError: false,
 			form: {
-				email: '',
+				username: '',
 				password: '',
 			}
 		}
@@ -59,13 +45,16 @@ export default {
 
 	methods: {
 		async submit() {
+			this.hasError = false;
 			try {
 				await this.$axios.$get('/sanctum/csrf-cookie')
 				await this.$auth.loginWith('local', {data: this.form})
 
 				this.$router.replace({name: 'index'})
 			} catch (e) {
-
+				if (parseInt(e.response.status) === 422) {
+					this.hasError = true
+				}
 			}
 		}
 	}
