@@ -16,5 +16,6 @@ $ npm run start
 # generate static project
 $ npm run generate
 ```
-
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+---
+## Bugs
+* authentication using firefox developer (in private mode), after authenticating, refreshing the page redirects to the login page.
