@@ -10,13 +10,11 @@
 						<div class="bg-gray-900 border border-gray-800 rounded shadow p-2">
 							<div class="flex flex-row items-center">
 								<div class="flex-shrink pr-4">
-									<div class="rounded p-3 bg-green-600"><i
-										class="fa fa-wallet fa-2x fa-fw fa-inverse"></i></div>
+									<div class="rounded p-3 bg-green-600"></div>
 								</div>
 								<div class="flex-1 text-right md:text-center">
 									<h5 class="font-bold uppercase text-gray-400">Total Revenue</h5>
-									<h3 class="font-bold text-3xl text-gray-600">$3249 <span class="text-green-500"><i
-										class="fas fa-caret-up"></i></span></h3>
+									<h3 class="font-bold text-3xl text-gray-600">&#8369;3249</h3>
 								</div>
 							</div>
 						</div>
@@ -27,13 +25,11 @@
 						<div class="bg-gray-900 border border-gray-800 rounded shadow p-2">
 							<div class="flex flex-row items-center">
 								<div class="flex-shrink pr-4">
-									<div class="rounded p-3 bg-orange-600"><i
-										class="fas fa-users fa-2x fa-fw fa-inverse"></i></div>
+									<div class="rounded p-3 bg-orange-600"></div>
 								</div>
 								<div class="flex-1 text-right md:text-center">
-									<h5 class="font-bold uppercase text-gray-400">Total Users</h5>
-									<h3 class="font-bold text-3xl text-gray-600">249 <span class="text-orange-500"><i
-										class="fas fa-exchange-alt"></i></span></h3>
+									<h5 class="font-bold uppercase text-gray-400">Income today</h5>
+									<h3 class="font-bold text-3xl text-gray-600">&#8369;7000</h3>
 								</div>
 							</div>
 						</div>
@@ -44,13 +40,11 @@
 						<div class="bg-gray-900 border border-gray-800 rounded shadow p-2">
 							<div class="flex flex-row items-center">
 								<div class="flex-shrink pr-4">
-									<div class="rounded p-3 bg-yellow-600"><i
-										class="fas fa-user-plus fa-2x fa-fw fa-inverse"></i></div>
+									<div class="rounded p-3 bg-yellow-600"></div>
 								</div>
 								<div class="flex-1 text-right md:text-center">
-									<h5 class="font-bold uppercase text-gray-400">New Users</h5>
-									<h3 class="font-bold text-3xl text-gray-600">2 <span class="text-yellow-600"><i
-										class="fas fa-caret-up"></i></span></h3>
+									<h5 class="font-bold uppercase text-gray-400">Expenses today</h5>
+									<h3 class="font-bold text-3xl text-gray-600">&#8369;2500</h3>
 								</div>
 							</div>
 						</div>
