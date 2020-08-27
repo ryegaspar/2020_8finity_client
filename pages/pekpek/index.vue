@@ -10,7 +10,7 @@
 						<div class="bg-gray-900 border border-gray-800 rounded shadow p-2">
 							<div class="flex flex-row items-center">
 								<div class="flex-shrink pr-4">
-									<div class="rounded p-3 bg-green-600">
+									<div class="rounded p-3 bg-blue-600">
 										<font-awesome-layers class="fa-2x fa-fw">
 											<font-awesome-icon icon="piggy-bank"/>
 										</font-awesome-layers>
@@ -29,7 +29,7 @@
 						<div class="bg-gray-900 border border-gray-800 rounded shadow p-2">
 							<div class="flex flex-row items-center">
 								<div class="flex-shrink pr-4">
-									<div class="rounded p-3 bg-blue-600">
+									<div class="rounded p-3 bg-green-600">
 										<font-awesome-layers class="fa-2x fa-fw">
 											<font-awesome-icon icon="smile-wink"/>
 										</font-awesome-layers>

@@ -8,14 +8,18 @@
 					   name="username"
 					   placeholder="username"
 					   v-model="form.username"
+					   ref="username"
 				/>
 
 				<input type="password"
-					   class="block border border-gray-800 bg-gray-900 w-full p-3 rounded-lg mb-4 outline-none focus:border-gray-600 appearance-none leading-normal text-gray-400"
+					   class="block border border-gray-800 bg-gray-900 w-full p-3 rounded-lg mb-2 outline-none focus:border-gray-600 appearance-none leading-normal text-gray-400"
 					   name="password"
-					   placeholder="Password"
+					   placeholder="password"
 					   v-model="form.password"
+					   ref="password"
 				/>
+
+				<em class="block text-center text-red-600 text-sm mb-4" v-show="hasError">invalid username or password</em>
 
 				<button
 					type="submit"
@@ -54,6 +58,7 @@ export default {
 			} catch (e) {
 				if (parseInt(e.response.status) === 422) {
 					this.hasError = true
+					this.$refs.username.select()
 				}
 			}
 		}
