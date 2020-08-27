@@ -46,6 +46,7 @@ export default {
 	buildModules: [
 		// Doc: https://github.com/nuxt-community/nuxt-tailwindcss
 		'@nuxtjs/tailwindcss',
+		'@nuxtjs/fontawesome',
 	],
 	/*
 	** Nuxt.js modules
@@ -54,7 +55,7 @@ export default {
 		// Doc: https://axios.nuxtjs.org/usage
 		'@nuxtjs/axios',
 		// '@nuxtjs/dotenv',
-		'@nuxtjs/auth'
+		'@nuxtjs/auth',
 	],
 
 	auth: {
@@ -89,6 +90,13 @@ export default {
 	axios: {
 		baseURL: process.env.BASE_URL + '/',
 		credentials: true
+	},
+
+	fontawesome: {
+		icons: {
+			solid: true,
+			brands: true
+		}
 	},
 	/*
 	** Build configuration

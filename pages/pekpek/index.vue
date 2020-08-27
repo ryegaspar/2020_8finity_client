@@ -10,7 +10,11 @@
 						<div class="bg-gray-900 border border-gray-800 rounded shadow p-2">
 							<div class="flex flex-row items-center">
 								<div class="flex-shrink pr-4">
-									<div class="rounded p-3 bg-green-600"></div>
+									<div class="rounded p-3 bg-green-600">
+										<font-awesome-layers class="fa-2x fa-fw">
+											<font-awesome-icon icon="piggy-bank"/>
+										</font-awesome-layers>
+									</div>
 								</div>
 								<div class="flex-1 text-right md:text-center">
 									<h5 class="font-bold uppercase text-gray-400">Total Revenue</h5>
@@ -25,7 +29,11 @@
 						<div class="bg-gray-900 border border-gray-800 rounded shadow p-2">
 							<div class="flex flex-row items-center">
 								<div class="flex-shrink pr-4">
-									<div class="rounded p-3 bg-orange-600"></div>
+									<div class="rounded p-3 bg-blue-600">
+										<font-awesome-layers class="fa-2x fa-fw">
+											<font-awesome-icon icon="smile-wink"/>
+										</font-awesome-layers>
+									</div>
 								</div>
 								<div class="flex-1 text-right md:text-center">
 									<h5 class="font-bold uppercase text-gray-400">Income today</h5>
@@ -40,7 +48,11 @@
 						<div class="bg-gray-900 border border-gray-800 rounded shadow p-2">
 							<div class="flex flex-row items-center">
 								<div class="flex-shrink pr-4">
-									<div class="rounded p-3 bg-yellow-600"></div>
+									<div class="rounded p-3 bg-orange-600">
+										<font-awesome-layers class="fa-2x fa-fw">
+											<font-awesome-icon icon="sad-cry"/>
+										</font-awesome-layers>
+									</div>
 								</div>
 								<div class="flex-1 text-right md:text-center">
 									<h5 class="font-bold uppercase text-gray-400">Expenses today</h5>
