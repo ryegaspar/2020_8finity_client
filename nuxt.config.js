@@ -33,8 +33,9 @@ export default {
 	** https://nuxtjs.org/guide/plugins
 	*/
 	plugins: [
-		'@/plugins/vue_promise_btn.js',
-		'@/plugins/v_click_outside.js'
+		'@/plugins/vue_promise_btn',
+		'@/plugins/v_click_outside',
+		'@/plugins/v-tailwind-picker'
 	],
 	/*
 	** Auto import components

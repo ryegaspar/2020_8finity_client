@@ -4,7 +4,7 @@
 			<div class="w-full container mx-auto flex flex-wrap items-center mt-0 pt-3 pb-3 md:pb-0">
 
 				<div class="w-1/2 pl-2 md:pl-0">
-					<a class="text-gray-100 text-base xl:text-xl no-underline hover:no-underline font-bold flex items-center"
+					<a class="text-gray-100 text-xs sm:text-sm md:text-xl no-underline hover:no-underline font-bold flex items-center"
 					   href="#">
 						<img class="h-8 lg:h-12"
 							 src="~/assets/images/logo.png"><span
@@ -16,7 +16,7 @@
 						<div class="relative text-sm text-gray-100">
 							<button id="userButton" class="flex items-center focus:outline-none mr-3">
 								<img class="w-8 h-8 rounded-full mr-4" src="http://i.pravatar.cc/300"
-									 alt="Avatar of User"> <span
+									 alt="User"> <span
 								class="hidden md:inline-block text-gray-100">Hi, User</span>
 								<svg class="pl-2 h-2 fill-current text-gray-100"
 									 version="1.1"

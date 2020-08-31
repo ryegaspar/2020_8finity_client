@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<!--Container-->
-		<div class="container w-full mx-auto pt-24 md:p-20 lg:p-24">
+		<div class="container w-full mx-auto pt-20 lg:pt-24">
 			<div class="w-full px-4 md:px-0 lg:mt-12 mb-16 text-gray-400 leading-normal">
 				<date-range-select />
 				<!--Console Content-->
