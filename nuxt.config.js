@@ -33,7 +33,8 @@ export default {
 	** https://nuxtjs.org/guide/plugins
 	*/
 	plugins: [
-		'@/plugins/globals.js'
+		'@/plugins/vue_promise_btn.js',
+		'@/plugins/v_click_outside.js'
 	],
 	/*
 	** Auto import components

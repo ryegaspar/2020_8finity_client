@@ -2,8 +2,11 @@
 	<div>
 		<!--Container-->
 		<div class="container w-full mx-auto pt-24 md:p-20 lg:p-24">
-			<div class="w-full px-4 md:px-0 lg:mt-12 mb-16 text-gray-800 leading-normal">
+			<div class="w-full px-4 md:px-0 lg:mt-12 mb-16 text-gray-400 leading-normal">
+				<date-range-select />
 				<!--Console Content-->
+				<hr class="border-b-2 border-gray-600 my-4 mx-4">
+
 				<div class="flex flex-wrap">
 					<div class="w-full md:w-1/2 xl:w-1/3 p-3">
 						<!--Metric Card-->
@@ -276,7 +279,9 @@
 
 <script>
 export default {
+
 	middleware: 'admin',
-	layout: 'admin'
+
+	layout: 'admin',
 }
 </script>
