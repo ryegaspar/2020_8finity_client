@@ -7,7 +7,7 @@
 					@click="isOpen = !isOpen"
 					v-click-outside="hide"
 				>
-					<span class="mr-1">{{ selected }}</span>
+					<span class="mr-1">{{ selected.name }}</span>
 					<svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
 						 viewBox="0 0 20 20">
 						<path
@@ -21,11 +21,11 @@
 					<div class="py-2 bg-gray-900 rounded">
 						<a href="#"
 						   class="hover:bg-gray-400 py-2 px-2 block hover:text-gray-900"
-						   :class="[selected == menu ? 'bg-gray-400 text-gray-900' : 'bg-gray-900']"
-						   v-for="menu in activeRange"
-						   @click.prevent="changeActiveRange(menu)"
+						   :class="[selected == item ? 'bg-gray-400 text-gray-900' : 'bg-gray-900']"
+						   v-for="item in presets"
+						   @click.prevent="changeSelected(item)"
 						>
-							{{ menu }}
+							{{ item.name }}
 						</a>
 					</div>
 				</div>
@@ -36,27 +36,29 @@
 
 <script>
 import vClickOutside from 'v-click-outside'
+import { presets } from '@/constants/date_presets'
 
 export default {
 	data() {
 		return {
 			isOpen: false,
-			selected: 'this month',
-			activeRange: [
-				'this month',
-				'last month',
-				'this week',
-				'last week',
-				'this year',
-				'last year',
-				'custom'
-			],
+			presets: presets
+		}
+	},
+
+	computed: {
+		selected() {
+			return this.$store.state.date_range.selected
 		}
 	},
 
 	methods: {
 		hide() {
 			this.isOpen = false
+		},
+
+		changeSelected(item) {
+			this.$store.commit('date_range/changeSelection', item)
 		},
 
 		changeActiveRange(range) {
