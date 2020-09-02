@@ -24,7 +24,7 @@
 							   class="hover:bg-gray-400 py-2 px-2 block hover:text-gray-900"
 							   :class="[selected == item ? 'bg-gray-400 text-gray-900' : 'bg-gray-900']"
 							   v-for="item in presets"
-							   @click.prevent="changeSelected(item)"
+							   @click.prevent="changeSelection(item)"
 							>
 								{{ item.name }}
 							</a>
@@ -33,11 +33,11 @@
 					<div class="flex-none sm:flex text-sm mt-3 sm:mt-0" v-if="selected.name == 'custom'">
 						<div class="flex justify-between">
 							<span class="flex m-2 sm:py-1">from date:</span>
-							<datetime v-model="statStartDate" class="theme-dark" @input="changeStartDate"/>
+							<datetime class="theme-dark" @input="setStartDate" :value="statStartDate"/>
 						</div>
 						<div class="flex justify-between mt-3 sm:mt-0">
 							<span class="flex m-2 sm:py-1">to date:</span>
-							<datetime v-model="statEndDate" class="theme-dark" @input="changeEndDate"/>
+							<datetime class="theme-dark" @input="setEndDate" :value="statEndDate"/>
 						</div>
 					</div>
 				</div>
@@ -51,14 +51,13 @@ import vClickOutside from 'v-click-outside'
 import {presets} from '@/constants/date_presets'
 import {Datetime} from 'vue-datetime'
 import {DateTime} from 'luxon'
+import {mapGetters, mapMutations} from 'vuex'
 
 export default {
 	data() {
 		return {
 			isOpen: false,
 			presets: presets,
-			statStartDate: '',
-			statEndDate: '',
 			theme: {
 				background: '#1A202C',
 				text: 'text-white',
@@ -81,19 +80,16 @@ export default {
 		}
 	},
 
-	mounted() {
-		this.statStartDate = this.selected.start
-		this.statEndDate = this.selected.end
-	},
-
 	components: {
 		datetime: Datetime
 	},
 
 	computed: {
-		selected() {
-			return this.$store.state.date_range.selected
-		}
+		...mapGetters ({
+			selected: 'dashboard_stats/selected',
+			statStartDate: 'dashboard_stats/startDate',
+			statEndDate: 'dashboard_stats/endDate'
+		})
 	},
 
 	methods: {
@@ -101,48 +97,21 @@ export default {
 			this.isOpen = false
 		},
 
-		changeSelected(item) {
-			if (item.name !== 'custom') {
-				this.statStartDate = item.start
-				this.statEndDate = item.end
-			} else {
-				item.start = this.statStartDate
-				item.end = this.statEndDate
-			}
-			this.$store.commit('date_range/changeSelection', item)
+		...mapMutations({
+			changeSelection: 'dashboard_stats/changePresetSelected',
+			changeStartDate: 'dashboard_stats/changeStartDate',
+			changeEndDate: 'dashboard_stats/changeEndDate'
+		}),
+
+		setStartDate(date) {
+			let d = DateTime.fromISO(date, {setZone: true}).toISODate()
+			this.changeStartDate(d)
 		},
 
-		changeStartDate(date) {
-			this.statStartDate = DateTime.fromISO(date, {setZone: true}).toISODate()
-			this.$store.commit('date_range/changeStartDate', this.statStartDate)
-
-			// this.getMatch(this.statStartDate, this.statEndDate)
+		setEndDate(date) {
+			let d = DateTime.fromISO(date, {setZone: true}).toISODate()
+			this.changeEndDate(d)
 		},
-
-		changeEndDate(date) {
-			this.statEndDate = DateTime.fromISO(date, {setZone: true}).toISODate()
-			this.$store.commit('date_range/changeEndDate', this.statEndDate)
-
-			// this.getMatch(this.statStartDate, this.statEndDate)
-		},
-
-		getMatch(startDate, endDate) {
-			// console.log(startDate)
-			// let matched = presets.filter((item) => {
-			// 	return item.start == startDate && item.end == endDate
-			// })
-			//
-			// console.log(matched)
-			//
-			// if (matched) {
-			// 	this.$store.commit('date_range/changeSelection', matched)
-			// 	console.log('matched!')
-			// 	return
-			// }
-			//
-			// let customRange = {name: 'custom', start: startDate, end: endDate}
-			// this.$store.commit('date_range/changeSelection', customRange)
-		}
 	},
 
 	directives: {
