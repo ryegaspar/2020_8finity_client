@@ -7,65 +7,7 @@
 				<!--Console Content-->
 				<hr class="border-b-2 border-gray-600 my-4 mx-4">
 
-				<div class="flex flex-wrap">
-					<div class="w-full md:w-1/2 xl:w-1/3 p-3">
-						<!--Metric Card-->
-						<div class="bg-gray-900 border border-gray-800 rounded shadow p-2">
-							<div class="flex flex-row items-center">
-								<div class="flex-shrink pr-4">
-									<div class="rounded p-3 bg-blue-600">
-										<font-awesome-layers class="fa-2x fa-fw">
-											<font-awesome-icon icon="piggy-bank"/>
-										</font-awesome-layers>
-									</div>
-								</div>
-								<div class="flex-1 text-right md:text-center">
-									<h5 class="font-bold uppercase text-gray-400">Total Revenue</h5>
-									<h3 class="font-bold text-3xl text-gray-600">&#8369;3249</h3>
-								</div>
-							</div>
-						</div>
-						<!--/Metric Card-->
-					</div>
-					<div class="w-full md:w-1/2 xl:w-1/3 p-3">
-						<!--Metric Card-->
-						<div class="bg-gray-900 border border-gray-800 rounded shadow p-2">
-							<div class="flex flex-row items-center">
-								<div class="flex-shrink pr-4">
-									<div class="rounded p-3 bg-green-600">
-										<font-awesome-layers class="fa-2x fa-fw">
-											<font-awesome-icon icon="smile-wink"/>
-										</font-awesome-layers>
-									</div>
-								</div>
-								<div class="flex-1 text-right md:text-center">
-									<h5 class="font-bold uppercase text-gray-400">Income today</h5>
-									<h3 class="font-bold text-3xl text-gray-600">&#8369;7000</h3>
-								</div>
-							</div>
-						</div>
-						<!--/Metric Card-->
-					</div>
-					<div class="w-full md:w-1/2 xl:w-1/3 p-3">
-						<!--Metric Card-->
-						<div class="bg-gray-900 border border-gray-800 rounded shadow p-2">
-							<div class="flex flex-row items-center">
-								<div class="flex-shrink pr-4">
-									<div class="rounded p-3 bg-orange-600">
-										<font-awesome-layers class="fa-2x fa-fw">
-											<font-awesome-icon icon="sad-cry"/>
-										</font-awesome-layers>
-									</div>
-								</div>
-								<div class="flex-1 text-right md:text-center">
-									<h5 class="font-bold uppercase text-gray-400">Expenses today</h5>
-									<h3 class="font-bold text-3xl text-gray-600">&#8369;2500</h3>
-								</div>
-							</div>
-						</div>
-						<!--/Metric Card-->
-					</div>
-				</div>
+				<stats-summary />
 
 				<!--Divider-->
 				<hr class="border-b-2 border-gray-600 my-8 mx-4">
@@ -279,7 +221,6 @@
 
 <script>
 export default {
-
 	middleware: 'admin',
 
 	layout: 'admin',

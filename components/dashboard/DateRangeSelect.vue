@@ -51,7 +51,7 @@ import vClickOutside from 'v-click-outside'
 import {presets} from '@/constants/date_presets'
 import {Datetime} from 'vue-datetime'
 import {DateTime} from 'luxon'
-import {mapGetters, mapMutations} from 'vuex'
+import {mapGetters, mapActions, mapMutations} from 'vuex'
 
 export default {
 	data() {
@@ -80,6 +80,10 @@ export default {
 		}
 	},
 
+	mounted() {
+		this.updateSummary()
+	},
+
 	components: {
 		datetime: Datetime
 	},
@@ -88,20 +92,24 @@ export default {
 		...mapGetters ({
 			selected: 'dashboard_stats/selected',
 			statStartDate: 'dashboard_stats/startDate',
-			statEndDate: 'dashboard_stats/endDate'
+			statEndDate: 'dashboard_stats/endDate',
 		})
 	},
 
 	methods: {
+		...mapMutations({
+			changeStartDate: 'dashboard_stats/SET_START_DATE',
+			changeEndDate: 'dashboard_stats/SET_END_DATE'
+		}),
+
+		...mapActions({
+			changeSelection: 'dashboard_stats/changeSelectedPreset',
+			updateSummary: 'dashboard_stats/updateSummary'
+		}),
+
 		hide() {
 			this.isOpen = false
 		},
-
-		...mapMutations({
-			changeSelection: 'dashboard_stats/changePresetSelected',
-			changeStartDate: 'dashboard_stats/changeStartDate',
-			changeEndDate: 'dashboard_stats/changeEndDate'
-		}),
 
 		setStartDate(date) {
 			let d = DateTime.fromISO(date, {setZone: true}).toISODate()
