@@ -33,11 +33,21 @@
 					<div class="flex-none sm:flex text-sm mt-3 sm:mt-0" v-if="selected.name == 'custom'">
 						<div class="flex justify-between">
 							<span class="flex m-2 sm:py-1">from date:</span>
-							<datetime class="theme-dark" @input="setStartDate" :value="statStartDate"/>
+							<datetime class="theme-dark"
+									  week-start=7
+									  @input="setStartDate"
+									  :value="statStartDate"
+									  :max-datetime="statEndDate"
+							/>
 						</div>
 						<div class="flex justify-between mt-3 sm:mt-0">
 							<span class="flex m-2 sm:py-1">to date:</span>
-							<datetime class="theme-dark" @input="setEndDate" :value="statEndDate"/>
+							<datetime class="theme-dark"
+									  week-start=7
+									  @input="setEndDate"
+									  :value="statEndDate"
+									  :min-datetime="statStartDate"
+							/>
 						</div>
 					</div>
 				</div>
@@ -51,7 +61,7 @@ import vClickOutside from 'v-click-outside'
 import {presets} from '@/constants/date_presets'
 import {Datetime} from 'vue-datetime'
 import {DateTime} from 'luxon'
-import {mapGetters, mapActions, mapMutations} from 'vuex'
+import {mapGetters, mapActions} from 'vuex'
 
 export default {
 	data() {
