@@ -5,7 +5,7 @@
 			<div class="w-full px-4 md:px-0 lg:mt-12 mb-16 text-gray-400 leading-normal">
 				<date-range-select />
 				<!--Console Content-->
-				<hr class="border-b-2 border-gray-600 my-4 mx-4">
+				<hr class="border-b-2 border-gray-600 my-8 mx-4">
 
 				<stats-summary />
 

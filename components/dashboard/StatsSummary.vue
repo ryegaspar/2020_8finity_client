@@ -16,7 +16,11 @@
 						<h3 class="font-bold text-3xl"
 							:class="[summaryTotal >= 0 ? 'text-gray-600' : 'text-gray-800']"
 						>
-							&#8369; {{ summaryTotal | number_format }}
+							&#8369;
+							<i-count-up :endVal="summaryTotal | number_format"
+										:delay="1000"
+										:options="options"
+							/>
 						</h3>
 					</div>
 				</div>
@@ -39,7 +43,11 @@
 						<h3 class="font-bold text-3xl"
 							:class="[summaryIncome >= 0 ? 'text-gray-600' : 'text-gray-800']"
 						>
-							&#8369; {{ summaryIncome | number_format }}
+							&#8369;
+							<i-count-up :endVal="summaryIncome | number_format"
+										:delay="1000"
+										:options="options"
+							/>
 						</h3>
 					</div>
 				</div>
@@ -62,7 +70,11 @@
 						<h3 class="font-bold text-3xl"
 							:class="[summaryExpense >= 0 ? 'text-gray-600' : 'text-gray-800']"
 						>
-							&#8369; {{ summaryExpense | number_format }}
+							&#8369;
+							<i-count-up :endVal="summaryExpense | number_format"
+										:delay="1000"
+										:options="options"
+							/>
 						</h3>
 					</div>
 				</div>
@@ -74,8 +86,19 @@
 
 <script>
 import {mapGetters} from 'vuex'
+import ICountUp from 'vue-countup-v2'
 
 export default {
+	data() {
+		return {
+			options: {
+				decimal: '.',
+				useGrouping: true,
+				decimalPlaces: 2
+			}
+		}
+	},
+
 	computed: {
 		...mapGetters({
 			summaryTotal: 'dashboard_stats/summaryTotal',
@@ -84,10 +107,14 @@ export default {
 		})
 	},
 
+	components: {
+		ICountUp
+	},
+
 	filters: {
 		number_format(value) {
 			let v = Math.abs(value)
-			return (v/100).toFixed(2)
+			return (v / 100).toFixed(2)
 		},
 	},
 }

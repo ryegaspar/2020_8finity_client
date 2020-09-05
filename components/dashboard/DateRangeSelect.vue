@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="w-full px-3 pt-1 sm:pt-3">
+		<div class="w-full px-3 py-1 sm:py-3">
 			<div class="inline-block min-w-full">
 				<div class="md:flex relative">
 					<button

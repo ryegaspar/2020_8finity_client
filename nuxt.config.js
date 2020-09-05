@@ -35,7 +35,7 @@ export default {
 	plugins: [
 		'@/plugins/vue_promise_btn',
 		'@/plugins/v_click_outside',
-		'@/plugins/vue-datetime'
+		'@/plugins/vue-datetime',
 	],
 	/*
 	** Auto import components
