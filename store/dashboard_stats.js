@@ -36,15 +36,29 @@ export const getters = {
 }
 
 export const actions = {
-	async changeSelectedPreset({commit, dispatch}, selected) {
+	changeSelectedPreset({commit, dispatch}, selected) {
 
 		commit('SET_SELECTED', selected)
 
 		if (selected.name !== 'custom') {
-
 			commit('SET_START_DATE', selected.start)
 			commit('SET_END_DATE', selected.end)
+		} else {
+			commit('SET_START_DATE', presets[0].start)
+			commit('SET_END_DATE', presets[0].end)
 		}
+
+		dispatch('updateSummary')
+	},
+
+	updateStartDate({commit, dispatch}, date) {
+		commit('SET_START_DATE', date)
+
+		dispatch('updateSummary')
+	},
+
+	updateEndDate({commit, dispatch}, date) {
+		commit('SET_END_DATE', date)
 
 		dispatch('updateSummary')
 	},

@@ -97,13 +97,10 @@ export default {
 	},
 
 	methods: {
-		...mapMutations({
-			changeStartDate: 'dashboard_stats/SET_START_DATE',
-			changeEndDate: 'dashboard_stats/SET_END_DATE'
-		}),
-
 		...mapActions({
 			changeSelection: 'dashboard_stats/changeSelectedPreset',
+			updateStartDate: 'dashboard_stats/updateStartDate',
+			updateEndDate: 'dashboard_stats/updateEndDate',
 			updateSummary: 'dashboard_stats/updateSummary'
 		}),
 
@@ -113,12 +110,12 @@ export default {
 
 		setStartDate(date) {
 			let d = DateTime.fromISO(date, {setZone: true}).toISODate()
-			this.changeStartDate(d)
+			this.updateStartDate(d)
 		},
 
 		setEndDate(date) {
 			let d = DateTime.fromISO(date, {setZone: true}).toISODate()
-			this.changeEndDate(d)
+			this.updateEndDate(d)
 		},
 	},
 

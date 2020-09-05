@@ -18,7 +18,6 @@
 						>
 							&#8369;
 							<i-count-up :endVal="summaryTotal | number_format"
-										:delay="1000"
 										:options="options"
 							/>
 						</h3>
@@ -45,7 +44,6 @@
 						>
 							&#8369;
 							<i-count-up :endVal="summaryIncome | number_format"
-										:delay="1000"
 										:options="options"
 							/>
 						</h3>
@@ -72,7 +70,6 @@
 						>
 							&#8369;
 							<i-count-up :endVal="summaryExpense | number_format"
-										:delay="1000"
 										:options="options"
 							/>
 						</h3>
@@ -94,7 +91,8 @@ export default {
 			options: {
 				decimal: '.',
 				useGrouping: true,
-				decimalPlaces: 2
+				decimalPlaces: 2,
+				duration: .5
 			}
 		}
 	},
