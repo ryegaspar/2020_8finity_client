@@ -115,7 +115,7 @@ export default {
 	filters: {
 		number_format(value) {
 			let v = Math.abs(value)
-			return (v / 100).toFixed(2)
+			return parseFloat((v / 100).toFixed(2))
 		},
 	},
 }

@@ -3,14 +3,20 @@
 		<!--Container-->
 		<div class="container w-full mx-auto pt-20 lg:pt-24">
 			<div class="w-full px-4 md:px-0 lg:mt-12 mb-16 text-gray-400 leading-normal">
-				<date-range-select />
+				<date-range-select/>
 				<!--Console Content-->
 				<hr class="border-b-2 border-gray-600 my-8 mx-4">
 
-				<stats-summary />
+				<stats-summary/>
 
 				<!--Divider-->
 				<hr class="border-b-2 border-gray-600 my-8 mx-4">
+
+				<div class="flex-flex-row flex-wrap flex-grow mt-2">
+					<div class="w-full md:w-1/2 p-3">
+						<graph-transactions />
+					</div>
+				</div>
 
 				<div class="flex flex-row flex-wrap flex-grow mt-2">
 					<div class="w-full md:w-1/2 p-3">
@@ -222,7 +228,6 @@
 <script>
 export default {
 	middleware: 'admin',
-
 	layout: 'admin',
 }
 </script>
