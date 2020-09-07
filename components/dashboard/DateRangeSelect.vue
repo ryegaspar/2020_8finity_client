@@ -31,19 +31,19 @@
 						</div>
 					</div>
 					<div class="flex-none sm:flex text-sm mt-3 sm:mt-0" v-if="selected.name == 'custom'">
-						<div class="flex justify-between">
-							<span class="flex m-2 sm:py-1">from date:</span>
+						<div class="flex items-center justify-between">
+							<span class="flex mx-2">from date:</span>
 							<datetime class="theme-dark"
-									  week-start=7
+									  :week-start="7"
 									  @input="setStartDate"
 									  :value="statStartDate"
 									  :max-datetime="statEndDate"
 							/>
 						</div>
-						<div class="flex justify-between mt-3 sm:mt-0">
-							<span class="flex m-2 sm:py-1">to date:</span>
+						<div class="flex items-center justify-between mt-3 sm:mt-0">
+							<span class="flex mx-2">to date:</span>
 							<datetime class="theme-dark"
-									  week-start=7
+									  :week-start="7"
 									  @input="setEndDate"
 									  :value="statEndDate"
 									  :min-datetime="statStartDate"
@@ -100,18 +100,18 @@ export default {
 
 	computed: {
 		...mapGetters ({
-			selected: 'dashboard_stats/selected',
-			statStartDate: 'dashboard_stats/startDate',
-			statEndDate: 'dashboard_stats/endDate',
+			selected: 'dashboard_date_select/selected',
+			statStartDate: 'dashboard_date_select/startDate',
+			statEndDate: 'dashboard_date_select/endDate',
 		})
 	},
 
 	methods: {
 		...mapActions({
-			changeSelection: 'dashboard_stats/changeSelectedPreset',
-			updateStartDate: 'dashboard_stats/updateStartDate',
-			updateEndDate: 'dashboard_stats/updateEndDate',
-			updateSummary: 'dashboard_stats/updateSummary'
+			changeSelection: 'dashboard_date_select/changeSelectedPreset',
+			updateStartDate: 'dashboard_date_select/updateStartDate',
+			updateEndDate: 'dashboard_date_select/updateEndDate',
+			updateSummary: 'dashboard_date_select/updateSummary'
 		}),
 
 		hide() {

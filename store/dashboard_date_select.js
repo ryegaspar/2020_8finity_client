@@ -4,9 +4,6 @@ export const state = () => ({
 	selected: presets[0],
 	startDate: presets[0].start,
 	endDate: presets[0].end,
-	summaryIncome: 0,
-	summaryExpense: 0,
-	summaryTotal: 0
 })
 
 export const getters = {
@@ -21,18 +18,6 @@ export const getters = {
 	endDate(state) {
 		return state.endDate
 	},
-
-	summaryIncome(state) {
-		return state.summaryIncome
-	},
-
-	summaryExpense(state) {
-		return state.summaryExpense
-	},
-
-	summaryTotal(state) {
-		return state.summaryTotal
-	}
 }
 
 export const actions = {
@@ -48,30 +33,20 @@ export const actions = {
 			commit('SET_END_DATE', presets[0].end)
 		}
 
-		dispatch('updateSummary')
+		dispatch('dashboard_summary/updateSummary', null, {root: true})
 	},
 
 	updateStartDate({commit, dispatch}, date) {
 		commit('SET_START_DATE', date)
 
-		dispatch('updateSummary')
+		dispatch('dashboard_summary/updateSummary', null, {root: true})
 	},
 
 	updateEndDate({commit, dispatch}, date) {
 		commit('SET_END_DATE', date)
 
-		dispatch('updateSummary')
+		dispatch('dashboard_summary/updateSummary', null, {root: true})
 	},
-
-	async updateSummary({commit, getters}) {
-		let response = await this.$axios.$get(`transactions/summary?start_date=${getters.startDate}&end_date=${getters.endDate}`)
-
-		let total = response.data.total.amount
-		let income = response.data.income.amount
-		let expense = response.data.expense.amount
-
-		commit('SET_SUMMARY', {total, income, expense})
-	}
 }
 
 export const mutations = {
@@ -85,11 +60,5 @@ export const mutations = {
 
 	SET_END_DATE(state, endDate) {
 		state.endDate = endDate
-	},
-
-	SET_SUMMARY(state, {total, income, expense}) {
-		state.summaryTotal = total
-		state.summaryIncome = income
-		state.summaryExpense = expense
 	},
 }

@@ -102,9 +102,9 @@ export default {
 
 	computed: {
 		...mapGetters({
-			summaryTotal: 'dashboard_stats/summaryTotal',
-			summaryIncome: 'dashboard_stats/summaryIncome',
-			summaryExpense: 'dashboard_stats/summaryExpense'
+			summaryTotal: 'dashboard_summary/summaryTotal',
+			summaryIncome: 'dashboard_summary/summaryIncome',
+			summaryExpense: 'dashboard_summary/summaryExpense'
 		})
 	},
 
