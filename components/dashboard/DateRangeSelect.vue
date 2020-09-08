@@ -1,54 +1,52 @@
 <template>
-	<div>
-		<div class="w-full px-3 py-1 sm:py-3">
-			<div class="inline-block min-w-full">
-				<div class="md:flex relative">
-					<button
-						class="relative bg-gray-900 border border-gray-800 text-gray-700 px-3 rounded-lg items-center flex w-full md:w-auto justify-between md:justify-start h-10"
-						@click="isOpen = !isOpen"
-						v-click-outside="hide"
-					>
-						<span class="mr-1 my-2 text-gray-400">{{ selected.name }}</span>
-						<svg class="fill-current w-4" xmlns="http://www.w3.org/2000/svg"
-							 viewBox="0 0 20 20">
-							<path
-								d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
-						</svg>
-					</button>
-					<div
-						class="border border-gray-800 rounded absolute mt-2 sm:mt-12 z-10 w-full md:w-auto"
-						v-if="isOpen"
-					>
-						<div class="py-2 bg-gray-900 rounded">
-							<a href="#"
-							   class="hover:bg-gray-400 py-2 px-2 block hover:text-gray-900"
-							   :class="[selected == item ? 'bg-gray-400 text-gray-900' : 'bg-gray-900']"
-							   v-for="item in presets"
-							   @click.prevent="changeSelection(item)"
-							>
-								{{ item.name }}
-							</a>
-						</div>
+	<div class="w-full px-3 py-1 sm:py-3">
+		<div class="inline-block min-w-full">
+			<div class="md:flex relative">
+				<button
+					class="relative bg-gray-900 border border-gray-800 text-gray-700 px-3 rounded-lg items-center flex w-full md:w-auto justify-between md:justify-start h-10"
+					@click="isOpen = !isOpen"
+					v-click-outside="hide"
+				>
+					<span class="mr-1 my-2 text-gray-400">{{ selected.name }}</span>
+					<svg class="fill-current w-4" xmlns="http://www.w3.org/2000/svg"
+						 viewBox="0 0 20 20">
+						<path
+							d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+					</svg>
+				</button>
+				<div
+					class="border border-gray-800 rounded absolute mt-2 sm:mt-12 z-10 w-full md:w-auto"
+					v-if="isOpen"
+				>
+					<div class="py-2 bg-gray-900 rounded">
+						<a href="#"
+						   class="hover:bg-gray-400 py-2 px-2 block hover:text-gray-900"
+						   :class="[selected == item ? 'bg-gray-400 text-gray-900' : 'bg-gray-900']"
+						   v-for="item in presets"
+						   @click.prevent="changeSelection(item)"
+						>
+							{{ item.name }}
+						</a>
 					</div>
-					<div class="flex-none sm:flex text-sm mt-3 sm:mt-0" v-if="selected.name == 'custom'">
-						<div class="flex items-center justify-between">
-							<span class="flex mx-2">from date:</span>
-							<datetime class="theme-dark"
-									  :week-start="7"
-									  @input="setStartDate"
-									  :value="statStartDate"
-									  :max-datetime="statEndDate"
-							/>
-						</div>
-						<div class="flex items-center justify-between mt-3 sm:mt-0">
-							<span class="flex mx-2">to date:</span>
-							<datetime class="theme-dark"
-									  :week-start="7"
-									  @input="setEndDate"
-									  :value="statEndDate"
-									  :min-datetime="statStartDate"
-							/>
-						</div>
+				</div>
+				<div class="flex-none sm:flex text-sm mt-3 sm:mt-0" v-if="selected.name == 'custom'">
+					<div class="flex items-center justify-between">
+						<span class="flex mx-2">from date:</span>
+						<datetime class="theme-dark"
+								  :week-start="7"
+								  @input="setStartDate"
+								  :value="statStartDate"
+								  :max-datetime="statEndDate"
+						/>
+					</div>
+					<div class="flex items-center justify-between mt-3 sm:mt-0">
+						<span class="flex mx-2">to date:</span>
+						<datetime class="theme-dark"
+								  :week-start="7"
+								  @input="setEndDate"
+								  :value="statEndDate"
+								  :min-datetime="statStartDate"
+						/>
 					</div>
 				</div>
 			</div>
@@ -92,6 +90,7 @@ export default {
 
 	mounted() {
 		this.updateSummary()
+		this.updateTransactions()
 	},
 
 	components: {
@@ -99,7 +98,7 @@ export default {
 	},
 
 	computed: {
-		...mapGetters ({
+		...mapGetters({
 			selected: 'dashboard_date_select/selected',
 			statStartDate: 'dashboard_date_select/startDate',
 			statEndDate: 'dashboard_date_select/endDate',
@@ -111,7 +110,8 @@ export default {
 			changeSelection: 'dashboard_date_select/changeSelectedPreset',
 			updateStartDate: 'dashboard_date_select/updateStartDate',
 			updateEndDate: 'dashboard_date_select/updateEndDate',
-			updateSummary: 'dashboard_date_select/updateSummary'
+			updateSummary: 'dashboard_summary/updateSummary',
+			updateTransactions: 'dashboard_transactions/updateTransactions'
 		}),
 
 		hide() {

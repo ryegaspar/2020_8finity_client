@@ -34,6 +34,7 @@ export const actions = {
 		}
 
 		dispatch('dashboard_summary/updateSummary', null, {root: true})
+		dispatch('dashboard_transactions/updateTransactions', null, {root: true})
 	},
 
 	updateStartDate({commit, dispatch}, date) {

@@ -1,57 +1,73 @@
 <template>
 	<div class="bg-gray-900 border border-gray-800 rounded shadow">
-		<div class="border-b border-gray-800 p-3">
-			<h5 class="font-bold uppercase text-gray-600">Graph</h5>
+		<div class="flex justify-between border-b border-gray-800 p-3">
+			<h5 class="font-bold uppercase text-gray-600">Cash Flow</h5>
+			<div class="relative flex items-center">
+				<div class="mr-4 flex items-center text-gray-600" v-show="!isMobile">
+					<input type="checkbox"
+						   class="h-5 w-5 mr-1"
+						   v-model="isLineGraph"
+					>
+					<span>use line graph</span>
+				</div>
+				<div>
+					<button class="relative bg-gray-900 border border-gray-800 text-gray-700 px-3 rounded items-center flex"
+							@click="menuActive = !menuActive"
+							v-click-outside = "() => menuActive = false"
+					>
+						<span class="text-gray-400 mr-3">{{ periodSelected }}</span>
+						<svg class="fill-current w-4" xmlns="http://www.w3.org/2000/svg"
+							 viewBox="0 0 20 20">
+							<path
+								d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+						</svg>
+					</button>
+					<div class="border border-gray-800 rounded absolute mt-1 z-10 right-0"
+						 v-if="menuActive"
+					>
+						<div class="py-1 bg-gray-900 rounded">
+							<a href="#"
+							   class="hover:bg-gray-400 py-1 px-2 block hover:text-gray-900"
+							   v-for="menu in selections"
+							   @click="selectPeriod(menu)"
+							>
+								{{ menu }}
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-		<div class="p-5">
-			<bar-chart :data="barChartData" :options="barChartOptions" :height="200"/>
+		<div class="p-5" v-show="!isLineGraph && !isMobile">
+			<bar-chart :data="barChartData" :options="barChartOptions" :height="150"/>
+		</div>
+		<div class="p-5" v-show="isLineGraph || isMobile">
+			<line-chart :data="lineChartData" :options="lineChartOptions" :height="lineChartHeight"/>
 		</div>
 	</div>
 </template>
 
 <script>
+import vClickOutside from 'v-click-outside'
+import {mapGetters, mapActions} from 'vuex'
+
 export default {
 	data() {
 		return {
-			barChartData: {
-				labels: [
-					'2019-06',
-					'2019-07',
-					'2019-08',
-					'2019-09',
-					'2019-10',
-					'2019-11',
-					'2019-12',
-					'2020-01',
-					'2020-02',
-					'2020-03',
-					'2020-04',
-					'2020-05'
-				],
-				datasets: [
-					{
-						label: 'Visits',
-						data: [10, 15, 20, 30, 40, 50, 60, 70, 34, 45, 11, 78, 45],
-						backgroundColor: '#2f4b7c'
-					},
-					{
-						label: 'Pages Views',
-						data: [30, 24, 57, 23, 68, 72, 25, 64, 133, 143, 165, 33, 56],
-						backgroundColor: '#665191'
-					},
-				]
-			},
+			selections: [
+				'daily',
+				'weekly',
+				'monthly'
+			],
+
+			menuActive: false,
+
+			isLineGraph: false,
+
+			isMobile: window.innerWidth < 400,
+
 			barChartOptions: {
 				responsive: true,
-				legend: {
-					display: false
-				},
-				title: {
-					display: true,
-					text: 'Transactions',
-					fontSize: 24,
-					fontColor: '#6b7280'
-				},
 				tooltips: {
 					backgroundColor: '#17BF62'
 				},
@@ -74,8 +90,89 @@ export default {
 						}
 					]
 				}
+			},
+
+			lineChartOptions: {
+				responsive: true,
+				legend: {
+					display: false
+				}
 			}
 		}
+	},
+
+	mounted() {
+		addEventListener('resize', () => this.isMobile = innerWidth < 400)
+	},
+
+	computed: {
+		...mapGetters({
+			transactionsByTypeByPeriod: 'dashboard_transactions/transactionsByTypeByPeriod',
+			periodSelected: 'dashboard_transactions/periodSelected'
+		}),
+
+		incomeByDate() {
+			return this.transactionsByTypeByPeriod('income', this.selected)
+		},
+
+		expenseByDate() {
+			return this.transactionsByTypeByPeriod('expense', this.selected)
+		},
+
+		barChartData() {
+			return {
+				labels: this.incomeByDate.label,
+				datasets: [
+					{
+						label: 'Income',
+						data: this.incomeByDate.values,
+						backgroundColor: '#38a169'
+					},
+					{
+						label: 'Expense',
+						data: this.expenseByDate.values,
+						backgroundColor: '#dd6c20'
+					},
+				]
+			}
+		},
+
+		lineChartData() {
+			return {
+				labels: this.incomeByDate.label,
+				datasets: [
+					{
+						label: "income",
+						data: this.incomeByDate.values,
+						fill: false,
+						borderColor: "#38a169",
+						lineTension: 0.1
+					},
+					{
+						label: "expense",
+						data: this.expenseByDate.values,
+						fill: false,
+						borderColor: "#dd6c20",
+						lineTension: 0.1
+
+					}
+				]
+			}
+		},
+
+		lineChartHeight() {
+			return this.isMobile ? 250 : 150
+		}
+	},
+
+	methods: {
+		...mapActions({
+			selectPeriod: 'dashboard_transactions/updatePeriodSelected'
+		})
+	},
+
+	directives: {
+		clickOutside: vClickOutside.directive
 	}
 }
 </script>

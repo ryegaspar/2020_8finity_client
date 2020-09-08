@@ -13,7 +13,7 @@
 				<hr class="border-b-2 border-gray-600 my-8 mx-4">
 
 				<div class="flex-flex-row flex-wrap flex-grow mt-2">
-					<div class="w-full md:w-1/2 p-3">
+					<div class="w-full p-3">
 						<graph-transactions />
 					</div>
 				</div>
@@ -65,7 +65,7 @@
 						<!--Graph Card-->
 						<div class="bg-gray-900 border border-gray-800 rounded shadow">
 							<div class="border-b border-gray-800 p-3">
-								<h5 class="font-bold uppercase text-gray-600">Graph</h5>
+								<h5 class="font-bold uppercase text-gray-600">Line Chart Sample</h5>
 							</div>
 							<div class="p-5">
 								<canvas id="chartjs-0" class="chartjs" width="undefined" height="undefined"></canvas>
