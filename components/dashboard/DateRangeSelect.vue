@@ -157,5 +157,4 @@ export default {
 		@apply w-32
 	}
 }
-
 </style>

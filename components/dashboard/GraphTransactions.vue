@@ -11,9 +11,10 @@
 					<span>use line graph</span>
 				</div>
 				<div>
-					<button class="relative bg-gray-900 border border-gray-800 text-gray-700 px-3 rounded items-center flex"
-							@click="menuActive = !menuActive"
-							v-click-outside = "() => menuActive = false"
+					<button
+						class="relative bg-gray-900 border border-gray-800 text-gray-700 px-3 rounded items-center flex"
+						@click="menuActive = !menuActive"
+						v-click-outside="() => menuActive = false"
 					>
 						<span class="text-gray-400 mr-3">{{ periodSelected }}</span>
 						<svg class="fill-current w-4" xmlns="http://www.w3.org/2000/svg"
@@ -38,11 +39,11 @@
 				</div>
 			</div>
 		</div>
-		<div class="p-5" v-show="!isLineGraph && !isMobile">
-			<bar-chart :data="barChartData" :options="barChartOptions" :height="150"/>
+		<div class="p-5" v-if="!isLineGraph && !isMobile">
+			<bar-chart :data="cashFlowBarData" :options="cashFlowBarOptions" :height="150"/>
 		</div>
-		<div class="p-5" v-show="isLineGraph || isMobile">
-			<line-chart :data="lineChartData" :options="lineChartOptions" :height="lineChartHeight"/>
+		<div class="p-5" v-if="isLineGraph || isMobile">
+			<line-chart :data="cashFlowLineData" :options="cashFlowLineOptions" :height="lineChartHeight"/>
 		</div>
 	</div>
 </template>
@@ -66,7 +67,7 @@ export default {
 
 			isMobile: window.innerWidth < 400,
 
-			barChartOptions: {
+			cashFlowBarOptions: {
 				responsive: true,
 				tooltips: {
 					backgroundColor: '#17BF62'
@@ -92,10 +93,10 @@ export default {
 				}
 			},
 
-			lineChartOptions: {
+			cashFlowLineOptions: {
 				responsive: true,
 				legend: {
-					display: false
+					display: innerWidth > 400
 				}
 			}
 		}
@@ -119,7 +120,7 @@ export default {
 			return this.transactionsByTypeByPeriod('expense', this.selected)
 		},
 
-		barChartData() {
+		cashFlowBarData() {
 			return {
 				labels: this.incomeByDate.label,
 				datasets: [
@@ -137,7 +138,7 @@ export default {
 			}
 		},
 
-		lineChartData() {
+		cashFlowLineData() {
 			return {
 				labels: this.incomeByDate.label,
 				datasets: [

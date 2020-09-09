@@ -3,13 +3,18 @@ import {DateTime} from 'luxon'
 import {weekNumberSun} from 'weeknumber'
 
 export const state = () => ({
-	periodSelected: 'daily',
 	transactions: 0,
+	transactionsLastFiveMonths: 0,
+	periodSelected: 'daily'
 })
 
 export const getters = {
 	transactions(state) {
 		return state.transactions
+	},
+
+	transactionsLastFiveMonths(state) {
+		return state.transactionsLastFiveMonths
 	},
 
 	periodSelected(state) {
@@ -80,6 +85,25 @@ export const getters = {
 			}
 		}
 	},
+
+	revenuePerMonth(state) {
+		let sumRevenueMonth =  chain(state.transactionsLastFiveMonths)
+			.groupBy(result => DateTime.fromISO(result.date, {setZone: true}).toFormat("yyyy-MM-01"))
+			.map((o, id) => ({
+				monthYear: id,
+				amount: sumBy(o, (o) => o['category_type'] === 'income' ? o.amount : parseInt(o.amount) * -1) / 100
+			}))
+			.sort((a, b) => new Date(b.monthYear) - new Date(a.monthYear))
+			.reverse()
+
+		let label = sumRevenueMonth.map(t => t.monthYear)
+		let amount = sumRevenueMonth.map(t => t.amount)
+
+		return {
+			label: label.value(),
+			values: amount.value()
+		}
+	}
 }
 
 export const actions = {
@@ -87,6 +111,15 @@ export const actions = {
 		let response = await this.$axios.$get(`transactions?start_date=${rootGetters['dashboard_date_select/startDate']}&end_date=${rootGetters['dashboard_date_select/endDate']}`)
 
 		commit('SET_TRANSACTIONS', response.data)
+	},
+
+	async getTransactionsLastFiveMonths({commit}) {
+		let start = DateTime.local().minus({ months: 5}).startOf('month').toISODate()
+		let end = DateTime.local().endOf('month').toISODate()
+
+		let response = await this.$axios.$get(`transactions?start_date=${start}&end_date=${end}`)
+
+		commit('SET_TRANSACTION_LAST_FIVE_MONTHS', response.data)
 	},
 
 	updatePeriodSelected({commit}, period) {
@@ -101,5 +134,9 @@ export const mutations = {
 
 	SET_PERIOD_SELECTED(state, period) {
 		state.periodSelected = period
+	},
+
+	SET_TRANSACTION_LAST_FIVE_MONTHS(state, payload) {
+		state.transactionsLastFiveMonths = payload
 	}
 }
