@@ -86,8 +86,28 @@ export const getters = {
 		}
 	},
 
+	expensesByPeriod(state) {
+		let transactions = chain(state.transactions)
+			.filter((o) => o['category_type'] === 'expense')
+			.groupBy((o) => o['category_name'])
+			.map((o, id) => ({
+				categoryName: id,
+				amount: sumBy(o, 'amount') / 100
+			}))
+			.sort((a, b) => b.amount - a.amount)
+			.slice(0, 10)
+
+		let label = transactions.map(t => t.categoryName)
+		let amount = transactions.map(t => t.amount)
+
+		return {
+			label: label.value(),
+			values: amount.value()
+		}
+	},
+
 	revenuePerMonth(state) {
-		let sumRevenueMonth =  chain(state.transactionsLastFiveMonths)
+		let sumRevenueMonth = chain(state.transactionsLastFiveMonths)
 			.groupBy(result => DateTime.fromISO(result.date, {setZone: true}).toFormat("yyyy-MM-01"))
 			.map((o, id) => ({
 				monthYear: id,
@@ -114,7 +134,7 @@ export const actions = {
 	},
 
 	async getTransactionsLastFiveMonths({commit}) {
-		let start = DateTime.local().minus({ months: 5}).startOf('month').toISODate()
+		let start = DateTime.local().minus({months: 5}).startOf('month').toISODate()
 		let end = DateTime.local().endOf('month').toISODate()
 
 		let response = await this.$axios.$get(`transactions?start_date=${start}&end_date=${end}`)
