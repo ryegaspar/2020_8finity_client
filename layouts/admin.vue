@@ -3,12 +3,12 @@
 		<nav id="header" class="bg-gray-900 fixed w-full z-10 top-0 shadow md:h-16 lg:h-32">
 			<div class="w-full container mx-auto flex flex-wrap items-center mt-0 pt-3 pb-3 md:pb-0">
 
-				<div class="w-1/2 pl-2 md:pl-0">
+				<div class="w-1/2 pl-2 xs:pl-0">
 					<a class="text-gray-100 text-xs sm:text-sm md:text-xl no-underline hover:no-underline font-bold flex items-center"
 					   href="#">
 						<img class="h-8 lg:h-12"
 							 src="~/assets/images/logo.png"><span
-						class="ml-1">8finity Adsuccess Contact Solutions</span>
+						class="ml-1 text-xs sm:text-sm md:text-base">8finity Adsuccess Contact Solutions</span>
 					</a>
 				</div>
 				<div class="w-1/2 pr-0">
