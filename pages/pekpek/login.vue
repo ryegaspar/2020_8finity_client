@@ -19,13 +19,13 @@
 					   ref="password"
 				/>
 
-				<em class="block text-center text-red-600 text-sm mb-4" v-show="hasError">invalid username or password</em>
+				<em class="block text-center text-red-600 text-sm mb-2" v-show="hasError">invalid username or password</em>
 
 				<button
 					type="submit"
 					v-promise-btn
 					@click.prevent="submit"
-					class="w-full text-center py-3 rounded-lg bg-blue-500 text-white hover:bg-blue-700 focus:outline-none my-1"
+					class="w-full text-center py-3 rounded-lg bg-blue-500 text-white hover:bg-blue-700 focus:outline-none mb-1 mt-2"
 				>
 					Sign In
 				</button>
