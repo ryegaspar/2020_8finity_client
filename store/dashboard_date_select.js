@@ -41,12 +41,14 @@ export const actions = {
 		commit('SET_START_DATE', date)
 
 		dispatch('dashboard_summary/updateSummary', null, {root: true})
+		dispatch('dashboard_transactions/updateTransactions', null, {root: true})
 	},
 
 	updateEndDate({commit, dispatch}, date) {
 		commit('SET_END_DATE', date)
 
 		dispatch('dashboard_summary/updateSummary', null, {root: true})
+		dispatch('dashboard_transactions/updateTransactions', null, {root: true})
 	},
 }
 
