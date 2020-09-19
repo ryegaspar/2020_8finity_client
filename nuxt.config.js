@@ -38,6 +38,7 @@ export default {
 		'@/plugins/vue_promise_btn',
 		'@/plugins/v_click_outside',
 		'@/plugins/vue-datetime',
+		'@/plugins/axios',
 	],
 	/*
 	** Auto import components
