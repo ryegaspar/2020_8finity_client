@@ -19,7 +19,7 @@
 					   ref="password"
 				/>
 
-				<em class="block text-center text-red-600 text-sm mb-2" v-show="hasError">invalid username or password</em>
+				<em class="block text-center text-red-600 text-sm mb-2" v-show="hasError">{{ errorMessage }}</em>
 
 				<button
 					type="submit"
@@ -43,7 +43,8 @@ export default {
 			form: {
 				username: '',
 				password: '',
-			}
+			},
+			errorMessage: 'invalid username or password'
 		}
 	},
 
@@ -57,8 +58,14 @@ export default {
 				this.$router.replace({name: 'pekpek'})
 			} catch (e) {
 				if (parseInt(e.response.status) === 422) {
+					this.errorMessage = 'invalid username or password'
 					this.hasError = true
 					this.$refs.username.select()
+				}
+
+				if (parseInt(e.response.status) === 429) {
+					this.errorMessage = e.response.data.errors.username[0]
+					this.hasError = true
 				}
 			}
 		}

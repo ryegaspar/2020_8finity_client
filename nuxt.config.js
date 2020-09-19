@@ -67,15 +67,15 @@ export default {
 			local: {
 				endpoints: {
 					login: {
-						url: '/login',
+						url: '/login/admin',
 						method: 'post'
 					},
 					logout: {
-						url: '/logout',
+						url: '/logout/admin',
 						method: 'post'
 					},
 					user: {
-						url: '/user',
+						url: '/admin',
 						method: 'get',
 						propertyName: false,
 					}
