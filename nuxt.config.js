@@ -67,11 +67,11 @@ export default {
 			local: {
 				endpoints: {
 					login: {
-						url: '/login/admin',
+						url: '/admin/login',
 						method: 'post'
 					},
 					logout: {
-						url: '/logout/admin',
+						url: '/admin/logout',
 						method: 'post'
 					},
 					user: {
@@ -83,6 +83,10 @@ export default {
 				tokenRequired: false,
 				tokenType: false
 			},
+		},
+		redirect: {
+			login: '/login',
+			home: '/'
 		},
 		rewriteRedirects: false,
 		localStorage: false
