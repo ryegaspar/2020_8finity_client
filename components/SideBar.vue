@@ -124,7 +124,7 @@
 		</div>
 
 		<!-- Static sidebar for desktop -->
-		<div class="hidden md:flex md:flex-shrink-0">
+		<div class="hidden md:flex md:flex-shrink-0 h-full">
 			<div class="flex flex-col w-64">
 				<!-- Sidebar component, swap this element with another sidebar if you like -->
 				<div class="flex flex-col h-0 flex-1">
