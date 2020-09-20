@@ -9,7 +9,7 @@
 							<side-bar />
 						</div>
 					</nav>
-					<main class="flex-1 px-6 w-full overflow-auto" tabindex="0">
+					<main class="flex-1 px-6 w-full overflow-auto">
 						<nuxt keep-alive/>
 					</main>
 				</div>

@@ -157,11 +157,11 @@
 									<ul class="space-y-2 -mt-1 py-3 text-sm font-medium rounded-b-md"
 										v-if="menu.active"
 									>
-										<li class="pl-12 py-1 transition ease-in-out duration-150 hover:text-white hover:bg-gray-700 rounded-md"
-											v-for="submenu in menu.submenu"
-											:class="{'bg-gray-700' : isRouteActive(submenu)}"
+										<li v-for="submenu in menu.submenu"
+											:class="{'bg-gray-700 rounded-md' : isRouteActive(submenu)}"
 										>
 											<nuxt-link :to="submenu.url"
+													   class="block pl-12 py-1 transition ease-in-out duration-500 hover:text-white hover:bg-gray-700 rounded-md"
 											>
 												{{ submenu.name }}
 											</nuxt-link>
