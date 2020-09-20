@@ -23,19 +23,28 @@
 								d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
 						</svg>
 					</button>
-					<div class="border border-gray-800 rounded absolute mt-1 z-10 right-0"
-						 v-if="menuActive"
+					<transition
+						enter-active-class="transition ease-out duration-500 transform"
+						enter-class="opacity-0 scale-95"
+						enter-to-class="opacity-100 scale-100"
+						leave-active-class="transition ease-in duration-75 transform"
+						leave-class="opacity-100 scale-100"
+						leave-to-class="opacity-0 scale-95"
 					>
-						<div class="py-1 bg-gray-900 rounded">
-							<a href="#"
-							   class="hover:bg-gray-400 py-1 px-2 block hover:text-gray-900"
-							   v-for="menu in selections"
-							   @click="selectPeriod(menu)"
-							>
-								{{ menu }}
-							</a>
+						<div class="border border-gray-800 rounded absolute mt-1 z-10 right-0"
+							 v-if="menuActive"
+						>
+							<div class="py-1 bg-gray-900 rounded">
+								<a href="#"
+								   class="hover:bg-gray-400 py-1 px-2 block hover:text-gray-900"
+								   v-for="menu in selections"
+								   @click="selectPeriod(menu)"
+								>
+									{{ menu }}
+								</a>
+							</div>
 						</div>
-					</div>
+					</transition>
 				</div>
 			</div>
 		</div>
