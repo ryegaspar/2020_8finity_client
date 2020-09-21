@@ -4,12 +4,8 @@
 			<div class="flex flex-col w-0 flex-1 overflow-hidden">
 				<nav-bar/>
 				<div class="flex flex-1 relative bg-black overflow-y-auto focus:outline-none pt-16 min-h-screen">
-					<nav class="overflow-hidden w-64 hidden md:block">
-						<div class="flex text-white bg-gray-900 h-auto overflow-y-scroll -mr-6 min-h-full">
-							<side-bar />
-						</div>
-					</nav>
-					<main class="flex-1 px-6 w-full overflow-auto">
+					<side-bar/>
+					<main class="flex-1 md:pr-4 md:pl-10 w-full overflow-auto">
 						<nuxt keep-alive/>
 					</main>
 				</div>
@@ -18,6 +14,5 @@
 	</div>
 </template>
 <script>
-export default {
-}
+export default {}
 </script>
