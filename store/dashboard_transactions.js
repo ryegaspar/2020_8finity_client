@@ -128,7 +128,7 @@ export const getters = {
 
 export const actions = {
 	async updateTransactions({commit, rootGetters}) {
-		let response = await this.$axios.$get(`admin/transactions?start_date=${rootGetters['dashboard_date_select/startDate']}&end_date=${rootGetters['dashboard_date_select/endDate']}`)
+		let response = await this.$axios.$get(`admin/dashboard/transactions?start_date=${rootGetters['dashboard_date_select/startDate']}&end_date=${rootGetters['dashboard_date_select/endDate']}`)
 
 		commit('SET_TRANSACTIONS', response.data)
 	},
@@ -137,7 +137,7 @@ export const actions = {
 		let start = DateTime.local().minus({months: 5}).startOf('month').toISODate()
 		let end = DateTime.local().endOf('month').toISODate()
 
-		let response = await this.$axios.$get(`admin/transactions?start_date=${start}&end_date=${end}`)
+		let response = await this.$axios.$get(`admin/dashboard/transactions?start_date=${start}&end_date=${end}`)
 
 		commit('SET_TRANSACTION_LAST_FIVE_MONTHS', response.data)
 	},

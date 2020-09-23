@@ -20,7 +20,7 @@ export const getters = {
 
 export const actions = {
 	async updateSummary({commit, rootGetters}) {
-		let response = await this.$axios.$get(`admin/transactions/summary?start_date=${rootGetters['dashboard_date_select/startDate']}&end_date=${rootGetters['dashboard_date_select/endDate']}`)
+		let response = await this.$axios.$get(`admin/dashboard/transactions-summary?start_date=${rootGetters['dashboard_date_select/startDate']}&end_date=${rootGetters['dashboard_date_select/endDate']}`)
 
 		let total = response.data.total.amount
 		let income = response.data.income.amount

@@ -29,6 +29,7 @@
 				>
 					<li v-for="submenu in menu.submenu"
 						:class="{'bg-gray-700 rounded-md' : isRouteActive(submenu)}"
+						class="outline-none"
 					>
 						<nuxt-link :to="submenu.url"
 								   class="block pl-12 py-1 transition ease-in-out duration-500 hover:text-white hover:bg-gray-700 rounded-md"
