@@ -2,7 +2,7 @@
 	<nav class="flex-1 px-2 py-4 bg-gray-900 space-y-2">
 		<div v-for="menu in menus">
 			<a href="#"
-			   class="group flex items-center px-2 py-2 text-md leading-normal font-medium text-white rounded-md focus:outline-none focus:bg-gray-700 transition ease-in-out duration-300 hover:bg-gray-700"
+			   class="group flex items-center px-2 py-2 text-md leading-normal font-medium text-white rounded-md focus:outline-none focus:bg-gray-700 transition ease-in-out duration-300 hover:bg-gray-700 md:mr-6"
 			   v-if="'submenu' in menu"
 			   @click.prevent="toggleSubmenu(menu)"
 			>
@@ -12,7 +12,7 @@
 				{{ menu.name }}
 			</a>
 			<nuxt-link :to="menu.url"
-					   class="group flex items-center px-2 py-2 text-md leading-normal font-medium text-white rounded-md focus:outline-none focus:bg-gray-700 transition ease-in-out duration-300 hover:bg-gray-700"
+					   class="group flex items-center px-2 py-2 text-md leading-normal font-medium text-white rounded-md focus:outline-none focus:bg-gray-700 transition ease-in-out duration-300 hover:bg-gray-700 md:mr-6"
 					   :class="{'bg-gray-700' : isRouteActive(menu)}"
 					   v-else
 					   @click.native="closeSubmenus();clickedLink()"
@@ -24,7 +24,7 @@
 
 			</nuxt-link>
 			<div v-show="'submenu' in menu">
-				<ul class="space-y-2 -mt-1 py-3 text-sm font-medium rounded-b-md"
+				<ul class="space-y-2 -mt-1 py-3 text-sm font-medium rounded-b-md md:mr-6"
 					v-if="menu.active"
 				>
 					<li v-for="submenu in menu.submenu"

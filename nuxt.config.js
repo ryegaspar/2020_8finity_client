@@ -39,6 +39,7 @@ export default {
 		'@/plugins/v_click_outside',
 		'@/plugins/vue-datetime',
 		'@/plugins/axios',
+		'@/plugins/laravel-vue-datatable'
 	],
 	/*
 	** Auto import components
@@ -52,6 +53,7 @@ export default {
 		// Doc: https://github.com/nuxt-community/nuxt-tailwindcss
 		'@nuxtjs/tailwindcss',
 		'@nuxtjs/fontawesome',
+		'@nuxtjs/dotenv'
 	],
 	/*
 	** Nuxt.js modules
