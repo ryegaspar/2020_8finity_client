@@ -9,17 +9,17 @@
 		"generate": "nuxt generate"
 	},
 	"dependencies": {
-		"@fortawesome/fontawesome-svg-core": "^1.2.30",
+		"@fortawesome/fontawesome-svg-core": "^1.2.32",
 		"@nuxtjs/auth": "^4.9.1",
-		"@nuxtjs/axios": "^5.12.0",
+		"@nuxtjs/axios": "^5.12.2",
 		"@nuxtjs/dotenv": "^1.4.1",
 		"chart.js": "^2.9.3",
 		"countup.js": "^2.0.7",
 		"laravel-vue-datatable": "^0.5.14",
 		"lodash": "^4.17.20",
 		"luxon": "^1.25.0",
-		"nuxt": "^2.14.0",
-		"v-click-outside": "^3.0.1",
+		"nuxt": "^2.14.7",
+		"v-click-outside": "^3.1.2",
 		"vue-chartjs": "^3.5.1",
 		"vue-click-outside": "^1.1.0",
 		"vue-countup-v2": "^4.0.0",
@@ -29,8 +29,8 @@
 		"weekstart": "^1.0.1"
 	},
 	"devDependencies": {
-		"@fortawesome/free-brands-svg-icons": "^5.14.0",
-		"@fortawesome/free-solid-svg-icons": "^5.14.0",
+		"@fortawesome/free-brands-svg-icons": "^5.15.1",
+		"@fortawesome/free-solid-svg-icons": "^5.15.1",
 		"@nuxtjs/fontawesome": "^1.1.2",
 		"@nuxtjs/tailwindcss": "^2.1.0"
 	}

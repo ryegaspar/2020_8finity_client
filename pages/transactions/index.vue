@@ -14,7 +14,7 @@
 				:columns="columns"
 				:url=url
 				:classes="classes"
-				:per-page="['10','25','50','100']"
+				:per-page="['25','50','100']"
 				:debounce-delay=1000
 				ref="myTable"
 			>
@@ -79,13 +79,14 @@
 </template>
 
 <script>
+import TableIcon from "@/components/datatable/TableIcon"
+import TransactionType from "@/components/datatable/TransactionType";
+import {DateTime} from 'luxon'
+
 export default {
 	middleware: 'admin',
 
 	layout: 'master',
-
-	mounted() {
-	},
 
 	methods: {
 		reloadTable() {
@@ -102,28 +103,31 @@ export default {
 				{
 					label: '',
 					name: 'category.icon',
+					component: TableIcon,
 				},
 				{
 					label: 'Description',
-					name: 'description'
+					name: 'description',
+				},
+				{
+					label: 'Category',
+					name: 'category.name'
 				},
 				{
 					label: 'Type',
 					name: 'category.type',
-					orderable: true
-				},
-				{
-					label: 'Category',
-					name: 'category.description'
+					component: TransactionType
 				},
 				{
 					label: 'Amount',
-					name: 'amount'
+					name: 'amount',
+					transform: ({data, name}) => `₱${(data[name] / 100).toLocaleString(undefined, {minimumFractionDigits: 2})}`,
 				},
 				{
 					label: 'Date',
 					name: 'date',
-					orderable: true
+					orderable: true,
+					transform: ({data, name}) => DateTime.fromISO(data[name], {setZone: true}).toLocaleString(DateTime.DATE_MED)
 				},
 			],
 
