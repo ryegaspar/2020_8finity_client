@@ -13,6 +13,7 @@
 		"@nuxtjs/auth": "^4.9.1",
 		"@nuxtjs/axios": "^5.12.2",
 		"@nuxtjs/dotenv": "^1.4.1",
+		"babel-preset-es2015": "^6.24.1",
 		"chart.js": "^2.9.3",
 		"countup.js": "^2.0.7",
 		"laravel-vue-datatable": "^0.5.14",
@@ -25,6 +26,7 @@
 		"vue-countup-v2": "^4.0.0",
 		"vue-datetime": "^1.0.0-beta.14",
 		"vue-promise-btn": "^2.1.0",
+		"vuetable-2": "^1.7.5",
 		"weeknumber": "^1.1.2",
 		"weekstart": "^1.0.1"
 	},

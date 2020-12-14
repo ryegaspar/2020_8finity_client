@@ -10,88 +10,68 @@
 				New
 			</button>
 
-			<data-table
-				:columns="columns"
-				:url=url
-				:classes="classes"
-				:per-page="['25','50','100']"
-				:debounce-delay=1000
-				ref="myTable"
-			>
-				<div slot="filters"
-					 slot-scope="{tableData = {}, perPage = []}"
-					 class="flex flex-row mb-1 sm:mb-0 mt-2"
-				>
-					<div class="my-2 flex sm:flex-row flex-col">
-						<div class="flex flex-row mb-1 sm:mb-0">
-							<per-page :per-page="perPage"
-									  :table-length="tableData.length"
-									  @changePerPage="(r) => {tableData.length = r}"
-							/>
-							<filter-transactions :filter-selections="filterSelections"
-												 :value="tableData.filters.income"
-												 @change="(f) => {tableData.filters.income = f.value;reloadTable()}"
-							/>
-							<div class="relative h-full">
-                        		<span class="h-full absolute inset-y-0 left-0 flex items-center pl-2">
-                            		<svg viewBox="0 0 24 24" class="h-4 w-4 fill-current text-gray-500">
-                                		<path
-											d="M10 4a6 6 0 100 12 6 6 0 000-12zm-8 6a8 8 0 1114.32 4.906l5.387 5.387a1 1 0 01-1.414 1.414l-5.387-5.387A8 8 0 012 10z"></path>
-                            		</svg>
-                        		</span>
-								<input
-									placeholder="Search"
-									v-model="tableData.search"
-									class="rounded-r rounded-l sm:rounded-l-none border border-gray-800 border-b block pl-8 pr-6 w-full h-full bg-gray-900 text-sm placeholder-gray-400 text-gray-400 focus:border-blue-700 focus:outline-none"/>
+			<div class="flex flex-col">
+				<div class="mt-8 shadow overflow-hidden sm:rounded-lg">
+<!--					<v-table :api-url="url"-->
+<!--							 :fields="fields"-->
+<!--					>-->
+
+<!--					</v-table>-->
+					<vuetable ref="transaction_table"
+							  :api-url="url"
+							  :fields="fields"
+							  pagination-path=""
+							  @vuetable:pagination-data="onPaginationData"
+					>
+						<template slot="actions" slot-scope="props">
+							<div>
+								<button class="bg-blue-400 rounded-md text-gray-900 hover:bg-blue-500">
+									<font-awesome-layers class="fa-fw">
+										<font-awesome-icon icon="pen"/>
+									</font-awesome-layers>
+								</button>
+								<button class="bg-red-400 rounded-md text-gray-900 ml-2 hover:bg-red-500">
+									<font-awesome-layers class="fa-fw">
+										<font-awesome-icon icon="trash"/>
+									</font-awesome-layers>
+								</button>
 							</div>
-						</div>
+						</template>
+					</vuetable>
+					<div class="flex justify-between mt-4">
+						<vuetable-pagination-info ref="paginationInfo"/>
+						<vuetable-pagination ref="pagination"
+											 @vuetable-pagination:change-page="onChangePage"
+											 class="flex"
+						></vuetable-pagination>
 					</div>
 				</div>
-
-				<div
-					slot="pagination"
-					slot-scope="{ links = {}, meta = {} }"
-					class="px-5 py-5 bg-gray-900 border-t flex flex-col xs:flex-row items-center border-gray-700 xs:justify-between rounded-b">
-                <span class="text-xs xs:text-sm text-gray-900">
-                    Showing {{ meta.from }} to {{ meta.to }} of {{ meta.total }} Entries
-                </span>
-					<div class="inline-flex mt-2 xs:mt-0">
-						<button
-							:disabled="!links.prev"
-							@click="url = links.prev"
-							:class="{ 'opacity-50': !links.prev, 'cursor-not-allowed': !links.prev }"
-							class="text-sm bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-l">
-							Prev
-						</button>
-						<button
-							:disabled="!links.next"
-							@click="url = links.next"
-							:class="{ 'opacity-50': !links.next, 'cursor-not-allowed': !links.next }"
-							class="text-sm bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-r">
-							Next
-						</button>
-					</div>
-				</div>
-
-			</data-table>
+			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-import TableIcon from "@/components/datatable/TableIcon"
-import TransactionType from "@/components/datatable/TransactionType";
+import Vue from 'vue'
+import Vuetable from 'vuetable-2'
+import VuetablePagination from '@/components/VuetablePagination'
+import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
+import TableIcon from "@/components/transactions/TableIcon";
+import TableAmount from "@/components/transactions/TableAmount";
 import {DateTime} from 'luxon'
+
+Vue.component('table-icon', TableIcon)
+Vue.component('table-amount', TableAmount)
 
 export default {
 	middleware: 'admin',
 
 	layout: 'master',
 
-	methods: {
-		reloadTable() {
-			this.$refs.myTable.getData()
-		}
+	components: {
+		Vuetable,
+		VuetablePagination,
+		VuetablePaginationInfo
 	},
 
 	data() {
@@ -99,58 +79,43 @@ export default {
 
 			url: `${process.env.BASE_URL}/admin/transactions`,
 
-			columns: [
+			fields: [
 				{
-					label: '',
-					name: 'category.icon',
-					component: TableIcon,
-				},
-				{
-					label: 'Description',
 					name: 'description',
+					title: 'Description',
+					titleClass: 'hidden lg:flow-root text-xs lg:text-sm',
+					dataClass: 'hidden lg:flow-root text-left text-sm lg:text-md'
 				},
 				{
-					label: 'Category',
-					name: 'category.name'
+					name: '__component:table-icon',
+					title: '',
+					dataClass: 'text-center text-sm lg:text-md'
 				},
 				{
-					label: 'Type',
-					name: 'category.type',
-					component: TransactionType
+					name: 'category_name',
+					title: 'Category',
+					titleClass: 'hidden sm:flow-root text-xs lg:text-sm',
+					dataClass: 'hidden sm:flow-root text-center text-sm lg:text-md'
 				},
 				{
-					label: 'Amount',
-					name: 'amount',
-					transform: ({data, name}) => `₱${(data[name] / 100).toLocaleString(undefined, {minimumFractionDigits: 2})}`,
+					name: '__component:table-amount',
+					title: 'Amount',
+					titleClass: 'text-xs lg:text-sm',
+					dataClass: 'text-right text-sm lg:text-md'
 				},
 				{
-					label: 'Date',
 					name: 'date',
-					orderable: true,
-					transform: ({data, name}) => DateTime.fromISO(data[name], {setZone: true}).toLocaleString(DateTime.DATE_MED)
-				},
-			],
-
-			filters: {
-				income: ''
-			},
-
-			filterSelections: [
-				{
-					description: 'All',
-					value: ''
+					titleClass: 'hidden sm:flow-root text-xs lg:text-sm',
+					dataClass: 'hidden sm:flow-root text-center text-sm lg:text-md',
+					callback: 'toDate'
 				},
 				{
-					description: 'Income',
-					value: 'in'
-				},
-				{
-					description: 'Expense',
-					value: 'out'
+					name: '__slot:actions',
+					title: 'Actions',
+					titleClass: 'text-center text-xs lg:text-sm',
+					dataClass: 'text-center text-sm lg:text-md'
 				}
 			],
-
-			selectedFilter: 'None',
 
 			classes: {
 				'table-container': {
@@ -202,5 +167,100 @@ export default {
 			}
 		}
 	},
+
+	methods: {
+		toDate(value) {
+			return DateTime.fromISO(value, {setZone: true}).toLocaleString(DateTime.DATE_MED)
+		},
+
+		toCurrency(value) {
+			return (value / 10).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})
+		},
+
+		formatType(value) {
+			return (value === 'income' ? `<span class="text-green-400">income</span>` : `<span class="text-red-400">expense</span>`)
+		},
+
+		onPaginationData (paginationData) {
+			this.$refs.pagination.setPaginationData(paginationData)
+			this.$refs.paginationInfo.setPaginationData(paginationData)
+		},
+
+		onChangePage (page) {
+			this.$refs.transaction_table.changePage(page)
+		}
+	}
 }
 </script>
+
+<style>
+.vuetable {
+	@apply min-w-full static border-gray-900
+}
+
+.vuetable > thead > tr {
+	@apply border-b border-gray-900;
+}
+
+.vuetable > thead > tr > th {
+	@apply px-5 py-2 bg-gray-900 font-medium text-gray-400 uppercase tracking-wider
+}
+
+.vuetable-body > tr > td {
+	@apply px-4 py-2 font-medium text-gray-300
+}
+
+.vuetable-body > tr:nth-child(odd) {
+	@apply bg-gray-700
+}
+
+.vuetable-body > tr:nth-child(even) {
+	@apply bg-gray-800
+}
+
+.pagination {
+	margin: 0;
+	float: right;
+}
+
+.pagination a {
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.pagination a.page {
+	border: 1px solid lightgray;
+	border-radius: 3px;
+	padding: 5px 10px;
+	margin-right: 2px;
+}
+
+.pagination a.page.active {
+	color: white;
+	background-color: #337ab7;
+	border: 1px solid lightgray;
+	border-radius: 3px;
+	padding: 5px 10px;
+	margin-right: 2px;
+}
+
+.pagination a.btn-nav {
+	border: 1px solid lightgray;
+	border-radius: 3px;
+	padding: 5px 7px;
+	margin-right: 2px;
+}
+
+.pagination a.btn-nav.disabled {
+	color: lightgray;
+	border: 1px solid lightgray;
+	border-radius: 3px;
+	padding: 5px 7px;
+	margin-right: 2px;
+	cursor: not-allowed;
+}
+
+.pagination-info {
+	float: left;
+}
+</style>

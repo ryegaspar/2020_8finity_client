@@ -39,7 +39,6 @@ export default {
 		'@/plugins/v_click_outside',
 		'@/plugins/vue-datetime',
 		'@/plugins/axios',
-		'@/plugins/laravel-vue-datatable'
 	],
 	/*
 	** Auto import components
