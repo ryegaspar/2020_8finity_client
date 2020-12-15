@@ -6,6 +6,7 @@
 		>
 			<button href=""
 					:class="{'cursor-not-allowed': isOnFirstPage}"
+					class="focus:outline-none"
 			>
 				<svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
 					 aria-hidden="true">
@@ -22,7 +23,7 @@
 				<button @click.prevent="loadPage(n)"
 						v-html="n"
 						:class="{'active cursor-not-allowed bg-gray-600': isCurrentPage(n), 'bg-gray-800' : !isCurrentPage(n)}"
-						class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-300 hover:bg-gray-600"
+						class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-300 hover:bg-gray-600 focus:outline-none"
 
 				>
 				</button>
@@ -33,7 +34,7 @@
 				<button @click.prevent="loadPage(windowStart+n-1)"
 						v-html="windowStart+n-1"
 						:class="{'active cursor-not-allowed bg-gray-600': isCurrentPage(windowStart+n-1), 'bg-gray-800' : !isCurrentPage(windowStart+n-1)}"
-						class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-300 hover:bg-gray-600"
+						class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-300 hover:bg-gray-600 focus:outline-none"
 				></button>
 			</li>
 		</template>
@@ -44,6 +45,7 @@
 			<button href=""
 					@click.prevent="loadPage('next')"
 					:class="{'cursor-not-allowed' : isOnLastPage}"
+					class="focus:outline-none"
 			>
 				<svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
 					 aria-hidden="true">
