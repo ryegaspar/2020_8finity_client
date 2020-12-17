@@ -12,16 +12,22 @@
 
 			<div class="flex flex-col">
 				<div class="mt-8 shadow overflow-hidden sm:rounded-lg">
-<!--					<v-table :api-url="url"-->
-<!--							 :fields="fields"-->
-<!--					>-->
-
-<!--					</v-table>-->
-					<vuetable ref="transaction_table"
+					<div class="flex sm:flex-row flex-col">
+						<div class=" flex flex-row mb-1">
+							<per-page :per-page-options="perPageOptions"
+									  :selected="perPageSelected"
+									  @perPageChanged="setPerPage"
+							/>
+							<table-filter @filterChanged="setFilter"/>
+						</div>
+					</div>
+					<vuetable ref="vuetable"
 							  :api-url="url"
 							  :fields="fields"
 							  pagination-path=""
 							  @vuetable:pagination-data="onPaginationData"
+							  :per-page="perPageSelected"
+							  :append-params="moreParams"
 					>
 						<template slot="actions" slot-scope="props">
 							<div>
@@ -54,7 +60,6 @@
 <script>
 import Vue from 'vue'
 import Vuetable from 'vuetable-2'
-import VuetablePagination from '@/components/VuetablePagination'
 import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
 import TableIcon from "@/components/transactions/TableIcon";
 import TableAmount from "@/components/transactions/TableAmount";
@@ -70,14 +75,19 @@ export default {
 
 	components: {
 		Vuetable,
-		VuetablePagination,
-		VuetablePaginationInfo
+		VuetablePaginationInfo,
 	},
 
 	data() {
 		return {
 
 			url: `${process.env.BASE_URL}/admin/transactions`,
+
+			perPageSelected: 5,
+
+			perPageOptions: [5, 10, 20, 50, 100, 500],
+
+			moreParams: {},
 
 			fields: [
 				{
@@ -181,13 +191,25 @@ export default {
 			return (value === 'income' ? `<span class="text-green-400">income</span>` : `<span class="text-red-400">expense</span>`)
 		},
 
-		onPaginationData (paginationData) {
+		onPaginationData(paginationData) {
 			this.$refs.pagination.setPaginationData(paginationData)
 			this.$refs.paginationInfo.setPaginationData(paginationData)
 		},
 
-		onChangePage (page) {
-			this.$refs.transaction_table.changePage(page)
+		onChangePage(page) {
+			this.$refs.vuetable.changePage(page)
+		},
+
+		setPerPage(page) {
+			this.perPageSelected = page
+			this.$nextTick(() => {
+				this.$refs.vuetable.refresh()
+			})
+		},
+
+		setFilter(option) {
+			this.moreParams.filter = option
+			this.$nextTick(() => this.$refs.vuetable.refresh())
 		}
 	}
 }
