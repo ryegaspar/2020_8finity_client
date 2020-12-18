@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<button
-			class="block bg-gray-900 border border-gray-800 text-gray-700 py-1 px-2 rounded-tl-lg items-center flex hover:text-blue-700 hover:border-blue-700"
+			class="bg-gray-900 border border-gray-800 text-gray-600 py-1 px-2 rounded-l-lg rounded-r-none items-center flex hover:text-blue-700 hover:border-blue-700"
 			@click="isOpen = !isOpen"
 			v-click-outside="hide"
 		>

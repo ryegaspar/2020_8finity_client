@@ -13,12 +13,13 @@
 			<div class="flex flex-col">
 				<div class="mt-8 shadow overflow-hidden sm:rounded-lg">
 					<div class="flex sm:flex-row flex-col">
-						<div class=" flex flex-row mb-1">
+						<div class=" flex flex-row mb-2">
 							<per-page :per-page-options="perPageOptions"
 									  :selected="perPageSelected"
 									  @perPageChanged="setPerPage"
 							/>
 							<table-filter @filterChanged="setFilter"/>
+							<transaction-table-search @searchUpdated="setSearch"/>
 						</div>
 					</div>
 					<vuetable ref="vuetable"
@@ -64,6 +65,7 @@ import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePagination
 import TableIcon from "@/components/transactions/TableIcon";
 import TableAmount from "@/components/transactions/TableAmount";
 import {DateTime} from 'luxon'
+import TransactionTableSearch from "@/components/transactions/TransactionTableSearch";
 
 Vue.component('table-icon', TableIcon)
 Vue.component('table-amount', TableAmount)
@@ -74,6 +76,7 @@ export default {
 	layout: 'master',
 
 	components: {
+		TransactionTableSearch,
 		Vuetable,
 		VuetablePaginationInfo,
 	},
@@ -210,6 +213,11 @@ export default {
 		setFilter(option) {
 			this.moreParams.filter = option
 			this.$nextTick(() => this.$refs.vuetable.refresh())
+		},
+
+		setSearch(text) {
+			this.moreParams.search = text
+			this.$nextTick(() => this.$refs.vuetable.refresh())
 		}
 	}
 }
@@ -218,10 +226,6 @@ export default {
 <style>
 .vuetable {
 	@apply min-w-full static border-gray-900
-}
-
-.vuetable > thead > tr {
-	@apply border-b border-gray-900;
 }
 
 .vuetable > thead > tr > th {
