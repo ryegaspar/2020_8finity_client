@@ -113,6 +113,7 @@ export default {
 				{
 					name: '__component:table-amount',
 					title: 'Amount',
+					sortField: 'amount',
 					titleClass: 'text-xs lg:text-sm',
 					dataClass: 'text-right text-sm lg:text-md'
 				},
@@ -120,6 +121,7 @@ export default {
 					name: 'date',
 					titleClass: 'hidden sm:flow-root text-xs lg:text-sm',
 					dataClass: 'hidden sm:flow-root text-center text-sm lg:text-md',
+					sortField: 'date',
 					callback: 'toDate'
 				},
 				{
