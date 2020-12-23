@@ -1,8 +1,8 @@
 <template>
 	<div>
 		<button
-			class="bg-gray-900 border border-gray-800 text-gray-600 py-1 px-2 rounded-l-lg rounded-r-none items-center flex hover:text-blue-700 hover:border-blue-700"
-			@click="isOpen = !isOpen"
+			class="bg-gray-900 border border-gray-800 text-gray-600 py-1 px-2 rounded-l-lg rounded-r-none items-center flex hover:text-blue-700 hover:border-blue-700 focus:outline-none"
+			@click.prevent="isOpen = !isOpen"
 			v-click-outside="hide"
 		>
 			{{ selectedValue }}
@@ -12,14 +12,14 @@
 					  clip-rule="evenodd"/>
 			</svg>
 		</button>
-		<div class="border border-gray-800 rounded absolute mt-1 z-10 w-full md:w-16"
+		<div class="border border-gray-800 rounded absolute mt-1 z-10 w-14 md:w-16"
 			 v-if="isOpen"
 		>
 			<div class="py-2 bg-gray-900 rounded">
 				<a href="#"
 				   class="text-center py-2 px-4 block leading-5 hover:text-gray-900 hover:bg-gray-400 focus:outline-none"
 				   v-for="(page, index) in perPageOptions"
-				   @click="updateSelected(page)"
+				   @click.prevent="updateSelected(page)"
 				>
 					{{ page }}
 				</a>

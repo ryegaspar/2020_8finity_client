@@ -1,7 +1,7 @@
 <template>
 	<div class="relative">
 		<button
-			class="flex justify-between bg-gray-900 border border-gray-800 text-gray-600 py-1 px-2 items-center flex hover:text-blue-700 hover:border-blue-700 w-24"
+			class="flex justify-between bg-gray-900 border border-gray-800 text-gray-600 py-1 px-2 items-center flex hover:text-blue-700 hover:border-blue-700 w-24 focus:outline-none"
 			@click.prevent="isOpen = !isOpen"
 			v-click-outside="hide"
 		>

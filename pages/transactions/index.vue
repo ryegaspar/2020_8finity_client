@@ -2,7 +2,7 @@
 	<div class="px-4 md:px-0 mb-16 mt-4 text-gray-400 leading-normal">
 		<div class="w-full px-3 py-1 sm:py-3">
 			<button
-				class="relative bg-gray-900 border border-gray-600 text-gray-600 py-2 px-3 rounded-lg items-center flex justify-between hover:border-blue-700 hover:text-blue-700"
+				class="relative bg-gray-900 border border-gray-600 text-gray-600 py-2 px-3 rounded-lg items-center flex justify-between hover:border-blue-700 hover:text-blue-700 focus:outline-none"
 			>
 				<font-awesome-layers class="fa-fw mr-1">
 					<font-awesome-icon icon="plus-circle"/>
@@ -14,12 +14,12 @@
 				<div class="mt-8 shadow overflow-hidden sm:rounded-lg">
 					<div class="flex sm:flex-row flex-col">
 						<div class=" flex flex-row mb-2">
-							<per-page :per-page-options="perPageOptions"
+							<vuetable-per-page :per-page-options="perPageOptions"
 									  :selected="perPageSelected"
 									  @perPageChanged="setPerPage"
 							/>
 							<table-filter @filterChanged="setFilter"/>
-							<transaction-table-search @searchUpdated="setSearch"/>
+							<table-search @searchUpdated="setSearch"/>
 						</div>
 					</div>
 					<vuetable ref="vuetable"
@@ -32,12 +32,12 @@
 					>
 						<template slot="actions" slot-scope="props">
 							<div>
-								<button class="bg-blue-400 rounded-md text-gray-900 hover:bg-blue-500">
+								<button class="bg-blue-400 rounded-md text-gray-900 hover:bg-blue-500 focus:outline-none">
 									<font-awesome-layers class="fa-fw">
 										<font-awesome-icon icon="pen"/>
 									</font-awesome-layers>
 								</button>
-								<button class="bg-red-400 rounded-md text-gray-900 ml-2 hover:bg-red-500">
+								<button class="bg-red-400 rounded-md text-gray-900 ml-2 hover:bg-red-500 focus:outline-none">
 									<font-awesome-layers class="fa-fw">
 										<font-awesome-icon icon="trash"/>
 									</font-awesome-layers>
@@ -45,12 +45,12 @@
 							</div>
 						</template>
 					</vuetable>
-					<div class="flex justify-between mt-4">
-						<vuetable-pagination-info ref="paginationInfo"/>
+					<div class="block sm:flex sm:flex-row-reverse justify-between mt-4">
 						<vuetable-pagination ref="pagination"
 											 @vuetable-pagination:change-page="onChangePage"
 											 class="flex"
 						></vuetable-pagination>
+						<vuetable-pagination-info ref="paginationInfo" class="text-xs sm:text-base mt-2 sm:mt-0"/>
 					</div>
 				</div>
 			</div>
@@ -65,7 +65,7 @@ import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePagination
 import TableIcon from "@/components/transactions/TableIcon";
 import TableAmount from "@/components/transactions/TableAmount";
 import {DateTime} from 'luxon'
-import TransactionTableSearch from "@/components/transactions/TransactionTableSearch";
+import TableSearch from "@/components/transactions/TableSearch";
 
 Vue.component('table-icon', TableIcon)
 Vue.component('table-amount', TableAmount)
@@ -76,7 +76,7 @@ export default {
 	layout: 'master',
 
 	components: {
-		TransactionTableSearch,
+		TableSearch,
 		Vuetable,
 		VuetablePaginationInfo,
 	},
@@ -88,7 +88,7 @@ export default {
 
 			perPageSelected: 5,
 
-			perPageOptions: [5, 10, 20, 50, 100, 500],
+			perPageOptions: [1, 2, 5, 10, 20, 50, 100, 500],
 
 			moreParams: {},
 
@@ -131,55 +131,6 @@ export default {
 					dataClass: 'text-center text-sm lg:text-md'
 				}
 			],
-
-			classes: {
-				'table-container': {
-					'justify-center': true,
-					'w-full': true,
-					'flex': true,
-					"border-gray-700": true,
-					'inline-block': true,
-					'min-w-full': true,
-					'overflow-hidden': true,
-				},
-				table: {
-					'text-left': true,
-					'w-full': true,
-				},
-				"t-body": {
-					'bg-gray-800': true,
-				},
-				"t-head-tr": {
-					'border-b': true,
-					'border-gray-700': true,
-				},
-				"t-body-tr": {
-					'stripped-table': true,
-					'bg-grey-darkest': true,
-				},
-				"td": {
-					'py-4': true,
-					'px-6': true,
-					'border-b': true,
-					'border-gray-700': true,
-					'text-gray-light': true,
-				},
-				"th": {
-					'text-gray-dark': true,
-					'border-gray-700': true,
-					'border-b-2': true,
-					'border-gray-200': true,
-					'py-3': true,
-					'px-4': true,
-					'bg-gray-900': true,
-					'text-left': true,
-					'text-xs': true,
-					'font-semibold': true,
-					'text-gray-600': true,
-					'uppercase': true,
-					'tracking-wider': true,
-				},
-			}
 		}
 	},
 
