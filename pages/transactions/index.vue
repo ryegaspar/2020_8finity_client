@@ -18,8 +18,8 @@
 									  :selected="perPageSelected"
 									  @perPageChanged="setPerPage"
 							/>
-							<table-filter @filterChanged="setFilter"/>
-							<table-search @searchUpdated="setSearch"/>
+							<transactions-table-filter @filterChanged="setFilter"/>
+							<transactions-table-search @searchUpdated="setSearch"/>
 						</div>
 					</div>
 					<vuetable ref="vuetable"
@@ -65,7 +65,7 @@ import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePagination
 import TableIcon from "@/components/transactions/TableIcon";
 import TableAmount from "@/components/transactions/TableAmount";
 import {DateTime} from 'luxon'
-import TableSearch from "@/components/transactions/TableSearch";
+import TableSearch from "~/components/transactions/TransactionsTableSearch";
 
 Vue.component('table-icon', TableIcon)
 Vue.component('table-amount', TableAmount)
