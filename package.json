@@ -24,6 +24,7 @@
 		"vue-click-outside": "^1.1.0",
 		"vue-countup-v2": "^4.0.0",
 		"vue-datetime": "^1.0.0-beta.14",
+		"vue-js-modal": "^2.0.0-rc.6",
 		"vue-promise-btn": "^2.1.0",
 		"vuetable-2": "^1.7.5",
 		"weeknumber": "^1.1.2",

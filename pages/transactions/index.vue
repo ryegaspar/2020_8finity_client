@@ -3,6 +3,7 @@
 		<div class="w-full px-3 py-1 sm:py-3">
 			<button
 				class="relative bg-gray-900 border border-gray-600 text-gray-600 py-2 px-3 rounded-lg items-center flex justify-between hover:border-blue-700 hover:text-blue-700 focus:outline-none"
+				@click="showModal"
 			>
 				<font-awesome-layers class="fa-fw mr-1">
 					<font-awesome-icon icon="plus-circle"/>
@@ -55,6 +56,15 @@
 				</div>
 			</div>
 		</div>
+
+		<modal name="create-edit-transaction">
+			<div slot="top-right">
+				<button @click="$modal.hide('foo')">
+					x
+				</button>
+			</div>
+			Test
+		</modal>
 	</div>
 </template>
 
@@ -171,6 +181,10 @@ export default {
 		setSearch(text) {
 			this.moreParams.search = text
 			this.$nextTick(() => this.$refs.vuetable.refresh())
+		},
+
+		showModal() {
+			this.$modal.show('create-edit-transaction')
 		}
 	}
 }
