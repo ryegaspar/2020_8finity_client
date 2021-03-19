@@ -1,5 +1,5 @@
 <template>
-	<div class="fixed z-10 flex h-16 w-full bg-blue-900 shadow-2x">
+	<div class="fixed z-10 flex h-16 w-full bg-blue-800 shadow-2x">
 		<button
 			class="px-4 text-gray-500 focus:outline-none focus:bg-gray-100 focus:text-gray-600 md:hidden"
 			aria-label="Open sidebar"
@@ -14,7 +14,7 @@
 			<div class="flex-1 flex">
 			</div>
 			<div class="ml-4 flex items-center md:ml-6">
-				<button class="p-1 text-gray-400 rounded-full hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:shadow-outline focus:text-gray-500"
+				<button class="p-1 text-gray-300 rounded-full hover:bg-gray-300 hover:text-gray-500 focus:outline-none focus:shadow-outline focus:text-gray-400"
 						aria-label="Notifications"
 				>
 					<svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">

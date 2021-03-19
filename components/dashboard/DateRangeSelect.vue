@@ -3,7 +3,7 @@
 		<div class="inline-block min-w-full">
 			<div class="md:flex relative">
 				<button
-					class="relative bg-gray-900 border border-gray-800 text-gray-700 px-3 rounded-lg items-center flex w-full md:w-auto justify-between md:justify-start h-10"
+					class="relative bg-gray-900 border border-gray-800 text-gray-700 px-3 rounded-lg items-center flex w-full md:w-auto justify-between md:justify-start h-10 hover:border-blue-600 hover:text-blue-600 focus:outline-none"
 					@click="isOpen = !isOpen"
 					v-click-outside="hide"
 				>
