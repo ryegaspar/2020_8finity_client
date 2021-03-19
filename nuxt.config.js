@@ -45,7 +45,11 @@ export default {
 	** Auto import components
 	** See https://nuxtjs.org/api/configuration-components
 	*/
-	components: true,
+	components: [
+		'~/components/',
+		'~/components/charts/',
+		'~/components/dashboard/',
+	],
 	/*
 	** Nuxt.js dev-modules
 	*/
