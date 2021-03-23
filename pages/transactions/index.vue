@@ -24,6 +24,7 @@
 						</div>
 					</div>
 					<vuetable ref="vuetable"
+							  :http-fetch="myFetch"
 							  :api-url="url"
 							  :fields="fields"
 							  pagination-path=""
@@ -33,14 +34,16 @@
 					>
 						<template slot="actions" slot-scope="props">
 							<div>
-								<button class="bg-blue-400 rounded-md text-gray-900 hover:bg-blue-500 focus:outline-none"
-										@click.prevent="showModal(props.rowData)"
+								<button
+									class="bg-blue-400 rounded-md text-gray-900 hover:bg-blue-500 focus:outline-none"
+									@click.prevent="showModal(props.rowData)"
 								>
 									<font-awesome-layers class="fa-fw">
 										<font-awesome-icon icon="pen"/>
 									</font-awesome-layers>
 								</button>
-								<button class="bg-red-400 rounded-md text-gray-900 ml-2 hover:bg-red-500 focus:outline-none">
+								<button
+									class="bg-red-400 rounded-md text-gray-900 ml-2 hover:bg-red-500 focus:outline-none">
 									<font-awesome-layers class="fa-fw">
 										<font-awesome-icon icon="trash"/>
 									</font-awesome-layers>
@@ -53,7 +56,9 @@
 											 @vuetable-pagination:change-page="onChangePage"
 											 class="flex"
 						></vuetable-pagination>
-						<vuetable-pagination-info ref="paginationInfo" class="text-xs sm:text-base mt-2 sm:mt-0"/>
+						<vuetable-pagination-info ref="paginationInfo"
+												  class="text-xs sm:text-base mt-2 sm:mt-0"
+						/>
 					</div>
 				</div>
 			</div>
@@ -93,6 +98,15 @@ export default {
 
 			modalOpen: false,
 			selectedTransaction: {},
+
+			// httpOptions: {
+			// 	baseURL: $http.defaults.baseURL,
+			// 	headers: {
+			// 		'Accept': $http.defaults.headers['Accept'],
+			// 		'Content-Type': $http.defaults.headers['Content-Type'],
+			// 		'Authorization': $http.defaults.headers['Authorization']
+			// 	}
+			// },
 
 			url: `${process.env.BASE_URL}/admin/transactions`,
 
@@ -187,6 +201,13 @@ export default {
 			this.selectedTransaction = transaction
 			this.modalOpen = true
 		},
+
+		myFetch(apiUrl, httpOptions) {
+			return this.$axios.$get(apiUrl, httpOptions)
+			// const response = await this.$axios.$get(apiUrl, httpOptions)
+			// console.log(response)
+			// return response
+		}
 	}
 }
 </script>

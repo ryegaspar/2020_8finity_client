@@ -57,7 +57,7 @@
 								<div class="mt-1">
 									<select id="category"
 											name="category"
-											class="w-full px-2 py-1 border border-gray-300 text-gray-600 rounded-md focus:outline-none focus:ring-4 focus:ring-blue-700">
+											class="w-full px-2 py-1 border border-gray-300 text-gray-700 rounded-md focus:outline-none focus:ring-4 focus:ring-blue-700">
 										<option>United States</option>
 										<option>Canada</option>
 										<option>Mexico</option>
