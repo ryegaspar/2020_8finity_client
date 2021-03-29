@@ -18,7 +18,10 @@
 								<div class="mt-1">
 									<input type="text"
 										   id="description"
-										   class="w-full px-2 py-1 placeholder-gray-300 border border-gray-300  text-gray-600 rounded-md focus:outline-none focus:ring-4 focus:ring-blue-700">
+										   ref="description"
+										   class="w-full px-2 py-1 placeholder-gray-300 border border-gray-300  text-gray-600 rounded-md focus:outline-none focus:ring-4 focus:ring-blue-700"
+										   v-model="description"
+									>
 								</div>
 							</div>
 
@@ -32,18 +35,19 @@
 											class="bg-gray-200 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 											aria-pressed="false"
 											aria-labelledby="type"
-											:aria-checked="transactionIsIncome"
-											@click.prevent="transactionIsIncome = !transactionIsIncome"
-											:class="transactionIsIncome ? 'bg-blue-700' : 'bg-gray-200'"
+											:aria-checked="type"
+											@click.prevent="type = !type"
+											:class="type ? 'bg-blue-700' : 'bg-gray-200'"
+											v-model="type"
 									>
 										<span aria-hidden="true"
 											  class="translate-x-0 pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200"
-											  :class="transactionIsIncome ? 'translate-x-5' : 'translate-x-0'"
+											  :class="type ? 'translate-x-5' : 'translate-x-0'"
 										></span>
 									</button>
 									<span class="ml-3" id="type">
 										<span class="text-sm font-medium text-gray-400">
-											{{ transactionIsIncome ? 'Income' : 'Expense' }}
+											{{ type ? 'Income' : 'Expense' }}
 										</span>
 									</span>
 								</div>
@@ -57,10 +61,13 @@
 								<div class="mt-1">
 									<select id="category"
 											name="category"
-											class="w-full px-2 py-1 border border-gray-300 text-gray-700 rounded-md focus:outline-none focus:ring-4 focus:ring-blue-700">
-										<option>United States</option>
-										<option>Canada</option>
-										<option>Mexico</option>
+											class="w-full px-2 py-1 border border-gray-300 text-gray-700 rounded-md focus:outline-none focus:ring-4 focus:ring-blue-700"
+											v-model="category_id"
+									>
+										<option value="0"></option>
+										<option v-for="category in selectedTypeCategories" :value="category.id">
+											{{ category.name }}
+										</option>
 									</select>
 								</div>
 							</div>
@@ -75,6 +82,7 @@
 										   step="any"
 										   id="amount"
 										   class="w-full px-2 py-1 placeholder-gray-300 border border-gray-300  text-gray-600 rounded-md focus:outline-none focus:ring-4 focus:ring-blue-700 text-right"
+										   v-model="amount"
 									>
 								</div>
 							</div>
@@ -85,11 +93,11 @@
 									Date
 								</label>
 								<div class="mt-1">
-									<input type="number"
-										   step="any"
-										   id="date"
-										   class="w-full px-2 py-1 placeholder-gray-300 border border-gray-300  text-gray-600 rounded-md focus:outline-none focus:ring-4 focus:ring-blue-700 text-right"
-									>
+									<datetime class="theme-dark"
+											  ref="dateTimePicker"
+											  :week-start="7"
+											  v-model="date"
+									/>
 								</div>
 							</div>
 
@@ -103,7 +111,9 @@
 									<textarea
 										id="notes"
 										rows="3"
-										class="w-full px-2 py-1 placeholder-gray-300 border border-gray-300  text-gray-600 rounded-md focus:outline-none focus:ring-4 focus:ring-blue-700"></textarea>
+										class="w-full px-2 py-1 placeholder-gray-300 border border-gray-300  text-gray-600 rounded-md focus:outline-none focus:ring-4 focus:ring-blue-700"
+										v-model="notes"
+									></textarea>
 								</div>
 							</div>
 						</div>
@@ -127,7 +137,10 @@
 </template>
 
 <script>
+import {mapGetters, mapActions} from 'vuex'
 import Modal from "~/components/modal/Modal";
+import {Datetime} from 'vue-datetime'
+import {DateTime} from 'luxon'
 
 export default {
 	props: {
@@ -141,19 +154,79 @@ export default {
 	},
 
 	components: {
-		Modal
+		Modal,
+		datetime: Datetime
 	},
 
 	data() {
 		return {
-			transactionIsIncome: true
+			description: '',
+			type: true,
+			category_id: null,
+			amount: 0,
+			date: DateTime.local().toISODate(),
+			notes: ''
 		}
+	},
+
+	mounted() {
+		this.getCategories()
 	},
 
 	computed: {
 		title() {
 			return (_.isEmpty(this.transaction) ? 'New Transaction' : 'Edit Transaction')
+		},
+
+		...mapGetters({
+			incomeCategory: 'categories/incomeCategory',
+			expenseCategory: 'categories/expenseCategory'
+		}),
+
+		selectedTypeCategories() {
+			if (this.type)
+				return this.incomeCategory
+			else
+				return this.expenseCategory
+		},
+	},
+
+	methods: {
+		setDefaultValues() {
+			this.description = ''
+			this.type = true
+			this.category_id = null
+			this.amount = 0
+			this.date = DateTime.local().toISODate()
+			this.notes = ''
+		},
+
+		...mapActions({
+			getCategories: 'categories/getCategories'
+		}),
+
+	},
+
+	watch: {
+		show() {
+			if (this.show) {
+				if (_.isEmpty(this.transaction))
+					this.setDefaultValues()
+				this.$nextTick(() => {
+					this.$refs.description.focus()
+				})
+			}
+		},
+
+		transactionIsIncome() {
+			this.category = 0
 		}
 	}
 }
 </script>
+
+<style>
+.vdatetime-input {
+	@apply w-full px-2 py-1 placeholder-gray-300 border border-gray-300  text-gray-600 rounded-md focus:outline-none focus:ring-4 focus:ring-blue-700 text-right bg-white
+}
+</style>

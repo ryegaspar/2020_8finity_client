@@ -24,7 +24,7 @@
 						</div>
 					</div>
 					<vuetable ref="vuetable"
-							  :http-fetch="myFetch"
+							  :http-options="httpOptions"
 							  :api-url="url"
 							  :fields="fields"
 							  pagination-path=""
@@ -99,14 +99,9 @@ export default {
 			modalOpen: false,
 			selectedTransaction: {},
 
-			// httpOptions: {
-			// 	baseURL: $http.defaults.baseURL,
-			// 	headers: {
-			// 		'Accept': $http.defaults.headers['Accept'],
-			// 		'Content-Type': $http.defaults.headers['Content-Type'],
-			// 		'Authorization': $http.defaults.headers['Authorization']
-			// 	}
-			// },
+			httpOptions: {
+				withCredentials: true,
+			},
 
 			url: `${process.env.BASE_URL}/admin/transactions`,
 
@@ -201,13 +196,6 @@ export default {
 			this.selectedTransaction = transaction
 			this.modalOpen = true
 		},
-
-		myFetch(apiUrl, httpOptions) {
-			return this.$axios.$get(apiUrl, httpOptions)
-			// const response = await this.$axios.$get(apiUrl, httpOptions)
-			// console.log(response)
-			// return response
-		}
 	}
 }
 </script>

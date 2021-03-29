@@ -39,7 +39,7 @@ export default {
 		'@/plugins/v_click_outside',
 		'@/plugins/vue-datetime',
 		'@/plugins/axios',
-		'@/plugins/vue_js_modal'
+		'@/plugins/vue_js_modal',
 	],
 	/*
 	** Auto import components

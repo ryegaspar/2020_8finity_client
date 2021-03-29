@@ -73,25 +73,6 @@ export default {
 		return {
 			isOpen: false,
 			presets: presets,
-			theme: {
-				background: '#1A202C',
-				text: 'text-white',
-				border: 'border-gray-700',
-				currentColor: 'text-gray-200',
-				navigation: {
-					background: 'bg-gray-800',
-					hover: 'hover:bg-gray-700',
-					focus: 'bg-gray-700',
-				},
-				picker: {
-					rounded: 'rounded-md',
-					selected: {
-						background: 'bg-teal-400',
-						border: 'border-teal-400',
-						hover: 'hover:border-teal-400',
-					},
-				},
-			}
 		}
 	},
 

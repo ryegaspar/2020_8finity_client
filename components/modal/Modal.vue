@@ -76,12 +76,16 @@ export default {
 		show: {
 			required: true,
 			type: Boolean
+		},
+		hasChildModalOpened: {
+			default: false,
+			type: Boolean
 		}
 	},
 
 	created() {
 		const escapeHandler = e => {
-			if (e.key === 'Escape' && this.show) {
+			if (e.key === 'Escape' && this.show && !this.hasChildModalOpened) {
 				this.dismiss()
 			}
 		}
