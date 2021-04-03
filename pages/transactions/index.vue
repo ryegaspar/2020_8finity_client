@@ -25,12 +25,14 @@
 					</div>
 					<vuetable ref="vuetable"
 							  :http-options="httpOptions"
+							  :sort-order="sortOrder"
 							  :api-url="url"
 							  :fields="fields"
 							  pagination-path=""
 							  @vuetable:pagination-data="onPaginationData"
 							  :per-page="perPageSelected"
 							  :append-params="moreParams"
+							  :multi-sort="true"
 					>
 						<template slot="actions" slot-scope="props">
 							<div>
@@ -66,7 +68,9 @@
 
 		<modal-transaction :transaction="selectedTransaction"
 						   :show="modalOpen"
-						   @close="modalOpen = false"/>
+						   @close="modalOpen = false"
+						   @submitted="formSubmitted"
+		/>
 	</div>
 </template>
 
@@ -105,13 +109,20 @@ export default {
 
 			url: `${process.env.BASE_URL}/admin/transactions`,
 
-			perPageSelected: 5,
+			perPageSelected: 50,
 
-			perPageOptions: [1, 2, 5, 10, 20, 50, 100, 500],
+			perPageOptions: [10, 20, 50, 100, 500],
 
 			moreParams: {},
 
 			fields: [
+				{
+					name: 'id',
+					title: 'ID',
+					titleClass: 'text-center text-sm lg:text-md',
+					dataClass: 'text-center text-sm lg:text-md',
+					sortField: 'id'
+				},
 				{
 					name: 'description',
 					title: 'Description',
@@ -150,10 +161,26 @@ export default {
 					dataClass: 'text-center text-sm lg:text-md'
 				}
 			],
+
+			sortOrder: [
+				{
+					field: 'date',
+					direction: 'desc'
+				},
+				{
+					field: 'id',
+					direction: 'desc'
+				}
+			]
 		}
 	},
 
 	methods: {
+		formSubmitted() {
+			this.modalOpen = false
+			this.$refs.vuetable.refresh()
+		},
+
 		toDate(value) {
 			return DateTime.fromISO(value, {setZone: true}).toLocaleString(DateTime.DATE_MED)
 		},

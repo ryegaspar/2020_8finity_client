@@ -1,4 +1,4 @@
-import {presets} from '@/constants/date_presets'
+import {presets} from '@/utilities/DatePresets'
 
 export const state = () => ({
 	selected: presets[0],

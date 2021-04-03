@@ -7,11 +7,11 @@
 		</span>
 		<input
 			placeholder="Search"
-			class="rounded-r-lg rounded-l-none border border-gray-800 border-b block pl-8 sm:pr-6 h-full bg-gray-900 text-sm placeholder-gray-400 text-gray-400 focus:border-blue-700 focus:outline-none w-10/12"
+			class="w-full sm:w-auto rounded-r-lg rounded-l-none border border-gray-800 border-b block pl-8 sm:pr-6 h-full bg-gray-900 text-sm placeholder-gray-400 text-gray-400 focus:border-blue-700 focus:outline-none w-10/12"
 			@input="updateSearch"
 			:value="search"
 		/>
-		<div class="absolute inset-y-0 right-0 pr-3 flex items-center"
+		<div class="absolute inset-y-0 right-0 pr-1 flex items-center"
 			 v-if="showReset"
 		>
 			<!-- Heroicon name: exclamation-circle -->

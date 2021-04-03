@@ -63,7 +63,7 @@
 
 <script>
 import vClickOutside from 'v-click-outside'
-import {presets} from '@/constants/date_presets'
+import {presets} from '@/utilities/DatePresets'
 import {Datetime} from 'vue-datetime'
 import {DateTime} from 'luxon'
 import {mapGetters, mapActions} from 'vuex'
