@@ -17,6 +17,10 @@ export default {
 		this.getTransactionsLastFiveMonths()
 	},
 
+	activated() {
+		this.getTransactionsLastFiveMonths()
+	},
+
 	computed: {
 		...mapGetters({
 			revenuePerMonth: 'dashboard_transactions/revenuePerMonth'

@@ -81,6 +81,11 @@ export default {
 		this.updateTransactions()
 	},
 
+	activated() {
+		this.updateSummary()
+		this.updateTransactions()
+	},
+
 	components: {
 		datetime: Datetime
 	},
