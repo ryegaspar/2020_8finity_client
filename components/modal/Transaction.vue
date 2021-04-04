@@ -24,6 +24,11 @@
 										   class="w-full px-2 py-1 placeholder-gray-300 border border-gray-300  text-gray-600 rounded-md focus:outline-none focus:ring-4 focus:ring-blue-700"
 										   v-model="form.description"
 									>
+									<div class="block text-red-500 text-sm mt-1 -mb-2"
+										 v-show="form.errors.has('description')"
+									>
+										{{ form.errors.get('description') }}
+									</div>
 								</div>
 							</div>
 
@@ -71,6 +76,11 @@
 											{{ category.name }}
 										</option>
 									</select>
+									<div class="block text-red-500 text-sm mt-1 -mb-2"
+										 v-show="form.errors.has('category_id')"
+									>
+										{{ form.errors.get('category_id') }}
+									</div>
 								</div>
 							</div>
 
@@ -86,6 +96,11 @@
 										   class="w-full px-2 py-1 placeholder-gray-300 border border-gray-300  text-gray-600 rounded-md focus:outline-none focus:ring-4 focus:ring-blue-700 text-right"
 										   v-model="form.amount"
 									>
+									<div class="block text-red-500 text-sm mt-1 -mb-2"
+										 v-show="form.errors.has('amount')"
+									>
+										{{ form.errors.get('amount') }}
+									</div>
 								</div>
 							</div>
 
@@ -101,6 +116,11 @@
 											  :value="form.date"
 											  @input="setDate"
 									/>
+									<div class="block text-red-500 text-sm mt-1 -mb-2"
+										 v-show="form.errors.has('date')"
+									>
+										{{ form.errors.get('date') }}
+									</div>
 								</div>
 							</div>
 
