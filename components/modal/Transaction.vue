@@ -92,6 +92,8 @@
 								<div class="mt-1">
 									<input type="number"
 										   step="any"
+										   min="1"
+										   max="10000000"
 										   id="amount"
 										   class="w-full px-2 py-1 placeholder-gray-300 border border-gray-300  text-gray-600 rounded-md focus:outline-none focus:ring-4 focus:ring-blue-700 text-right"
 										   v-model="form.amount"
@@ -146,7 +148,7 @@
 									v-promise-btn
 									@click.prevent="submit"
 							>
-								Save
+								{{ (isNew ? 'Add' : 'Update') }}
 							</button>
 							<button type="button"
 									class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:col-start-1 sm:text-sm"
@@ -204,7 +206,7 @@ export default {
 
 	computed: {
 		title() {
-			return (_.isEmpty(this.transaction) ? 'New Transaction' : 'Edit Transaction')
+			return (this.isNew ? 'New Transaction' : 'Edit Transaction')
 		},
 
 		...mapGetters({
@@ -218,6 +220,10 @@ export default {
 			else
 				return this.expenseCategory
 		},
+
+		isNew() {
+			return (_.isEmpty(this.transaction))
+		}
 	},
 
 	methods: {
@@ -231,7 +237,10 @@ export default {
 
 		async submit() {
 			try {
-				await this.$axios.$post('/admin/transactions', this.form)
+				if (this.isNew)
+					await this.$axios.$post('/admin/transactions', this.form)
+				else
+					await this.$axios.$patch(`/admin/transactions/${this.transaction.id}`, this.form)
 
 				this.form.onSuccess()
 				this.$emit('submitted')
@@ -246,11 +255,20 @@ export default {
 	watch: {
 		show() {
 			if (this.show) {
-				if (_.isEmpty(this.transaction))
-					this.form.reset()
-					this.$nextTick(() => {
-						this.$refs.description.focus()
-					})
+				this.form.reset()
+
+				if (!this.isNew) {
+					this.form.description = this.transaction.description
+					this.form.type = this.transaction.category_type === 'income' ? true : false
+					this.form.category_id = this.transaction.category_id
+					this.form.amount = (this.transaction.amount / 100)
+					this.form.date = this.transaction.date
+					this.form.notes = this.transaction.notes
+				}
+
+				this.$nextTick(() => {
+					this.$refs.description.focus()
+				})
 			}
 		},
 	}
