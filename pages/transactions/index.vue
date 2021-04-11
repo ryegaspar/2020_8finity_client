@@ -126,8 +126,8 @@ export default {
 				{
 					name: 'description',
 					title: 'Description',
-					titleClass: 'hidden lg:flow-root text-xs lg:text-sm',
-					dataClass: 'hidden lg:flow-root text-left text-sm lg:text-md'
+					titleClass: 'hidden lg:table-cell text-xs lg:text-sm',
+					dataClass: 'hidden lg:table-cell text-left text-sm lg:text-md'
 				},
 				{
 					name: '__component:table-icon',
@@ -137,8 +137,8 @@ export default {
 				{
 					name: 'category_name',
 					title: 'Category',
-					titleClass: 'hidden sm:flow-root text-xs lg:text-sm',
-					dataClass: 'hidden sm:flow-root text-center text-sm lg:text-md'
+					titleClass: 'hidden sm:table-cell text-xs lg:text-sm',
+					dataClass: 'hidden sm:table-cell text-center text-sm lg:text-md'
 				},
 				{
 					name: '__component:table-amount',
@@ -148,9 +148,15 @@ export default {
 					dataClass: 'text-right text-sm lg:text-md'
 				},
 				{
+					title: 'By',
+					name: 'admin_username',
+					titleClass: 'hidden md:table-cell text-xs lg:text-sm',
+					dataClass: 'hidden md:table-cell text-center text-xs lg:text-sm',
+				},
+				{
 					name: 'date',
-					titleClass: 'hidden sm:flow-root text-xs lg:text-sm',
-					dataClass: 'hidden sm:flow-root text-center text-sm lg:text-md',
+					titleClass: 'hidden sm:table-cell text-xs lg:text-sm',
+					dataClass: 'hidden sm:table-cell text-center text-sm lg:text-md',
 					sortField: 'date',
 					callback: 'toDate'
 				},
