@@ -35,7 +35,7 @@
 							  :multi-sort="true"
 					>
 						<template slot="actions" slot-scope="props">
-							<div>
+							<div v-if="$auth.user.id === props.rowData.admin_id">
 								<button
 									class="bg-blue-400 rounded-md text-gray-900 hover:bg-blue-500 focus:outline-none"
 									@click.prevent="showModal(props.rowData)"
@@ -48,6 +48,16 @@
 									class="bg-red-400 rounded-md text-gray-900 ml-2 hover:bg-red-500 focus:outline-none">
 									<font-awesome-layers class="fa-fw">
 										<font-awesome-icon icon="trash"/>
+									</font-awesome-layers>
+								</button>
+							</div>
+							<div v-else>
+								<button
+									class="bg-green-400 rounded-md text-gray-900 hover:bg-blue-500 focus:outline-none"
+									@click.prevent="showModal(props.rowData, true)"
+								>
+									<font-awesome-layers class="fa-fw">
+										<font-awesome-icon icon="eye"/>
 									</font-awesome-layers>
 								</button>
 							</div>
@@ -68,6 +78,7 @@
 
 		<modal-transaction :transaction="selectedTransaction"
 						   :show="modalOpen"
+						   :readonly="modalReadOnly"
 						   @close="modalOpen = false"
 						   @submitted="formSubmitted"
 		/>
@@ -101,6 +112,7 @@ export default {
 		return {
 
 			modalOpen: false,
+			modalReadOnly: false,
 			selectedTransaction: {},
 
 			httpOptions: {
@@ -225,8 +237,9 @@ export default {
 			this.$nextTick(() => this.$refs.vuetable.refresh())
 		},
 
-		showModal(transaction) {
+		showModal(transaction, readonly = false) {
 			this.selectedTransaction = transaction
+			this.modalReadOnly = readonly
 			this.modalOpen = true
 		},
 	}

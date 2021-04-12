@@ -23,6 +23,7 @@
 										   ref="description"
 										   class="w-full px-2 py-1 placeholder-gray-300 border border-gray-300  text-gray-600 rounded-md focus:outline-none focus:ring-4 focus:ring-blue-700"
 										   v-model="form.description"
+										   :disabled="this.readonly"
 									>
 									<div class="block text-red-500 text-sm mt-1 -mb-2"
 										 v-show="form.errors.has('description')"
@@ -43,7 +44,7 @@
 											aria-pressed="false"
 											aria-labelledby="type"
 											:aria-checked="form.type"
-											@click.prevent="form.type = !form.type"
+											@click.prevent="toggleType"
 											:class="form.type ? 'bg-blue-700' : 'bg-gray-200'"
 											v-model="form.type"
 									>
@@ -70,6 +71,7 @@
 											name="category"
 											class="w-full px-2 py-1 border border-gray-300 text-gray-700 rounded-md focus:outline-none focus:ring-4 focus:ring-blue-700"
 											v-model="form.category_id"
+											:disabled="this.readonly"
 									>
 										<option value="0"></option>
 										<option v-for="category in selectedTypeCategories" :value="category.id">
@@ -97,6 +99,7 @@
 										   id="amount"
 										   class="w-full px-2 py-1 placeholder-gray-300 border border-gray-300  text-gray-600 rounded-md focus:outline-none focus:ring-4 focus:ring-blue-700 text-right"
 										   v-model="form.amount"
+										   :disabled="this.readonly"
 									>
 									<div class="block text-red-500 text-sm mt-1 -mb-2"
 										 v-show="form.errors.has('amount')"
@@ -117,6 +120,7 @@
 											  :week-start="7"
 											  :value="form.date"
 											  @input="setDate"
+											  :disabled="this.readonly"
 									/>
 									<div class="block text-red-500 text-sm mt-1 -mb-2"
 										 v-show="form.errors.has('date')"
@@ -138,24 +142,42 @@
 										rows="3"
 										class="w-full px-2 py-1 placeholder-gray-300 border border-gray-300  text-gray-600 rounded-md focus:outline-none focus:ring-4 focus:ring-blue-700"
 										v-model="form.notes"
+										:disabled="this.readonly"
 									></textarea>
 								</div>
 							</div>
+
+							<div class="col-span-6 block text-sm font-medium text-gray-500"
+								 v-if="this.readonly"
+							>
+								{{ 'only ' }}<i>{{ transaction.admin_username }}</i>{{ ' can modify this transaction'}}
+							</div>
 						</div>
 						<div class="mt-6 pt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
-							<button type="submit"
-									class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:col-start-2 sm:text-sm"
-									v-promise-btn
-									@click.prevent="submit"
-							>
-								{{ (isNew ? 'Add' : 'Update') }}
-							</button>
-							<button type="button"
-									class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:col-start-1 sm:text-sm"
-									@click.prevent="$emit('close')"
-							>
-								Cancel
-							</button>
+							<template v-if="!this.readonly">
+								<button type="submit"
+										class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:col-start-2 sm:text-sm"
+										v-promise-btn
+										@click.prevent="submit"
+								>
+									{{ (isNew ? 'Add' : 'Update') }}
+								</button>
+								<button type="button"
+										class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:col-start-1 sm:text-sm"
+										@click.prevent="$emit('close')"
+								>
+									Cancel
+								</button>
+							</template>
+							<template v-else>
+								<div class="hidden"></div>
+								<button type="button"
+										class="w-full justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 col-span-2"
+										v-on:click="$emit('close')"
+								>
+									Close
+								</button>
+							</template>
 						</div>
 					</form>
 				</div>
@@ -175,6 +197,9 @@ export default {
 	props: {
 		transaction: {
 			type: Object
+		},
+		readonly: {
+			type: Boolean,
 		},
 		show: {
 			required: true,
@@ -196,7 +221,9 @@ export default {
 				amount: 0,
 				date: DateTime.local().toISODate(),
 				notes: ''
-			})
+			}),
+
+			transaction_admin: ''
 		}
 	},
 
@@ -227,6 +254,11 @@ export default {
 	},
 
 	methods: {
+		toggleType() {
+			if (this.readonly) return
+			this.form.type = !this.form.type
+		},
+
 		setDate(date) {
 			this.form.date = DateTime.fromISO(date, {setZone: true}).toISODate()
 		},
