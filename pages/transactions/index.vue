@@ -45,7 +45,9 @@
 									</font-awesome-layers>
 								</button>
 								<button
-									class="bg-red-400 rounded-md text-gray-900 ml-2 hover:bg-red-500 focus:outline-none">
+									class="bg-red-400 rounded-md text-gray-900 ml-2 hover:bg-red-500 focus:outline-none"
+									@click.prevent="confirmDelete(props.rowData)"
+								>
 									<font-awesome-layers class="fa-fw">
 										<font-awesome-icon icon="trash"/>
 									</font-awesome-layers>
@@ -82,6 +84,10 @@
 						   @close="modalOpen = false"
 						   @submitted="formSubmitted"
 		/>
+
+		<modal-confirm @close="confirmOpen = false"
+					   ref="deleteDialog"
+		/>
 	</div>
 </template>
 
@@ -114,6 +120,7 @@ export default {
 			modalOpen: false,
 			modalReadOnly: false,
 			selectedTransaction: {},
+			confirmOpen: false,
 
 			httpOptions: {
 				withCredentials: true,
@@ -242,6 +249,19 @@ export default {
 			this.modalReadOnly = readonly
 			this.modalOpen = true
 		},
+
+		confirmDelete(transaction) {
+			this.$refs.deleteDialog.show({
+				confirmAction() {
+					return this.$axios.$delete(`/admin/transactions/${transaction.id}`)
+				}
+			}).then(() => {
+				this.$refs.vuetable.refresh()
+			}).catch((e) => {
+				if (e)
+					console.log('fail')
+			})
+		}
 	}
 }
 </script>

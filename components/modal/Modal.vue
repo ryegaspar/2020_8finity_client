@@ -1,5 +1,4 @@
 <template>
-	<!-- This example requires Tailwind CSS v2.0+ -->
 	<transition
 		enter-active-class="transition ease-out duration-300"
 		enter-class="opacity-0"
@@ -12,16 +11,6 @@
 			 v-show="show"
 		>
 			<div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-				<!--
-				  Background overlay, show/hide based on modal state.
-
-				  Entering: "ease-out duration-300"
-					From: "opacity-0"
-					To: "opacity-100"
-				  Leaving: "ease-in duration-200"
-					From: "opacity-100"
-					To: "opacity-0"
-				-->
 				<div class="fixed inset-0 transition-opacity"
 					 aria-hidden="true"
 					 v-show="show"
@@ -42,18 +31,9 @@
 					leave-to-class="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
 				>
 
-					<!--
-					  Modal panel, show/hide based on modal state.
-
-					  Entering: "ease-out duration-300"
-						From: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-						To: "opacity-100 translate-y-0 sm:scale-100"
-					  Leaving: "ease-in duration-200"
-						From: "opacity-100 translate-y-0 sm:scale-100"
-						To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-					-->
 					<div
-						class="inline-block align-bottom bg-gray-900 border border-blue-700 shadow rounded-lg p-3 text-left overflow-hidden shadow-xl transform transition-all sm:my-6 sm:align-middle sm:max-w-lg sm:w-full sm:p-6"
+						class="inline-block align-bottom bg-gray-900 border border-blue-700 shadow rounded-lg p-3 text-left overflow-hidden shadow-xl transform transition-all sm:my-6 sm:align-middle sm:max-w-lg sm:p-6"
+						:class="[modalWidth]"
 						role="dialog"
 						aria-modal="true"
 						aria-labelledby="modal-headline"
@@ -80,6 +60,10 @@ export default {
 		hasChildModalOpened: {
 			default: false,
 			type: Boolean
+		},
+		modalWidth: {
+			default: 'sm:w-full',
+			type: String
 		}
 	},
 
