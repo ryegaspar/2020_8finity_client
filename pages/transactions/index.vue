@@ -257,11 +257,14 @@ export default {
 				}
 			}).then(() => {
 				this.$refs.vuetable.refresh()
+				this.$toast.success('transaction was successfully deleted', {
+					hideProgressBar: true,
+				})
 			}).catch((e) => {
 				if (e)
 					console.log('fail')
 			})
-		}
+		},
 	}
 }
 </script>

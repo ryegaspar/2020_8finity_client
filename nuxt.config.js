@@ -67,6 +67,7 @@ export default {
 		'@nuxtjs/axios',
 		// '@nuxtjs/dotenv',
 		'@nuxtjs/auth',
+		'vue-toastification/nuxt',
 	],
 
 	auth: {
