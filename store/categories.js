@@ -20,7 +20,7 @@ export const getters = {
 
 export const actions = {
 	async getCategories({commit, rootGetters}) {
-		let response = await this.$axios.$get(`admin/categories`)
+		let response = await this.$axios.$get(`admin/categories/?all`)
 
 		let categories = response.data
 

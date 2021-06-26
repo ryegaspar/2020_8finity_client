@@ -1,6 +1,6 @@
 <template>
 	<font-awesome-layers class="fa-fw">
-		<font-awesome-icon :icon="rowData.category_icon"/>
+		<font-awesome-icon :icon="rowData.category_icon || rowData.icon"/>
 	</font-awesome-layers>
 </template>
 
