@@ -83,10 +83,12 @@ import Vuetable from 'vuetable-2'
 import VuetablePagination from "@/components/VuetablePagination";
 import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
 import TableIcon from "@/components/transactions/TableIcon";
+import TableName from "@/components/categories/TableName";
 // import TableAmount from "@/components/transactions/TableAmount";
 // import {DateTime} from 'luxon'
 
 Vue.component('table-icon', TableIcon)
+Vue.component('table-name', TableName)
 // Vue.component('table-amount', TableAmount)
 
 export default {
@@ -131,7 +133,7 @@ export default {
 					sortField: 'type',
 				},
 				{
-					name: 'name',
+					name: '__component:table-name',
 					title: 'Name',
 					titleClass: 'text-center text-sm lg:text-md',
 					dataClass: 'text-left text-sm lg:text-md lg:text-center',
