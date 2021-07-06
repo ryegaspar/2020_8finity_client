@@ -64,12 +64,12 @@
 			</div>
 		</div>
 
-		<!--		<modal-transaction :transaction="selectedTransaction"-->
-		<!--						   :show="modalOpen"-->
-		<!--						   :readonly="modalReadOnly"-->
-		<!--						   @close="modalOpen = false"-->
-		<!--						   @submitted="formSubmitted"-->
-		<!--		/>-->
+		<modal-category :transaction="selectedCategory"
+						   :show="modalOpen"
+						   :readonly="modalReadOnly"
+						   @close="modalOpen = false"
+						   @submitted="formSubmitted"
+		/>
 
 		<!--		<modal-confirm @close="confirmOpen = false"-->
 		<!--					   ref="deleteDialog"-->
@@ -104,6 +104,11 @@ export default {
 
 	data() {
 		return {
+
+			modalOpen: false,
+			modalReadOnly: false,
+			selectedCategory: {},
+			// confirmOpen: false,
 
 			httpOptions: {
 				withCredentials: true,
@@ -216,10 +221,14 @@ export default {
 	},
 
 	methods: {
-		// formSubmitted() {
-		// 	this.modalOpen = false
-		// 	this.$refs.vuetable.refresh()
-		// },
+		formSubmitted() {
+			this.modalOpen = false
+			this.$refs.vuetable.refresh()
+
+			this.$toast.success('a category was successfully added', {
+				hideProgressBar: true,
+			})
+		},
 		//
 		// toDate(value) {
 		// 	return DateTime.fromISO(value, {setZone: true}).toLocaleString(DateTime.DATE_MED)
@@ -258,13 +267,13 @@ export default {
 		// 	this.moreParams.search = text
 		// 	this.$nextTick(() => this.$refs.vuetable.refresh())
 		// },
-		//
-		// showModal(transaction, readonly = false) {
-		// 	this.selectedTransaction = transaction
-		// 	this.modalReadOnly = readonly
-		// 	this.modalOpen = true
-		// },
-		//
+
+		showModal(transaction, readonly = false) {
+			this.selectedTransaction = transaction
+			// this.modalReadOnly = readonly
+			this.modalOpen = true
+		},
+
 		// confirmDelete(transaction) {
 		// 	this.$refs.deleteDialog.show({
 		// 		confirmAction() {
