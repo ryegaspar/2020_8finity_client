@@ -34,6 +34,7 @@ export default class Form {
 	}
 
 	onFail(errors) {
-		this.errors.record(errors.data.errors)
+		if (errors.data.length)
+			this.errors.record(errors.data.errors)
 	}
 }

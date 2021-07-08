@@ -14,12 +14,10 @@
 						</font-awesome-layers>
 					</div>
 					<div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-						<!--						<DialogTitle as="h3" class="text-lg leading-6 font-medium text-gray-300">-->
-						Delete Transaction
-						<!--						</DialogTitle>-->
+						{{ title }}
 						<div class="mt-2">
 							<p class="text-sm text-gray-400">
-								Are you sure you want to delete this transaction? This action cannot be undone
+								{{ message }}
 							</p>
 						</div>
 					</div>
@@ -55,6 +53,16 @@
 import Modal from "~/components/modal/Modal";
 
 export default {
+	props: {
+		title: {
+			required: true,
+			type: String
+		},
+		message: {
+			required: true,
+			type: String
+		},
+	},
 
 	components: {
 		Modal,
@@ -67,7 +75,9 @@ export default {
 
 			resolvePromise: undefined,
 			rejectPromise: undefined,
-			confirmAction: undefined
+			confirmAction: undefined,
+
+			error: {}
 		}
 	},
 
@@ -91,7 +101,8 @@ export default {
 					this.resolvePromise(true)
 					this.open = false
 				})
-				.catch(() => {
+				.catch((e) => {
+					this.error = e
 					this.rejectPromise(true)
 					this.open = false
 				})

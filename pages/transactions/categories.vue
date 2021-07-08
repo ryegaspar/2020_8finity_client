@@ -32,22 +32,28 @@
 							  :append-params="moreParams"
 							  :multi-sort="true"
 					>
-						<template slot="actions" slot-scope="props">
-							<button
-								class="bg-blue-400 rounded-md text-gray-900 hover:bg-blue-500 focus:outline-none"
-								@click.prevent="showModal(props.rowData)"
-							>
-								<font-awesome-layers class="fa-fw">
-									<font-awesome-icon icon="pen"/>
-								</font-awesome-layers>
-							</button>
-							<button
-								class="bg-red-400 rounded-md text-gray-900 ml-2 hover:bg-red-500 focus:outline-none"
-							>
-								<font-awesome-layers class="fa-fw">
-									<font-awesome-icon icon="trash"/>
-								</font-awesome-layers>
-							</button>
+						<template slot="actions"
+								  slot-scope="props"
+						>
+							<template v-if="props.rowData.id > 13">
+								<button
+									class="bg-blue-400 rounded-md text-gray-900 hover:bg-blue-500 focus:outline-none"
+									@click.prevent="showModal(props.rowData)"
+								>
+									<font-awesome-layers class="fa-fw">
+										<font-awesome-icon icon="pen"/>
+									</font-awesome-layers>
+								</button>
+								<button
+									class="bg-red-400 rounded-md text-gray-900 ml-2 hover:bg-red-500 focus:outline-none"
+									@click.prevent="confirmDelete(props.rowData.id)"
+								>
+									<font-awesome-layers class="fa-fw">
+										<font-awesome-icon icon="trash"/>
+									</font-awesome-layers>
+								</button>
+							</template>
+							<template v-else>-</template>
 						</template>
 					</vuetable>
 					<div class="block sm:flex sm:flex-row-reverse justify-between mt-4">
@@ -70,9 +76,11 @@
 						@submit_success="submitFormSuccess"
 		/>
 
-		<!--		<modal-confirm @close="confirmOpen = false"-->
-		<!--					   ref="deleteDialog"-->
-		<!--		/>-->
+		<modal-confirm @close="confirmOpen = false"
+					   ref="deleteDialog"
+					   title="Delete Category"
+					   message="Are you sure you want to delete this category? This action cannot be undone"
+		/>
 	</div>
 </template>
 
@@ -196,21 +204,29 @@ export default {
 			this.modalOpen = true
 		},
 
-		// confirmDelete(transaction) {
-		// 	this.$refs.deleteDialog.show({
-		// 		confirmAction() {
-		// 			return this.$axios.$delete(`/admin/transactions/${transaction.id}`)
-		// 		}
-		// 	}).then(() => {
-		// 		this.$refs.vuetable.refresh()
-		// 		this.$toast.success('transaction was successfully deleted', {
-		// 			hideProgressBar: true,
-		// 		})
-		// 	}).catch((e) => {
-		// 		if (e)
-		// 			console.log('fail')
-		// 	})
-		// },
+		confirmDelete(categoryId) {
+			this.$refs.deleteDialog.show({
+				confirmAction() {
+					return this.$axios.$delete(`/admin/categories/${categoryId}`)
+				}
+			}).then(() => {
+				this.$refs.vuetable.refresh()
+				this.$toast.success('category was successfully deleted', {
+					hideProgressBar: true,
+				})
+			}).catch((rejected) => {
+				if (rejected) {
+					if (this.$refs.deleteDialog.error.response.status === 409)
+						this.$toast.error(`the category you wish to delete has transactions, if you wish to remove this category you need to remove its transaction/s first`, {
+							hideProgressBar: true
+						})
+					else
+						this.$toast.error(`something went wrong. could not delete category`, {
+							hideProgressBar: true
+						})
+				}
+			})
+		},
 	}
 }
 </script>
