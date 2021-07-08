@@ -19,8 +19,6 @@
 											   :selected="perPageSelected"
 											   @perPageChanged="setPerPage"
 							/>
-							<!--							<transactions-table-filter @filterChanged="setFilter"/>-->
-							<!--							<transactions-table-search @searchUpdated="setSearch"/>-->
 						</div>
 					</div>
 					<vuetable ref="vuetable"
@@ -37,6 +35,7 @@
 						<template slot="actions" slot-scope="props">
 							<button
 								class="bg-blue-400 rounded-md text-gray-900 hover:bg-blue-500 focus:outline-none"
+								@click.prevent="showModal(props.rowData)"
 							>
 								<font-awesome-layers class="fa-fw">
 									<font-awesome-icon icon="pen"/>
@@ -64,11 +63,11 @@
 			</div>
 		</div>
 
-		<modal-category :transaction="selectedCategory"
-						   :show="modalOpen"
-						   :readonly="modalReadOnly"
-						   @close="modalOpen = false"
-						   @submitted="formSubmitted"
+		<modal-category :category="selectedCategory"
+						:show="modalOpen"
+						:readonly="modalReadOnly"
+						@close="modalOpen = false"
+						@submit_success="submitFormSuccess"
 		/>
 
 		<!--		<modal-confirm @close="confirmOpen = false"-->
@@ -84,12 +83,9 @@ import VuetablePagination from "@/components/VuetablePagination";
 import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
 import TableIcon from "@/components/transactions/TableIcon";
 import TableName from "@/components/categories/TableName";
-// import TableAmount from "@/components/transactions/TableAmount";
-// import {DateTime} from 'luxon'
 
 Vue.component('table-icon', TableIcon)
 Vue.component('table-name', TableName)
-// Vue.component('table-amount', TableAmount)
 
 export default {
 	middleware: 'admin',
@@ -158,59 +154,6 @@ export default {
 				}
 			],
 
-			// fields: [
-			// 	{
-			// 		name: 'id',
-			// 		title: 'ID',
-			// 		titleClass: 'text-center text-sm lg:text-md',
-			// 		dataClass: 'text-center text-sm lg:text-md',
-			// 		sortField: 'id'
-			// 	},
-			// 	{
-			// 		name: 'description',
-			// 		title: 'Description',
-			// 		titleClass: 'hidden lg:table-cell text-xs lg:text-sm',
-			// 		dataClass: 'hidden lg:table-cell text-left text-sm lg:text-md'
-			// 	},
-			// 	{
-			// 		name: '__component:table-icon',
-			// 		title: '',
-			// 		dataClass: 'text-center text-sm lg:text-md'
-			// 	},
-			// 	{
-			// 		name: 'category_name',
-			// 		title: 'Category',
-			// 		titleClass: 'hidden sm:table-cell text-xs lg:text-sm',
-			// 		dataClass: 'hidden sm:table-cell text-center text-sm lg:text-md'
-			// 	},
-			// 	{
-			// 		name: '__component:table-amount',
-			// 		title: 'Amount',
-			// 		sortField: 'amount',
-			// 		titleClass: 'text-xs lg:text-sm',
-			// 		dataClass: 'text-right text-sm lg:text-md'
-			// 	},
-			// 	{
-			// 		title: 'By',
-			// 		name: 'admin_username',
-			// 		titleClass: 'hidden md:table-cell text-xs lg:text-sm',
-			// 		dataClass: 'hidden md:table-cell text-center text-xs lg:text-sm',
-			// 	},
-			// 	{
-			// 		name: 'date',
-			// 		titleClass: 'hidden sm:table-cell text-xs lg:text-sm',
-			// 		dataClass: 'hidden sm:table-cell text-center text-sm lg:text-md',
-			// 		sortField: 'date',
-			// 		callback: 'toDate'
-			// 	},
-			// 	{
-			// 		name: '__slot:actions',
-			// 		title: 'Actions',
-			// 		titleClass: 'text-center text-xs lg:text-sm',
-			// 		dataClass: 'text-center text-sm lg:text-md'
-			// 	}
-			// ],
-			//
 			sortOrder: [
 				{
 					field: 'id',
@@ -221,27 +164,17 @@ export default {
 	},
 
 	methods: {
-		formSubmitted() {
-			this.modalOpen = false
-			this.$refs.vuetable.refresh()
+		submitFormSuccess(isNew) {
+			let message = isNew ? 'a category was successfully added' : 'a category was successfully updated'
 
-			this.$toast.success('a category was successfully added', {
+			this.$toast.success(message, {
 				hideProgressBar: true,
 			})
+
+			this.modalOpen = false
+			this.$refs.vuetable.refresh()
 		},
-		//
-		// toDate(value) {
-		// 	return DateTime.fromISO(value, {setZone: true}).toLocaleString(DateTime.DATE_MED)
-		// },
-		//
-		// toCurrency(value) {
-		// 	return (value / 10).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})
-		// },
-		//
-		// formatType(value) {
-		// 	return (value === 'income' ? `<span class="text-green-400">income</span>` : `<span class="text-red-400">expense</span>`)
-		// },
-		//
+
 		onPaginationData(paginationData) {
 			this.$refs.pagination.setPaginationData(paginationData)
 			this.$refs.paginationInfo.setPaginationData(paginationData)
@@ -257,20 +190,9 @@ export default {
 				this.$refs.vuetable.refresh()
 			})
 		},
-		//
-		// setFilter(option) {
-		// 	this.moreParams.filter = option
-		// 	this.$nextTick(() => this.$refs.vuetable.refresh())
-		// },
-		//
-		// setSearch(text) {
-		// 	this.moreParams.search = text
-		// 	this.$nextTick(() => this.$refs.vuetable.refresh())
-		// },
 
-		showModal(transaction, readonly = false) {
-			this.selectedTransaction = transaction
-			// this.modalReadOnly = readonly
+		showModal(category) {
+			this.selectedCategory = category
 			this.modalOpen = true
 		},
 

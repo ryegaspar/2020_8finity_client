@@ -266,13 +266,15 @@ export default {
 
 		async submitForm() {
 			try {
-				if (this.isNew)
+				if (this.isNew) {
 					await this.$axios.$post('/admin/categories', this.form)
-				else
-					// await this.$axios.$patch(`/admin/transactions/${this.transaction.id}`, this.form)
+					this.$emit('submit_success', true)
+				} else {
+					await this.$axios.$patch(`/admin/categories/${this.category.id}`, this.form)
+					this.$emit('submit_success', false)
+				}
 
 				this.form.onSuccess()
-				this.$emit('submitted')
 			} catch (e) {
 				if (parseInt(e.response.status) === 422) {
 					this.form.onFail(e.response)
@@ -286,14 +288,11 @@ export default {
 			if (this.show) {
 				this.form.reset()
 
-				// if (!this.isNew) {
-				// 	this.form.description = this.transaction.description
-				// 	this.form.type = this.transaction.category_type === 'income' ? true : false
-				// 	this.form.category_id = this.transaction.category_id
-				// 	this.form.amount = (this.transaction.amount / 100)
-				// 	this.form.date = this.transaction.date
-				// 	this.form.notes = this.transaction.notes
-				// }
+				if (!this.isNew) {
+					this.form.type = this.category.type === 'income' ? 'in' : 'out'
+					this.form.name = this.category.name
+					this.form.icon = this.category.icon
+				}
 
 				this.$nextTick(() => {
 					this.$refs.name.focus()
