@@ -87,6 +87,8 @@
 
 		<modal-confirm @close="confirmOpen = false"
 					   ref="deleteDialog"
+					   title="Delete Transaction"
+					   message="Are you sure you want to delete this transaction? This action cannot be undone"
 		/>
 	</div>
 </template>
@@ -94,10 +96,10 @@
 <script>
 import Vue from 'vue'
 import Vuetable from 'vuetable-2'
-import VuetablePagination from "@/components/VuetablePagination";
+import VuetablePagination from "@/components/VuetablePagination"
 import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
-import TableIcon from "@/components/transactions/TableIcon";
-import TableAmount from "@/components/transactions/TableAmount";
+import TableIcon from "@/components/transactions/TableIcon"
+import TableAmount from "@/components/transactions/TableAmount"
 import {DateTime} from 'luxon'
 
 Vue.component('table-icon', TableIcon)
@@ -261,8 +263,12 @@ export default {
 					hideProgressBar: true,
 				})
 			}).catch((e) => {
-				if (e)
-					console.log('fail')
+				if (e) {
+					if (this.$refs.deleteDialog.error.response.status === 403)
+						this.$toast.error(`cannot delete transaction, you do not own the transaction.`, {
+							hideProgressBar: true
+						})
+				}
 			})
 		},
 	}
