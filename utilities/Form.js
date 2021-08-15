@@ -33,8 +33,7 @@ export default class Form {
 		this.reset()
 	}
 
-	onFail(errors) {
-		if (errors.data.length)
-			this.errors.record(errors.data.errors)
+	onFail(e) {
+		this.errors.record(e.errors)
 	}
 }

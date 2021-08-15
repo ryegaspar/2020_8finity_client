@@ -278,7 +278,13 @@ export default {
 				this.$emit('submitted')
 			} catch (e) {
 				if (parseInt(e.response.status) === 422) {
-					this.form.onFail(e.response)
+					this.form.onFail(e.response.data)
+				}
+				if (parseInt(e.response.status) === 403) {
+					this.$emit('close')
+					this.$toast.error(`cannot update transaction, you do not own the transaction.`, {
+						hideProgressBar: true
+					})
 				}
 			}
 		}
