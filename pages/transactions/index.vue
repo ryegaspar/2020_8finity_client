@@ -82,7 +82,7 @@
 						   :show="modalOpen"
 						   :readonly="modalReadOnly"
 						   @close="modalOpen = false"
-						   @submitted="formSubmitted"
+						   @submit_success="submitFormSuccess"
 		/>
 
 		<modal-confirm @close="confirmOpen = false"
@@ -203,7 +203,13 @@ export default {
 	},
 
 	methods: {
-		formSubmitted() {
+		submitFormSuccess(isNew) {
+			let message = isNew ? 'successfully added transaction' : 'successfully updated transaction'
+
+			this.$toast.success(message, {
+				hideProgressBar: true,
+			})
+
 			this.modalOpen = false
 			this.$refs.vuetable.refresh()
 		},

@@ -150,7 +150,7 @@
 							<div class="col-span-6 block text-sm font-medium text-gray-500"
 								 v-if="this.readonly"
 							>
-								{{ 'only ' }}<i>{{ transaction.admin_username }}</i>{{ ' can modify this transaction'}}
+								{{ 'only ' }}<i>{{ transaction.admin_username }}</i>{{ ' can modify this transaction' }}
 							</div>
 						</div>
 						<div class="mt-6 pt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
@@ -158,7 +158,7 @@
 								<button type="submit"
 										class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:col-start-2 sm:text-sm"
 										v-promise-btn
-										@click.prevent="submit"
+										@click.prevent="submitForm"
 								>
 									{{ (isNew ? 'Add' : 'Update') }}
 								</button>
@@ -188,7 +188,7 @@
 
 <script>
 import {mapGetters, mapActions} from 'vuex'
-import Modal from "~/components/modal/Modal";
+import Modal from "~/components/modal/Modal"
 import {Datetime} from 'vue-datetime'
 import {DateTime} from 'luxon'
 import Form from "~/utilities/Form"
@@ -267,15 +267,17 @@ export default {
 			getCategories: 'categories/getCategories'
 		}),
 
-		async submit() {
+		async submitForm() {
 			try {
-				if (this.isNew)
+				if (this.isNew) {
 					await this.$axios.$post('/admin/transactions', this.form)
-				else
+					this.$emit('submit_success', true)
+				} else {
 					await this.$axios.$patch(`/admin/transactions/${this.transaction.id}`, this.form)
+					this.$emit('submit_success', false)
+				}
 
 				this.form.onSuccess()
-				this.$emit('submitted')
 			} catch (e) {
 				if (parseInt(e.response.status) === 422) {
 					this.form.onFail(e.response.data)
