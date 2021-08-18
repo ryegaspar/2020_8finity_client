@@ -277,7 +277,7 @@ export default {
 				this.form.onSuccess()
 			} catch (e) {
 				if (parseInt(e.response.status) === 422) {
-					this.form.onFail(e.response)
+					this.form.onFail(e.response.data)
 				}
 			}
 		}

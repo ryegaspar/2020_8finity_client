@@ -173,7 +173,7 @@ export default {
 
 	methods: {
 		submitFormSuccess(isNew) {
-			let message = isNew ? 'a category was successfully added' : 'a category was successfully updated'
+			let message = isNew ? 'successfully added category' : 'successfully updated category'
 
 			this.$toast.success(message, {
 				hideProgressBar: true,
