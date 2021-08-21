@@ -50,9 +50,6 @@
 <script>
 export default {
 	props: {
-		transaction: {
-			type: Object
-		},
 		show: {
 			required: true,
 			type: Boolean

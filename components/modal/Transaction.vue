@@ -1,6 +1,6 @@
 <template>
 	<modal :show="show"
-		   @close="$emit('close')"
+		   @close="closeModal"
 	>
 		<div>
 			<div class="mt-1">
@@ -164,7 +164,7 @@
 								</button>
 								<button type="button"
 										class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:col-start-1 sm:text-sm"
-										@click.prevent="$emit('close')"
+										@click.prevent="closeModal"
 								>
 									Cancel
 								</button>
@@ -173,7 +173,7 @@
 								<div class="hidden"></div>
 								<button type="button"
 										class="w-full justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 col-span-2"
-										v-on:click="$emit('close')"
+										v-on:click="closeModal"
 								>
 									Close
 								</button>
@@ -223,7 +223,8 @@ export default {
 				notes: ''
 			}),
 
-			transaction_admin: ''
+			transaction_admin: '',
+			isLoading: false
 		}
 	},
 
@@ -268,6 +269,8 @@ export default {
 		}),
 
 		async submitForm() {
+			this.isLoading = true
+
 			try {
 				if (this.isNew) {
 					await this.$axios.$post('/admin/transactions', this.form)
@@ -277,8 +280,10 @@ export default {
 					this.$emit('submit_success', false)
 				}
 
+				this.isLoading = false
 				this.form.onSuccess()
 			} catch (e) {
+				this.isLoading = false
 				if (parseInt(e.response.status) === 422) {
 					this.form.onFail(e.response.data)
 				}
@@ -289,6 +294,11 @@ export default {
 					})
 				}
 			}
+		},
+
+		closeModal() {
+			if (!this.isLoading)
+				this.$emit('close')
 		}
 	},
 

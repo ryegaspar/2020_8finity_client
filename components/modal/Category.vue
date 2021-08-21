@@ -1,6 +1,6 @@
 <template>
 	<modal :show="show"
-		   @close="$emit('close')"
+		   @close="closeModal"
 	>
 		<div>
 			<div class="mt-1">
@@ -88,7 +88,7 @@
 							</button>
 							<button type="button"
 									class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:col-start-1 sm:text-sm"
-									@click.prevent="$emit('close')"
+									@click.prevent="closeModal"
 							>
 								Cancel
 							</button>
@@ -241,7 +241,9 @@ export default {
 				'user',
 				'user-friends',
 				'wrench'
-			]
+			],
+
+			isLoading: false
 		}
 	},
 
@@ -265,6 +267,8 @@ export default {
 		},
 
 		async submitForm() {
+			this.isLoading = true
+
 			try {
 				if (this.isNew) {
 					await this.$axios.$post('/admin/categories', this.form)
@@ -274,12 +278,19 @@ export default {
 					this.$emit('submit_success', false)
 				}
 
+				this.isLoading = false
 				this.form.onSuccess()
 			} catch (e) {
+				this.isLoading = false
 				if (parseInt(e.response.status) === 422) {
 					this.form.onFail(e.response.data)
 				}
 			}
+		},
+
+		closeModal() {
+			if (!this.isLoading)
+				this.$emit('close')
 		}
 	},
 
