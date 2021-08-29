@@ -55,18 +55,30 @@ export default {
 					url: '/',
 					active: false
 				},
-				'transactions': {
-					name: 'Transactions',
-					icon: 'exchange-alt',
+				'accounting': {
+					name: 'Accounting',
+					icon: 'money-bill-alt',
 					active: false,
 					submenu: [
 						{
+							name: 'Accounts',
+							url: '/accounting/accounts'
+						},
+						{
 							name: 'Transactions',
-							url: '/transactions',
+							url: '/accounting/transactions',
+						},
+						{
+							name: 'Transfers',
+							url: 'accounting/transfers'
+						},
+						{
+							name: 'Bank Checks',
+							url: 'accounting/bank-checks'
 						},
 						{
 							name: 'Categories',
-							url: '/transactions/categories',
+							url: '/accounting/categories',
 						}
 					]
 				},
