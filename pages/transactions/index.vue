@@ -19,7 +19,7 @@
 											   :selected="perPageSelected"
 											   @perPageChanged="setPerPage"
 							/>
-							<transactions-table-filter @filterChanged="setFilter"/>
+							<transactions-table-filter @filterChanged="setType"/>
 							<transactions-table-search @searchUpdated="setSearch"/>
 						</div>
 					</div>
@@ -128,7 +128,7 @@ export default {
 				withCredentials: true,
 			},
 
-			url: `${process.env.BASE_URL}/admin/transactions`,
+			url: `${process.env.BASE_URL}/admin/accounting/transactions`,
 
 			perPageSelected: 50,
 
@@ -242,8 +242,8 @@ export default {
 			})
 		},
 
-		setFilter(option) {
-			this.moreParams.filter = option
+		setType(option) {
+			this.moreParams.type = option
 			this.$nextTick(() => this.$refs.vuetable.refresh())
 		},
 
@@ -261,7 +261,7 @@ export default {
 		confirmDelete(transaction) {
 			this.$refs.deleteDialog.show({
 				confirmAction() {
-					return this.$axios.$delete(`/admin/transactions/${transaction.id}`)
+					return this.$axios.$delete(`/admin/accounting/transactions/${transaction.id}`)
 				}
 			}).then(() => {
 				this.$refs.vuetable.refresh()

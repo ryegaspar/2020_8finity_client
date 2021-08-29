@@ -271,10 +271,10 @@ export default {
 
 			try {
 				if (this.isNew) {
-					await this.$axios.$post('/admin/categories', this.form)
+					await this.$axios.$post('/admin/accounting/categories', this.form)
 					this.$emit('submit_success', true)
 				} else {
-					await this.$axios.$patch(`/admin/categories/${this.category.id}`, this.form)
+					await this.$axios.$patch(`/admin/accounting/categories/${this.category.id}`, this.form)
 					this.$emit('submit_success', false)
 				}
 

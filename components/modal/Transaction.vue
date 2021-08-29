@@ -273,10 +273,10 @@ export default {
 
 			try {
 				if (this.isNew) {
-					await this.$axios.$post('/admin/transactions', this.form)
+					await this.$axios.$post('/admin/accounting/transactions', this.form)
 					this.$emit('submit_success', true)
 				} else {
-					await this.$axios.$patch(`/admin/transactions/${this.transaction.id}`, this.form)
+					await this.$axios.$patch(`/admin/accounting/transactions/${this.transaction.id}`, this.form)
 					this.$emit('submit_success', false)
 				}
 

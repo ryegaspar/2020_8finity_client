@@ -118,7 +118,7 @@ export default {
 				withCredentials: true,
 			},
 
-			url: `${process.env.BASE_URL}/admin/categories`,
+			url: `${process.env.BASE_URL}/admin/accounting/categories`,
 
 			perPageSelected: 50,
 
@@ -207,7 +207,7 @@ export default {
 		confirmDelete(categoryId) {
 			this.$refs.deleteDialog.show({
 				confirmAction() {
-					return this.$axios.$delete(`/admin/categories/${categoryId}`)
+					return this.$axios.$delete(`/admin/accounting/categories/${categoryId}`)
 				}
 			}).then(() => {
 				this.$refs.vuetable.refresh()
