@@ -71,7 +71,6 @@
 
 		<modal-category :category="selectedCategory"
 						:show="modalOpen"
-						:readonly="modalReadOnly"
 						@close="modalOpen = false"
 						@submit_success="submitFormSuccess"
 		/>
@@ -110,9 +109,7 @@ export default {
 		return {
 
 			modalOpen: false,
-			modalReadOnly: false,
 			selectedCategory: {},
-			// confirmOpen: false,
 
 			httpOptions: {
 				withCredentials: true,

@@ -1,15 +1,15 @@
 <template>
 	<div class="px-4 md:px-0 mb-16 mt-4 text-gray-400 leading-normal">
 		<div class="w-full px-3 py-1 sm:py-3">
-<!--			<button-->
-<!--				class="relative bg-gray-900 border border-gray-600 text-gray-600 py-2 px-3 rounded-lg items-center flex justify-between hover:border-blue-600 hover:text-blue-600 focus:outline-none"-->
-<!--				@click.prevent="showModal({})"-->
-<!--			>-->
-<!--				<font-awesome-layers class="fa-fw mr-1">-->
-<!--					<font-awesome-icon icon="plus-circle"/>-->
-<!--				</font-awesome-layers>-->
-<!--				New-->
-<!--			</button>-->
+			<button
+				class="relative bg-gray-900 border border-gray-600 text-gray-600 py-2 px-3 rounded-lg items-center flex justify-between hover:border-blue-600 hover:text-blue-600 focus:outline-none"
+				@click.prevent="showModal({})"
+			>
+				<font-awesome-layers class="fa-fw mr-1">
+					<font-awesome-icon icon="plus-circle"/>
+				</font-awesome-layers>
+				New
+			</button>
 
 			<div class="flex flex-col">
 				<div class="mt-8 shadow overflow-hidden sm:rounded-lg">
@@ -49,12 +49,11 @@
 			</div>
 		</div>
 
-<!--		<modal-category :category="selectedCategory"-->
-<!--						:show="modalOpen"-->
-<!--						:readonly="modalReadOnly"-->
-<!--						@close="modalOpen = false"-->
-<!--						@submit_success="submitFormSuccess"-->
-<!--		/>-->
+		<modal-account :account="selectedAccount"
+						:show="modalOpen"
+						@close="modalOpen = false"
+						@submit_success="submitFormSuccess"
+		/>
 
 <!--		<modal-confirm @close="confirmOpen = false"-->
 <!--					   ref="deleteDialog"-->
@@ -79,9 +78,8 @@ export default {
 	data() {
 		return {
 
-			// modalOpen: false,
-			// modalReadOnly: false,
-			// selectedCategory: {},
+			modalOpen: false,
+			selectedAccount: {},
 
 			httpOptions: {
 				withCredentials: true,
@@ -132,38 +130,22 @@ export default {
 	},
 
 	methods: {
-		// submitFormSuccess(isNew) {
-		// 	let message = isNew ? 'successfully added category' : 'successfully updated category'
-		//
-		// 	this.$toast.success(message, {
-		// 		hideProgressBar: true,
-		// 	})
-		//
-		// 	this.modalOpen = false
-		// 	this.$refs.vuetable.refresh()
-		// },
-		//
-		// onPaginationData(paginationData) {
-		// 	this.$refs.pagination.setPaginationData(paginationData)
-		// 	this.$refs.paginationInfo.setPaginationData(paginationData)
-		// },
-		//
-		// onChangePage(page) {
-		// 	this.$refs.vuetable.changePage(page)
-		// },
-		//
-		// setPerPage(page) {
-		// 	this.perPageSelected = page
-		// 	this.$nextTick(() => {
-		// 		this.$refs.vuetable.refresh()
-		// 	})
-		// },
-		//
-		// showModal(category) {
-		// 	this.selectedCategory = category
-		// 	this.modalOpen = true
-		// },
-		//
+		submitFormSuccess(isNew) {
+			let message = isNew ? 'successfully added account' : 'successfully updated account'
+
+			this.$toast.success(message, {
+				hideProgressBar: true,
+			})
+
+			this.modalOpen = false
+			this.$refs.vuetable.refresh()
+		},
+
+		showModal(account) {
+			this.selectedAccount = account
+			this.modalOpen = true
+		},
+
 		// confirmDelete(categoryId) {
 		// 	this.$refs.deleteDialog.show({
 		// 		confirmAction() {

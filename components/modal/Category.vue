@@ -101,7 +101,6 @@
 </template>
 
 <script>
-import {mapGetters, mapActions} from 'vuex'
 import Modal from "~/components/modal/Modal";
 import Form from "~/utilities/Form"
 
@@ -317,10 +316,6 @@ export default {
 </script>
 
 <style>
-.vdatetime-input {
-	@apply w-full px-2 py-1 placeholder-gray-300 border border-gray-300  text-gray-600 rounded-md focus:outline-none focus:ring-4 focus:ring-blue-700 text-right bg-white
-}
-
 .selected_icon {
 	@apply text-green-500 border-green-500
 }
