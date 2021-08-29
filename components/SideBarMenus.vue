@@ -62,7 +62,7 @@ export default {
 					submenu: [
 						{
 							name: 'Accounts',
-							url: '/accounting/accounts'
+							url: '/accounting/'
 						},
 						{
 							name: 'Transactions',
