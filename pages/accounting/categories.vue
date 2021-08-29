@@ -230,25 +230,3 @@ export default {
 	}
 }
 </script>
-
-<style>
-.vuetable {
-	@apply min-w-full static border-gray-900
-}
-
-.vuetable > thead > tr > th {
-	@apply px-5 py-2 bg-gray-900 font-medium text-gray-400 uppercase tracking-wider
-}
-
-.vuetable-body > tr > td {
-	@apply px-4 py-2 font-medium text-gray-300
-}
-
-.vuetable-body > tr:nth-child(odd) {
-	@apply bg-gray-700
-}
-
-.vuetable-body > tr:nth-child(even) {
-	@apply bg-gray-800
-}
-</style>
