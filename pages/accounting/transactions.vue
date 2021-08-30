@@ -162,6 +162,12 @@ export default {
 					dataClass: 'hidden sm:table-cell text-center text-sm lg:text-md'
 				},
 				{
+					name: 'account_name',
+					title: 'Account',
+					titleClass: 'hidden sm:table-cell text-xs lg:text-sm',
+					dataClass: 'hidden sm:table-cell text-center text-sm lg:text-md'
+				},
+				{
 					name: '__component:table-amount',
 					title: 'Amount',
 					sortField: 'amount',
@@ -171,13 +177,13 @@ export default {
 				{
 					title: 'By',
 					name: 'admin_username',
-					titleClass: 'hidden md:table-cell text-xs lg:text-sm',
-					dataClass: 'hidden md:table-cell text-center text-xs lg:text-sm',
+					titleClass: 'hidden lg:table-cell text-xs lg:text-sm',
+					dataClass: 'hidden lg:table-cell text-left text-sm lg:text-md',
 				},
 				{
 					name: 'date',
-					titleClass: 'hidden sm:table-cell text-xs lg:text-sm',
-					dataClass: 'hidden sm:table-cell text-center text-sm lg:text-md',
+					titleClass: 'hidden md:table-cell text-xs lg:text-sm',
+					dataClass: 'hidden md:table-cell text-center text-sm lg:text-md',
 					sortField: 'date',
 					callback: 'toDate'
 				},

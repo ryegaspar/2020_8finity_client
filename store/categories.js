@@ -1,5 +1,3 @@
-import {chain} from 'lodash'
-
 export const state = () => ({
 	categories: [],
 })

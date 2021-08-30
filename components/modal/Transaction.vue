@@ -62,6 +62,31 @@
 							</div>
 
 							<div class="sm:col-span-6">
+								<label for="account"
+									   class="block text-sm font-medium text-gray-500">
+									Account
+								</label>
+								<div class="mt-1">
+									<select id="account"
+											name="account"
+											class="w-full px-2 py-1 border border-gray-300 text-gray-700 rounded-md focus:outline-none focus:ring-4 focus:ring-blue-700"
+											v-model="form.account_id"
+											:disabled="this.readonly"
+									>
+										<option value="0"></option>
+										<option v-for="account in accounts" :value="account.id">
+											{{ account.name }}
+										</option>
+									</select>
+									<div class="block text-red-500 text-sm mt-1 -mb-2"
+										 v-show="form.errors.has('account_id')"
+									>
+										{{ form.errors.get('account_id') }}
+									</div>
+								</div>
+							</div>
+
+							<div class="sm:col-span-6">
 								<label for="category"
 									   class="block text-sm font-medium text-gray-500">
 									Category
@@ -218,6 +243,7 @@ export default {
 				description: '',
 				type: true,
 				category_id: null,
+				account_id: 1,
 				amount: 0,
 				date: DateTime.local().toISODate(),
 				notes: ''
@@ -230,6 +256,7 @@ export default {
 
 	mounted() {
 		this.getCategories()
+		this.getAccounts()
 	},
 
 	computed: {
@@ -239,7 +266,8 @@ export default {
 
 		...mapGetters({
 			incomeCategory: 'categories/incomeCategory',
-			expenseCategory: 'categories/expenseCategory'
+			expenseCategory: 'categories/expenseCategory',
+			accounts: 'accounts/accounts'
 		}),
 
 		selectedTypeCategories() {
@@ -265,7 +293,8 @@ export default {
 		},
 
 		...mapActions({
-			getCategories: 'categories/getCategories'
+			getCategories: 'categories/getCategories',
+			getAccounts: 'accounts/getAccounts'
 		}),
 
 		async submitForm() {
