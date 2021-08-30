@@ -36,8 +36,8 @@
 								</button>
 								<button
 									class="bg-red-400 rounded-md text-gray-900 ml-2 hover:bg-red-500 focus:outline-none"
+									@click.prevent="confirmDelete(props.rowData.id)"
 								>
-									<!--@click.prevent="confirmDelete(props.rowData.id)"-->
 									<font-awesome-layers class="fa-fw">
 										<font-awesome-icon icon="trash"/>
 									</font-awesome-layers>
@@ -55,11 +55,11 @@
 						@submit_success="submitFormSuccess"
 		/>
 
-<!--		<modal-confirm @close="confirmOpen = false"-->
-<!--					   ref="deleteDialog"-->
-<!--					   title="Delete Category"-->
-<!--					   message="Are you sure you want to delete this category? This action cannot be undone"-->
-<!--		/>-->
+		<modal-confirm @close="confirmOpen = false"
+					   ref="deleteDialog"
+					   title="Delete Account"
+					   message="Are you sure you want to delete this account? This action cannot be undone"
+		/>
 	</div>
 </template>
 
@@ -98,8 +98,8 @@ export default {
 				{
 					name: 'name',
 					title: 'Name',
-					titleClass: 'hidden sm:table-cell text-center text-sm lg:text-md',
-					dataClass: 'hidden sm:table-cell text-center text-sm lg:text-md',
+					titleClass: 'text-center text-sm lg:text-md',
+					dataClass: 'text-left text-sm lg:text-md lg:text-center',
 					sortField: 'name',
 				},
 				{
@@ -146,29 +146,30 @@ export default {
 			this.modalOpen = true
 		},
 
-		// confirmDelete(categoryId) {
-		// 	this.$refs.deleteDialog.show({
-		// 		confirmAction() {
-		// 			return this.$axios.$delete(`/admin/accounting/categories/${categoryId}`)
-		// 		}
-		// 	}).then(() => {
-		// 		this.$refs.vuetable.refresh()
-		// 		this.$toast.success('category was successfully deleted', {
-		// 			hideProgressBar: true,
-		// 		})
-		// 	}).catch((rejected) => {
-		// 		if (rejected) {
-		// 			if (this.$refs.deleteDialog.error.response.status === 409)
-		// 				this.$toast.error(`the category you wish to delete has transactions, if you wish to remove this category you need to remove its transaction/s first`, {
-		// 					hideProgressBar: true
-		// 				})
-		// 			else
-		// 				this.$toast.error(`something went wrong. could not delete category`, {
-		// 					hideProgressBar: true
-		// 				})
-		// 		}
-		// 	})
-		// },
+		confirmDelete(accountId) {
+			this.$refs.deleteDialog.show({
+				confirmAction() {
+					return this.$axios.$delete(`/admin/accounting/accounts/${accountId}`)
+				}
+			}).then(() => {
+				this.$refs.vuetable.refresh()
+				this.$toast.success('account was successfully deleted', {
+					hideProgressBar: true,
+				})
+			}).catch((rejected) => {
+				if (rejected) {
+					if (this.$refs.deleteDialog.error.response.status === 409)
+						console.log('hello')
+						// this.$toast.error(`the category you wish to delete has transactions, if you wish to remove this category you need to remove its transaction/s first`, {
+						// 	hideProgressBar: true
+						// })
+					else
+						this.$toast.error(`something went wrong. could not delete account`, {
+							hideProgressBar: true
+						})
+				}
+			})
+		},
 	}
 }
 </script>
