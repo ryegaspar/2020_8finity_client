@@ -91,7 +91,7 @@ export default {
 		},
 
 		isNew() {
-			return (_.isEmpty(this.category))
+			return (_.isEmpty(this.account))
 		}
 	},
 

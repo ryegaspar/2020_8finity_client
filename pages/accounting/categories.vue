@@ -214,7 +214,7 @@ export default {
 			}).catch((rejected) => {
 				if (rejected) {
 					if (this.$refs.deleteDialog.error.response.status === 409)
-						this.$toast.error(`the category you wish to delete has transactions, if you wish to remove this category you need to remove its transaction/s first`, {
+						this.$toast.error(`the category you wish to delete may still have transaction/s, delete transactions with the category first`, {
 							hideProgressBar: true
 						})
 					else

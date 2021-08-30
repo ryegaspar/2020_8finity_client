@@ -26,22 +26,22 @@
 								  slot-scope="props"
 						>
 							<template>
-<!--								<button-->
-<!--									class="bg-blue-400 rounded-md text-gray-900 hover:bg-blue-500 focus:outline-none"-->
-<!--									@click.prevent="showModal(props.rowData)"-->
-<!--								>-->
-<!--									<font-awesome-layers class="fa-fw">-->
-<!--										<font-awesome-icon icon="pen"/>-->
-<!--									</font-awesome-layers>-->
-<!--								</button>-->
-<!--								<button-->
-<!--									class="bg-red-400 rounded-md text-gray-900 ml-2 hover:bg-red-500 focus:outline-none"-->
-<!--									@click.prevent="confirmDelete(props.rowData.id)"-->
-<!--								>-->
-<!--									<font-awesome-layers class="fa-fw">-->
-<!--										<font-awesome-icon icon="trash"/>-->
-<!--									</font-awesome-layers>-->
-<!--								</button>-->
+								<button
+									class="bg-blue-400 rounded-md text-gray-900 hover:bg-blue-500 focus:outline-none"
+									@click.prevent="showModal(props.rowData)"
+								>
+									<font-awesome-layers class="fa-fw">
+										<font-awesome-icon icon="pen"/>
+									</font-awesome-layers>
+								</button>
+								<button
+									class="bg-red-400 rounded-md text-gray-900 ml-2 hover:bg-red-500 focus:outline-none"
+								>
+									<!--@click.prevent="confirmDelete(props.rowData.id)"-->
+									<font-awesome-layers class="fa-fw">
+										<font-awesome-icon icon="trash"/>
+									</font-awesome-layers>
+								</button>
 							</template>
 						</template>
 					</vuetable>
