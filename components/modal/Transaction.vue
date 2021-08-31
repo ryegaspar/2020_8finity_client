@@ -340,6 +340,7 @@ export default {
 					this.form.description = this.transaction.description
 					this.form.type = this.transaction.category_type === 'income' ? true : false
 					this.form.category_id = this.transaction.category_id
+					this.form.account_id = this.transaction.account_id
 					this.form.amount = (this.transaction.amount / 100)
 					this.form.date = this.transaction.date
 					this.form.notes = this.transaction.notes

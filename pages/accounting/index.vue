@@ -103,11 +103,20 @@ export default {
 					sortField: 'name',
 				},
 				{
-					name: 'amount',
-					title: 'Amount',
+					name: 'is_active',
+					title: 'Status',
 					titleClass: 'text-center text-sm lg:text-md',
 					dataClass: 'text-left text-sm lg:text-md lg:text-center',
-					sortField: 'amount',
+					callback: function(value) {
+						return (value ? `<span class="text-green-500">active</span>` : `<span class="text-red-500">inactive</span>`)
+					}
+				},
+				{
+					name: 'balance',
+					title: 'Balance',
+					titleClass: 'text-center text-sm lg:text-md',
+					dataClass: 'text-left text-sm lg:text-md lg:text-center',
+					sortField: 'balance',
 					callback: function(value) {
 						return (value/100).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})
 					}
