@@ -58,6 +58,11 @@
 										</span>
 									</span>
 								</div>
+								<div class="block text-red-500 text-sm mt-1 -mb-2"
+									 v-show="form.errors.has('is_active')"
+								>
+									{{ form.errors.get('is_active') }}
+								</div>
 							</div>
 
 						</div>
