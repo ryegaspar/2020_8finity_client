@@ -31,7 +31,7 @@ export const getters = {
 					.groupBy(result => DateTime.fromISO(result.date, {setZone: true}).toISODate())
 					.map((o, id) => ({
 						date: id,
-						amount: sumBy(o, 'amount') / 100
+						amount: Math.abs(sumBy(o, 'amount') / 100)
 					}))
 					.sort((a, b) => new Date(b.date) - new Date(a.date))
 					.slice(0, 50)
@@ -50,7 +50,7 @@ export const getters = {
 					.groupBy(result => weekNumberSun(new Date(result.date)))
 					.map((o, id) => ({
 						week: parseInt(id),
-						amount: sumBy(o, 'amount') / 100
+						amount: Math.abs(sumBy(o, 'amount') / 100)
 					}))
 					.sort((a, b) => b - a)
 					.slice(0, 50)
@@ -69,7 +69,7 @@ export const getters = {
 					.groupBy(result => DateTime.fromISO(result.date, {setZone: true}).toFormat("yyyy-MM-01"))
 					.map((o, id) => ({
 						monthYear: id,
-						amount: sumBy(o, 'amount') / 100
+						amount: Math.abs(sumBy(o, 'amount') / 100)
 					}))
 					.sort((a, b) => new Date(b.monthYear) - new Date(a.monthYear))
 					.slice(0, 50)
@@ -92,7 +92,7 @@ export const getters = {
 			.groupBy((o) => o['category_name'])
 			.map((o, id) => ({
 				categoryName: id,
-				amount: sumBy(o, 'amount') / 100
+				amount: Math.abs(sumBy(o, 'amount') / 100)
 			}))
 			.sort((a, b) => b.amount - a.amount)
 			.slice(0, 10)
@@ -111,7 +111,7 @@ export const getters = {
 			.groupBy(result => DateTime.fromISO(result.date, {setZone: true}).toFormat("yyyy-MM-01"))
 			.map((o, id) => ({
 				monthYear: id,
-				amount: sumBy(o, (o) => o['category_type'] === 'income' ? o.amount : parseInt(o.amount) * -1) / 100
+				amount: sumBy(o, (o) => parseInt(o.amount)) / 100
 			}))
 			.sort((a, b) => new Date(b.monthYear) - new Date(a.monthYear))
 			.reverse()

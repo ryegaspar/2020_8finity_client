@@ -13,8 +13,7 @@
 					</div>
 					<div class="flex-1 text-right md:text-center">
 						<h5 class="font-bold uppercase text-gray-400">Total Revenue</h5>
-						<h3 class="font-bold text-xl lg:text-3xl"
-							:class="[summaryTotal >= 0 ? 'text-gray-600' : 'text-red-800']"
+						<h3 class="font-bold text-xl lg:text-3xl text-gray-600"
 						>
 							{{ summaryTotal < 0 ? '-' : '' }}
 							&#8369;
@@ -40,8 +39,7 @@
 					</div>
 					<div class="flex-1 text-right md:text-center">
 						<h5 class="font-bold uppercase text-gray-400">Income</h5>
-						<h3 class="font-bold text-xl lg:text-3xl"
-							:class="[summaryIncome >= 0 ? 'text-gray-600' : 'text-red-800']"
+						<h3 class="font-bold text-xl lg:text-3xl text-gray-600"
 						>
 							{{ summaryIncome < 0 ? '-' : '' }}
 							&#8369;
@@ -59,7 +57,7 @@
 			<div class="bg-gray-900 border border-gray-800 rounded shadow p-2">
 				<div class="flex flex-row items-center">
 					<div class="flex-shrink pr-4">
-						<div class="rounded p-3 bg-orange-600">
+						<div class="rounded p-3 bg-red-700">
 							<font-awesome-layers class="fa-2x fa-fw">
 								<font-awesome-icon icon="sad-cry"/>
 							</font-awesome-layers>
@@ -67,8 +65,7 @@
 					</div>
 					<div class="flex-1 text-right md:text-center">
 						<h5 class="font-bold uppercase text-gray-400">Expenses</h5>
-						<h3 class="font-bold text-xl lg:text-3xl"
-							:class="[summaryExpense >= 0 ? 'text-gray-600' : 'text-gray-800']"
+						<h3 class="font-bold text-xl lg:text-3xl text-gray-600"
 						>
 							{{ summaryExpense < 0 ? '-' : '' }}
 							&#8369;
@@ -114,8 +111,7 @@ export default {
 
 	filters: {
 		number_format(value) {
-			let v = Math.abs(value)
-			return parseFloat((v / 100).toFixed(2))
+			return parseFloat((value / 100).toFixed(2))
 		},
 	},
 }

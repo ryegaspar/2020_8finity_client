@@ -24,7 +24,7 @@ export const actions = {
 
 		let total = response.data.total.amount
 		let income = response.data.income.amount
-		let expense = response.data.expense.amount
+		let expense = Math.abs(response.data.expense.amount)
 
 		commit('SET_SUMMARY', {total, income, expense})
 	}
