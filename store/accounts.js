@@ -10,7 +10,7 @@ export const getters = {
 
 export const actions = {
 	async getAccounts({commit, rootGetters}) {
-		let response = await this.$axios.$get(`admin/accounting/accounts`)
+		let response = await this.$axios.$get(`admin/accounting/accounts?active`)
 
 		let accounts = response.data
 
