@@ -2,7 +2,7 @@
 	<span
 		:class="{'text-red-400' : rowData.category_type === 'expense', 'text-green-400' : rowData.category_type === 'income' }"
 	>
-		{{ (rowData.amount / 100).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
+		{{ (Math.abs(rowData.amount) / 100).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
 	</span>
 </template>
 

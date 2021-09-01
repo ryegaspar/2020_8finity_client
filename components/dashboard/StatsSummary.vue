@@ -15,7 +15,6 @@
 						<h5 class="font-bold uppercase text-gray-400">Total Revenue</h5>
 						<h3 class="font-bold text-xl lg:text-3xl text-gray-600"
 						>
-							{{ summaryTotal < 0 ? '-' : '' }}
 							&#8369;
 							<i-count-up :endVal="summaryTotal | number_format"
 										:options="options"
@@ -41,7 +40,6 @@
 						<h5 class="font-bold uppercase text-gray-400">Income</h5>
 						<h3 class="font-bold text-xl lg:text-3xl text-gray-600"
 						>
-							{{ summaryIncome < 0 ? '-' : '' }}
 							&#8369;
 							<i-count-up :endVal="summaryIncome | number_format"
 										:options="options"
@@ -67,7 +65,6 @@
 						<h5 class="font-bold uppercase text-gray-400">Expenses</h5>
 						<h3 class="font-bold text-xl lg:text-3xl text-gray-600"
 						>
-							{{ summaryExpense < 0 ? '-' : '' }}
 							&#8369;
 							<i-count-up :endVal="summaryExpense | number_format"
 										:options="options"
