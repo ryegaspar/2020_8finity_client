@@ -86,10 +86,11 @@
 <script>
 import Vue from 'vue'
 import Vuetable from 'vuetable-2'
-import VuetablePagination from "@/components/VuetablePagination";
+import VuetablePagination from "@/components/VuetablePagination"
 import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
-import TableIcon from "@/components/transactions/TableIcon";
-import TableName from "@/components/categories/TableName";
+import TableIcon from "@/components/transactions/TableIcon"
+import TableName from "@/components/categories/TableName"
+import {mapActions} from 'vuex'
 
 Vue.component('table-icon', TableIcon)
 Vue.component('table-name', TableName)
@@ -169,6 +170,10 @@ export default {
 	},
 
 	methods: {
+		...mapActions({
+			getCategories: 'categories/getCategories'
+		}),
+
 		submitFormSuccess(isNew) {
 			let message = isNew ? 'successfully added category' : 'successfully updated category'
 
@@ -204,9 +209,10 @@ export default {
 		confirmDelete(categoryId) {
 			this.$refs.deleteDialog.show({
 				confirmAction() {
-					return this.$axios.$delete(`/admin/accounting/categories/${categoryId}`)
+					return this.$axios.delete(`/admin/accounting/categories/${categoryId}`)
 				}
 			}).then(() => {
+				this.getCategories()
 				this.$refs.vuetable.refresh()
 				this.$toast.success('category was successfully deleted', {
 					hideProgressBar: true,

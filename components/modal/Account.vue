@@ -90,8 +90,9 @@
 </template>
 
 <script>
-import Modal from "~/components/modal/Modal";
+import Modal from "~/components/modal/Modal"
 import Form from "~/utilities/Form"
+import {mapActions} from 'vuex'
 
 export default {
 	props: {
@@ -130,8 +131,11 @@ export default {
 	},
 
 	methods: {
+		...mapActions({
+			getAccounts: 'accounts/getAccounts'
+		}),
+
 		toggleActive() {
-			// if (this.readonly) return
 			this.form.is_active = !this.form.is_active
 		},
 
@@ -141,9 +145,13 @@ export default {
 			try {
 				if (this.isNew) {
 					await this.$axios.$post('/admin/accounting/accounts', this.form)
+					await this.getAccounts()
+
 					this.$emit('submit_success', true)
 				} else {
 					await this.$axios.$patch(`/admin/accounting/accounts/${this.account.id}`, this.form)
+					await this.getAccounts()
+
 					this.$emit('submit_success', false)
 				}
 

@@ -101,8 +101,9 @@
 </template>
 
 <script>
-import Modal from "~/components/modal/Modal";
+import Modal from "~/components/modal/Modal"
 import Form from "~/utilities/Form"
+import {mapActions} from 'vuex'
 
 export default {
 	props: {
@@ -257,6 +258,10 @@ export default {
 	},
 
 	methods: {
+		...mapActions({
+			getCategories: 'categories/getCategories',
+		}),
+
 		toggleType() {
 			this.form.type = this.form.type === 'in' ? 'out' : 'in'
 		},
@@ -271,9 +276,13 @@ export default {
 			try {
 				if (this.isNew) {
 					await this.$axios.$post('/admin/accounting/categories', this.form)
+					await this.getCategories()
+
 					this.$emit('submit_success', true)
 				} else {
 					await this.$axios.$patch(`/admin/accounting/categories/${this.category.id}`, this.form)
+					await this.getCategories()
+
 					this.$emit('submit_success', false)
 				}
 
@@ -307,7 +316,7 @@ export default {
 				this.$nextTick(() => {
 					this.$refs.name.focus()
 					const lastComment = document.querySelector('.selected_icon')
-					lastComment.scrollIntoView({ behavior: 'smooth'})
+					lastComment.scrollIntoView({behavior: 'smooth'})
 				})
 			}
 		},

@@ -23,7 +23,7 @@ export const actions = {
 		let categories = response.data
 
 		commit('SET_CATEGORIES', {categories})
-	}
+	},
 }
 
 export const mutations = {

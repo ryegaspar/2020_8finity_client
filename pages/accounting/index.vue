@@ -50,9 +50,9 @@
 		</div>
 
 		<modal-account :account="selectedAccount"
-						:show="modalOpen"
-						@close="modalOpen = false"
-						@submit_success="submitFormSuccess"
+					   :show="modalOpen"
+					   @close="modalOpen = false"
+					   @submit_success="submitFormSuccess"
 		/>
 
 		<modal-confirm @close="confirmOpen = false"
@@ -65,6 +65,7 @@
 
 <script>
 import Vuetable from 'vuetable-2'
+import {mapActions} from 'vuex'
 
 export default {
 	middleware: 'admin',
@@ -107,7 +108,7 @@ export default {
 					title: 'Status',
 					titleClass: 'text-center text-sm lg:text-md',
 					dataClass: 'text-left text-sm lg:text-md lg:text-center',
-					callback: function(value) {
+					callback: function (value) {
 						return (value ? `<span class="text-green-500">active</span>` : `<span class="text-red-500">inactive</span>`)
 					}
 				},
@@ -117,8 +118,11 @@ export default {
 					titleClass: 'text-center text-sm lg:text-md',
 					dataClass: 'text-left text-sm lg:text-md lg:text-center',
 					sortField: 'balance',
-					callback: function(value) {
-						return (value/100).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})
+					callback: function (value) {
+						return (value / 100).toLocaleString('en-US', {
+							minimumFractionDigits: 2,
+							maximumFractionDigits: 2
+						})
 					}
 				},
 				{
@@ -139,6 +143,10 @@ export default {
 	},
 
 	methods: {
+		...mapActions({
+			getAccounts: 'accounts/getAccounts'
+		}),
+
 		submitFormSuccess(isNew) {
 			let message = isNew ? 'successfully added account' : 'successfully updated account'
 
@@ -161,6 +169,7 @@ export default {
 					return this.$axios.$delete(`/admin/accounting/accounts/${accountId}`)
 				}
 			}).then(() => {
+				this.getAccounts()
 				this.$refs.vuetable.refresh()
 				this.$toast.success('account was successfully deleted', {
 					hideProgressBar: true,
@@ -171,7 +180,7 @@ export default {
 						console.log('hello')
 						// this.$toast.error(`the category you wish to delete has transactions, if you wish to remove this category you need to remove its transaction/s first`, {
 						// 	hideProgressBar: true
-						// })
+					// })
 					else
 						this.$toast.error(`something went wrong. could not delete account`, {
 							hideProgressBar: true
