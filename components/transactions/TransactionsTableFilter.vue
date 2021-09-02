@@ -19,6 +19,7 @@
 				<a href="#"
 				   class="text-left py-2 px-2 block leading-5 hover:text-gray-900 hover:bg-gray-400 focus:outline-none"
 				   v-for="option in options"
+				   :key="option"
 				   @click.prevent="setSelected(option)"
 				>
 					{{ option }}

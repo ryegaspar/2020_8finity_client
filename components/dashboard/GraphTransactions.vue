@@ -38,6 +38,7 @@
 								<a href="#"
 								   class="hover:bg-gray-400 py-1 px-2 block hover:text-gray-900"
 								   v-for="menu in selections"
+								   :key="menu"
 								   @click="selectPeriod(menu)"
 								>
 									{{ menu }}

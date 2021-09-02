@@ -74,7 +74,10 @@
 											:disabled="this.readonly"
 									>
 										<option value="0"></option>
-										<option v-for="account in accounts" :value="account.id">
+										<option v-for="account in accounts"
+												:value="account.id"
+												:key="account.id"
+										>
 											{{ account.name }}
 										</option>
 									</select>
@@ -99,7 +102,10 @@
 											:disabled="this.readonly"
 									>
 										<option value="0"></option>
-										<option v-for="category in selectedTypeCategories" :value="category.id">
+										<option v-for="category in selectedTypeCategories"
+												:value="category.id"
+												:key="category.id"
+										>
 											{{ category.name }}
 										</option>
 									</select>

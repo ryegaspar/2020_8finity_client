@@ -66,6 +66,7 @@
 								</label>
 								<div class="mt-2 -mr-2 flex flex-wrap max-h-80 overflow-y-scroll">
 									<div v-for="icon in icons"
+										 :key="icon"
 										 class="border border-gray-700 m-1 p-1 mr-2 hover:cursor-pointer hover:text-blue-500 hover:border-blue-500"
 										 :class="{'selected_icon' : form.icon === icon}"
 										 @click.prevent="setIcon(icon)"

@@ -19,6 +19,7 @@
 				<a href="#"
 				   class="text-center py-2 px-4 block leading-5 hover:text-gray-900 hover:bg-gray-400 focus:outline-none"
 				   v-for="(page, index) in perPageOptions"
+				   :key="index"
 				   @click.prevent="updateSelected(page)"
 				>
 					{{ page }}

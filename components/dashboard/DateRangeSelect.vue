@@ -30,6 +30,7 @@
 							   :class="[selected == item ? 'bg-gray-400 text-gray-900' : 'bg-gray-900']"
 							   v-for="item in presets"
 							   @click.prevent="changeSelection(item)"
+							   :key="item.name"
 							>
 								{{ item.name }}
 							</a>

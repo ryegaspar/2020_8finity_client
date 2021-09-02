@@ -28,6 +28,7 @@
 					v-if="menu.active"
 				>
 					<li v-for="submenu in menu.submenu"
+						:key="submenu.name"
 						:class="{'bg-gray-700 rounded-md' : isRouteActive(submenu)}"
 						class="outline-none"
 					>
