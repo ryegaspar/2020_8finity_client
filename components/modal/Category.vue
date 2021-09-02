@@ -38,6 +38,11 @@
 										</span>
 									</span>
 								</div>
+								<div class="block text-red-500 text-sm mt-1 -mb-2"
+									 v-show="form.errors.has('type')"
+								>
+									{{ form.errors.get('type') }}
+								</div>
 							</div>
 
 							<div class="sm:col-span-6">
