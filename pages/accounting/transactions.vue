@@ -168,17 +168,17 @@ export default {
 					dataClass: 'hidden sm:table-cell text-center text-sm lg:text-md'
 				},
 				{
+					title: 'By',
+					name: 'admin_username',
+					titleClass: 'hidden lg:table-cell text-xs lg:text-sm',
+					dataClass: 'hidden lg:table-cell text-left text-sm lg:text-md',
+				},
+				{
 					name: '__component:table-amount',
 					title: 'Amount',
 					sortField: 'amount',
 					titleClass: 'text-xs lg:text-sm',
 					dataClass: 'text-right text-sm lg:text-md'
-				},
-				{
-					title: 'By',
-					name: 'admin_username',
-					titleClass: 'hidden lg:table-cell text-xs lg:text-sm',
-					dataClass: 'hidden lg:table-cell text-left text-sm lg:text-md',
 				},
 				{
 					name: 'date',

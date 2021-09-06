@@ -71,15 +71,19 @@ export default {
 						},
 						{
 							name: 'Transfers',
-							url: 'accounting/transfers'
+							url: '/accounting/transfers'
 						},
 						{
 							name: 'Bank Checks',
-							url: 'accounting/bank-checks'
+							url: '/accounting/bank-checks'
 						},
 						{
 							name: 'Categories',
 							url: '/accounting/categories',
+						},
+						{
+							name: 'Logs',
+							url: '/accounting/logs',
 						}
 					]
 				},
