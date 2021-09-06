@@ -177,10 +177,9 @@ export default {
 			}).catch((rejected) => {
 				if (rejected) {
 					if (this.$refs.deleteDialog.error.response.status === 409)
-						console.log('hello')
-						// this.$toast.error(`the category you wish to delete has transactions, if you wish to remove this category you need to remove its transaction/s first`, {
-						// 	hideProgressBar: true
-					// })
+						this.$toast.error(`the account you wish to delete may still have transactions/transfers, delete transactions/transfers with the account first`, {
+							hideProgressBar: true
+					})
 					else
 						this.$toast.error(`something went wrong. could not delete account`, {
 							hideProgressBar: true
