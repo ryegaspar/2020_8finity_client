@@ -19,8 +19,8 @@
 											   :selected="perPageSelected"
 											   @perPageChanged="setPerPage"
 							/>
-							<transactions-table-filter @filterChanged="setType"/>
-							<transactions-table-search @searchUpdated="setSearch"/>
+<!--							<transactions-table-filter @filterChanged="setType"/>-->
+<!--							<transactions-table-search @searchUpdated="setSearch"/>-->
 						</div>
 					</div>
 					<vuetable ref="vuetable"
@@ -78,6 +78,12 @@
 			</div>
 		</div>
 
+		<modal-transfer :transfer="selectedTransfer"
+						:show="modalOpen"
+						@close="modalOpen = false"
+						@submit_success="submitFormSuccess"
+		/>
+
 <!--		<modal-transaction :transaction="selectedTransaction"-->
 <!--						   :show="modalOpen"-->
 <!--						   :readonly="modalReadOnly"-->
@@ -121,7 +127,7 @@ export default {
 
 			modalOpen: false,
 			modalReadOnly: false,
-			selectedTransaction: {},
+			selectedTransfer: {},
 			confirmOpen: false,
 
 			httpOptions: {
@@ -212,16 +218,32 @@ export default {
 	},
 
 	methods: {
-		// submitFormSuccess(isNew) {
-		// 	let message = isNew ? 'successfully added transaction' : 'successfully updated transaction'
-		//
-		// 	this.$toast.success(message, {
-		// 		hideProgressBar: true,
-		// 	})
-		//
-		// 	this.modalOpen = false
-		// 	this.$refs.vuetable.refresh()
-		// },
+		onPaginationData(paginationData) {
+			this.$refs.pagination.setPaginationData(paginationData)
+			this.$refs.paginationInfo.setPaginationData(paginationData)
+		},
+
+		onChangePage(page) {
+			this.$refs.vuetable.changePage(page)
+		},
+
+		setPerPage(page) {
+			this.perPageSelected = page
+			this.$nextTick(() => {
+				this.$refs.vuetable.refresh()
+			})
+		},
+
+		submitFormSuccess(isNew) {
+			let message = isNew ? 'successfully added transfer' : 'successfully updated transfer'
+
+			this.$toast.success(message, {
+				hideProgressBar: true,
+			})
+
+			this.modalOpen = false
+			this.$refs.vuetable.refresh()
+		},
 		//
 		// toDate(value) {
 		// 	return DateTime.fromISO(value, {setZone: true}).toLocaleString(DateTime.DATE_MED)
@@ -235,21 +257,6 @@ export default {
 		// 	return (value === 'income' ? `<span class="text-green-400">income</span>` : `<span class="text-red-400">expense</span>`)
 		// },
 		//
-		// onPaginationData(paginationData) {
-		// 	this.$refs.pagination.setPaginationData(paginationData)
-		// 	this.$refs.paginationInfo.setPaginationData(paginationData)
-		// },
-		//
-		// onChangePage(page) {
-		// 	this.$refs.vuetable.changePage(page)
-		// },
-		//
-		// setPerPage(page) {
-		// 	this.perPageSelected = page
-		// 	this.$nextTick(() => {
-		// 		this.$refs.vuetable.refresh()
-		// 	})
-		// },
 		//
 		// setType(option) {
 		// 	this.moreParams.type = option
@@ -261,11 +268,11 @@ export default {
 		// 	this.$nextTick(() => this.$refs.vuetable.refresh())
 		// },
 		//
-		// showModal(transaction, readonly = false) {
-		// 	this.selectedTransaction = transaction
-		// 	this.modalReadOnly = readonly
-		// 	this.modalOpen = true
-		// },
+		showModal(transfer, readonly = false) {
+			this.selectedTransfer = transfer
+			this.modalReadOnly = readonly
+			this.modalOpen = true
+		},
 		//
 		// confirmDelete(transaction) {
 		// 	this.$refs.deleteDialog.show({

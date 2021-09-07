@@ -34,44 +34,17 @@
 							</div>
 
 							<div class="sm:col-span-6">
-								<label for="type"
+								<label for="from_account"
 									   class="block text-sm font-medium text-gray-500">
-									Type
-								</label>
-								<div class="mt-1 flex">
-									<button type="button"
-											class="bg-gray-200 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-											aria-pressed="false"
-											aria-labelledby="type"
-											:aria-checked="form.type"
-											@click.prevent="toggleType"
-											:class="form.type ? 'bg-blue-700' : 'bg-gray-200'"
-											v-model="form.type"
-									>
-										<span aria-hidden="true"
-											  class="translate-x-0 pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200"
-											  :class="form.type ? 'translate-x-5' : 'translate-x-0'"
-										></span>
-									</button>
-									<span class="ml-3" id="type">
-										<span class="text-sm font-medium text-gray-400">
-											{{ form.type ? 'Income' : 'Expense' }}
-										</span>
-									</span>
-								</div>
-							</div>
-
-							<div class="sm:col-span-6">
-								<label for="account"
-									   class="block text-sm font-medium text-gray-500">
-									Account
+									From Account
 								</label>
 								<div class="mt-1">
-									<select id="account"
+									<select id="from_account"
 											name="account"
 											class="w-full px-2 py-1 border border-gray-300 text-gray-700 rounded-md focus:outline-none focus:ring-4 focus:ring-blue-700"
-											v-model="form.account_id"
+											v-model="form.from_account"
 											:disabled="this.readonly"
+											@change="fromAccountChanged"
 									>
 										<option value="0"></option>
 										<option v-for="account in accounts"
@@ -82,37 +55,37 @@
 										</option>
 									</select>
 									<div class="block text-red-500 text-sm mt-1 -mb-2"
-										 v-show="form.errors.has('account_id')"
+										 v-show="form.errors.has('from_account')"
 									>
-										{{ form.errors.get('account_id') }}
+										{{ form.errors.get('from_account') }}
 									</div>
 								</div>
 							</div>
 
 							<div class="sm:col-span-6">
-								<label for="category"
+								<label for="to_account"
 									   class="block text-sm font-medium text-gray-500">
-									Category
+									To Account
 								</label>
 								<div class="mt-1">
-									<select id="category"
-											name="category"
+									<select id="to_account"
+											name="to_account"
 											class="w-full px-2 py-1 border border-gray-300 text-gray-700 rounded-md focus:outline-none focus:ring-4 focus:ring-blue-700"
-											v-model="form.category_id"
+											v-model="form.to_account"
 											:disabled="this.readonly"
 									>
 										<option value="0"></option>
-										<option v-for="category in selectedTypeCategories"
-												:value="category.id"
-												:key="category.id"
+										<option v-for="account in availableAccounts"
+												:value="account.id"
+												:key="account.id"
 										>
-											{{ category.name }}
+											{{ account.name }}
 										</option>
 									</select>
 									<div class="block text-red-500 text-sm mt-1 -mb-2"
-										 v-show="form.errors.has('category_id')"
+										 v-show="form.errors.has('to_account')"
 									>
-										{{ form.errors.get('category_id') }}
+										{{ form.errors.get('to_account') }}
 									</div>
 								</div>
 							</div>
@@ -147,6 +120,7 @@
 								</label>
 								<div class="mt-1">
 									<datetime class="theme-dark"
+											  id="date"
 											  ref="dateTimePicker"
 											  :week-start="7"
 											  :value="form.date"
@@ -168,21 +142,20 @@
 									Notes
 								</label>
 								<div class="mt-1">
-									<textarea
-										id="notes"
-										rows="3"
-										class="w-full px-2 py-1 placeholder-gray-300 border border-gray-300  text-gray-600 rounded-md focus:outline-none focus:ring-4 focus:ring-blue-700"
-										v-model="form.notes"
-										:disabled="this.readonly"
+									<textarea id="notes"
+											  rows="3"
+											  class="w-full px-2 py-1 placeholder-gray-300 border border-gray-300  text-gray-600 rounded-md focus:outline-none focus:ring-4 focus:ring-blue-700"
+											  v-model="form.notes"
+											  :disabled="this.readonly"
 									></textarea>
 								</div>
 							</div>
 
-							<div class="col-span-6 block text-sm font-medium text-gray-500"
-								 v-if="this.readonly"
-							>
-								{{ 'only ' }}<i>{{ transaction.admin_username }}</i>{{ ' can modify this transaction' }}
-							</div>
+							<!--							<div class="col-span-6 block text-sm font-medium text-gray-500"-->
+							<!--								 v-if="this.readonly"-->
+							<!--							>-->
+							<!--								{{ 'only ' }}<i>{{ transaction.admin_username }}</i>{{ ' can modify this transaction' }}-->
+							<!--							</div>-->
 						</div>
 						<div class="mt-6 pt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
 							<template v-if="!this.readonly">
@@ -226,7 +199,7 @@ import Form from "~/utilities/Form"
 
 export default {
 	props: {
-		transaction: {
+		transfer: {
 			type: Object
 		},
 		readonly: {
@@ -247,89 +220,99 @@ export default {
 		return {
 			form: new Form({
 				description: '',
-				type: true,
-				category_id: null,
-				account_id: 1,
+				from_account: '',
+				to_account: '',
 				amount: 0,
 				date: DateTime.local().toISODate(),
 				notes: ''
 			}),
 
-			transaction_admin: '',
+			selectedFromAccount: '',
+
+			// transaction_admin: '',
 			isLoading: false
 		}
 	},
 
 	mounted() {
-		this.getCategories()
+		// this.getCategories()
 		this.getAccounts()
 	},
 
 	computed: {
 		title() {
-			return (this.isNew ? 'New Transaction' : 'Edit Transaction')
+			return (this.isNew ? 'New Transfer' : 'Edit Transfer')
 		},
 
 		...mapGetters({
-			incomeCategory: 'categories/incomeCategory',
-			expenseCategory: 'categories/expenseCategory',
+			// incomeCategory: 'categories/incomeCategory',
+			// expenseCategory: 'categories/expenseCategory',
 			accounts: 'accounts/accounts'
 		}),
 
-		selectedTypeCategories() {
-			if (this.form.type)
-				return this.incomeCategory
-			else
-				return this.expenseCategory
+		availableAccounts() {
+			return this.accounts.filter((account) => {
+				return account.id !== this.form.from_account
+			})
 		},
-
+		// selectedTypeCategories() {
+		// 	if (this.form.type)
+		// 		return this.incomeCategory
+		// 	else
+		// 		return this.expenseCategory
+		// },
+		//
 		isNew() {
-			return (_.isEmpty(this.transaction))
+			return (_.isEmpty(this.transfer))
 		}
 	},
 
 	methods: {
-		toggleType() {
-			if (this.readonly) return
-			this.form.category_id = null
-			this.form.type = !this.form.type
+		// toggleType() {
+		// 	if (this.readonly) return
+		// 	this.form.category_id = null
+		// 	this.form.type = !this.form.type
+		// },
+		//
+		...mapActions({
+			// getCategories: 'categories/getCategories',
+			getAccounts: 'accounts/getAccounts'
+		}),
+
+		fromAccountChanged() {
+			this.form.to_account = ''
 		},
 
 		setDate(date) {
 			this.form.date = DateTime.fromISO(date, {setZone: true}).toISODate()
 		},
 
-		...mapActions({
-			getCategories: 'categories/getCategories',
-			getAccounts: 'accounts/getAccounts'
-		}),
-
 		async submitForm() {
-			this.isLoading = true
+				this.isLoading = true
 
-			try {
-				if (this.isNew) {
-					await this.$axios.$post('/admin/accounting/transactions', this.form)
-					this.$emit('submit_success', true)
-				} else {
-					await this.$axios.$patch(`/admin/accounting/transactions/${this.transaction.id}`, this.form)
-					this.$emit('submit_success', false)
-				}
+				try {
+					if (this.isNew) {
+						await this.$axios.$post('/admin/accounting/transfers', this.form)
+						this.$emit('submit_success', true)
+					} else {
+						// await this.$axios.$patch(`/admin/accounting/transfers/${this.transfer.id}`, this.form)
+						// this.$emit('submit_success', false)
+					}
 
-				this.isLoading = false
-				this.form.onSuccess()
-			} catch (e) {
-				this.isLoading = false
-				if (parseInt(e.response.status) === 422) {
-					this.form.onFail(e.response.data)
+					this.isLoading = false
+					this.form.onSuccess()
+				} catch (e) {
+					this.isLoading = false
+					if (parseInt(e.response.status) === 422) {
+						this.form.onFail(e.response.data)
+					}
+					// if (parseInt(e.response.status) === 403) {
+					// 	this.$emit('close')
+					// 	this.$toast.error(`cannot update transaction, you do not own the transaction.`, {
+					// 		hideProgressBar: true
+					// 	})
+					// }
 				}
-				if (parseInt(e.response.status) === 403) {
-					this.$emit('close')
-					this.$toast.error(`cannot update transaction, you do not own the transaction.`, {
-						hideProgressBar: true
-					})
-				}
-			}
 		},
 
 		closeModal() {
@@ -339,25 +322,25 @@ export default {
 	},
 
 	watch: {
-		show() {
-			if (this.show) {
-				this.form.reset()
-
-				if (!this.isNew) {
-					this.form.description = this.transaction.description
-					this.form.type = this.transaction.category_type === 'income' ? true : false
-					this.form.category_id = this.transaction.category_id
-					this.form.account_id = this.transaction.account_id
-					this.form.amount = (Math.abs(this.transaction.amount) / 100)
-					this.form.date = this.transaction.date
-					this.form.notes = this.transaction.notes
-				}
-
-				this.$nextTick(() => {
-					this.$refs.description.focus()
-				})
-			}
-		},
+		// show() {
+		// 	if (this.show) {
+		// 		this.form.reset()
+		//
+		// 		if (!this.isNew) {
+		// 			this.form.description = this.transaction.description
+		// 			this.form.type = this.transaction.category_type === 'income' ? true : false
+		// 			this.form.category_id = this.transaction.category_id
+		// 			this.form.account_id = this.transaction.account_id
+		// 			this.form.amount = (Math.abs(this.transaction.amount) / 100)
+		// 			this.form.date = this.transaction.date
+		// 			this.form.notes = this.transaction.notes
+		// 		}
+		//
+		// 		this.$nextTick(() => {
+		// 			this.$refs.description.focus()
+		// 		})
+		// 	}
+		// },
 	}
 }
 </script>
