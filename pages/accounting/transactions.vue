@@ -185,7 +185,9 @@ export default {
 					titleClass: 'hidden md:table-cell text-xs lg:text-sm',
 					dataClass: 'hidden md:table-cell text-center text-sm lg:text-md',
 					sortField: 'date',
-					callback: 'toDate'
+					callback: function(value) {
+						return DateTime.fromISO(value, {setZone: true}).toLocaleString(DateTime.DATE_MED)
+					}
 				},
 				{
 					name: '__slot:actions',
@@ -209,29 +211,6 @@ export default {
 	},
 
 	methods: {
-		submitFormSuccess(isNew) {
-			let message = isNew ? 'successfully added transaction' : 'successfully updated transaction'
-
-			this.$toast.success(message, {
-				hideProgressBar: true,
-			})
-
-			this.modalOpen = false
-			this.$refs.vuetable.refresh()
-		},
-
-		toDate(value) {
-			return DateTime.fromISO(value, {setZone: true}).toLocaleString(DateTime.DATE_MED)
-		},
-
-		toCurrency(value) {
-			return (value / 10).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})
-		},
-
-		formatType(value) {
-			return (value === 'income' ? `<span class="text-green-400">income</span>` : `<span class="text-red-400">expense</span>`)
-		},
-
 		onPaginationData(paginationData) {
 			this.$refs.pagination.setPaginationData(paginationData)
 			this.$refs.paginationInfo.setPaginationData(paginationData)
@@ -262,6 +241,17 @@ export default {
 			this.selectedTransaction = transaction
 			this.modalReadOnly = readonly
 			this.modalOpen = true
+		},
+
+		submitFormSuccess(isNew) {
+			let message = isNew ? 'successfully added transaction' : 'successfully updated transaction'
+
+			this.$toast.success(message, {
+				hideProgressBar: true,
+			})
+
+			this.modalOpen = false
+			this.$refs.vuetable.refresh()
 		},
 
 		confirmDelete(transaction) {

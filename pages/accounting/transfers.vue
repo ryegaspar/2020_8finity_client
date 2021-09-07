@@ -234,6 +234,12 @@ export default {
 			})
 		},
 
+		showModal(transfer, readonly = false) {
+			this.selectedTransfer = transfer
+			this.modalReadOnly = readonly
+			this.modalOpen = true
+		},
+
 		submitFormSuccess(isNew) {
 			let message = isNew ? 'successfully added transfer' : 'successfully updated transfer'
 
@@ -268,11 +274,6 @@ export default {
 		// 	this.$nextTick(() => this.$refs.vuetable.refresh())
 		// },
 		//
-		showModal(transfer, readonly = false) {
-			this.selectedTransfer = transfer
-			this.modalReadOnly = readonly
-			this.modalOpen = true
-		},
 		//
 		// confirmDelete(transaction) {
 		// 	this.$refs.deleteDialog.show({

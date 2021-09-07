@@ -174,17 +174,6 @@ export default {
 			getCategories: 'categories/getCategories'
 		}),
 
-		submitFormSuccess(isNew) {
-			let message = isNew ? 'successfully added category' : 'successfully updated category'
-
-			this.$toast.success(message, {
-				hideProgressBar: true,
-			})
-
-			this.modalOpen = false
-			this.$refs.vuetable.refresh()
-		},
-
 		onPaginationData(paginationData) {
 			this.$refs.pagination.setPaginationData(paginationData)
 			this.$refs.paginationInfo.setPaginationData(paginationData)
@@ -199,6 +188,17 @@ export default {
 			this.$nextTick(() => {
 				this.$refs.vuetable.refresh()
 			})
+		},
+
+		submitFormSuccess(isNew) {
+			let message = isNew ? 'successfully added category' : 'successfully updated category'
+
+			this.$toast.success(message, {
+				hideProgressBar: true,
+			})
+
+			this.modalOpen = false
+			this.$refs.vuetable.refresh()
 		},
 
 		showModal(category) {
