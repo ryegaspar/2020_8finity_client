@@ -12,12 +12,13 @@
 			</button>
 
 			<div class="flex flex-col">
-				<div class="mt-8 shadow overflow-hidden sm:rounded-lg">
+				<div class="mt-8 shadow overflow-hidden">
 					<div class="flex sm:flex-row flex-col">
 						<div class="flex flex-row mb-2">
-							<vuetable-per-page :per-page-options="perPageOptions"
-											   :selected="perPageSelected"
-											   @perPageChanged="setPerPage"
+							<table-filters-paging :per-page-options="perPageOptions"
+												  :selected="perPageSelected"
+												  @perPageChanged="setPerPage"
+												  extraClass="rounded-r-lg"
 							/>
 						</div>
 					</div>

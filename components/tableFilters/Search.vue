@@ -1,5 +1,5 @@
 <template>
-	<div class="relative">
+	<div class="relative w-full">
 		<span class="absolute inset-y-0 left-0 flex items-center pl-2">
 			<svg viewBox="0 0 24 24" class="h-4 w-4 fill-current text-gray-500">
 				<path d="M10 4a6 6 0 100 12 6 6 0 000-12zm-8 6a8 8 0 1114.32 4.906l5.387 5.387a1 1 0 01-1.414 1.414l-5.387-5.387A8 8 0 012 10z"/>
@@ -7,14 +7,14 @@
 		</span>
 		<input
 			placeholder="Search"
-			class="w-full sm:w-auto rounded-r-lg rounded-l-none border border-gray-800 border-b block pl-8 sm:pr-6 h-full bg-gray-900 text-sm placeholder-gray-400 text-gray-400 focus:border-blue-700 focus:outline-none w-10/12"
+			class="w-full sm:w-auto border border-gray-800 border-b block pl-8 sm:pr-6 h-full bg-gray-900 text-sm placeholder-gray-400 text-gray-400 focus:border-blue-700 focus:outline-none w-10/12"
+			:class="extraClass"
 			@input="updateSearch"
 			:value="search"
 		/>
 		<div class="absolute inset-y-0 right-0 pr-1 flex items-center"
 			 v-if="showReset"
 		>
-			<!-- Heroicon name: exclamation-circle -->
 			<button class="h-5 w-5 text-gray-600 hover:text-gray-500"
 					@click.prevent="clearSearch"
 			>
@@ -30,6 +30,12 @@
 
 <script>
 export default {
+	props: {
+		extraClass: {
+			type: String
+		}
+	},
+
 	data() {
 		return {
 			search: '',
@@ -56,13 +62,5 @@ export default {
 			return this.search.length > 0
 		}
 	},
-
-	watch: {
-		search() {
-			_.debounce((val) => {
-				console.log(val)
-			}, 500)
-		}
-	}
 }
 </script>

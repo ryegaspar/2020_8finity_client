@@ -1,11 +1,11 @@
 <template>
 	<div class="relative w-full">
 		<div
-			class="relative flex justify-between bg-gray-900 border border-gray-800 text-gray-600 py-1 px-2 items-center flex hover:text-blue-700 hover:border-blue-700 focus:outline-none whitespace-nowrap"
-			:class="propClass"
+			class="relative flex justify-between md:w-36 bg-gray-900 border border-gray-800 text-gray-600 py-1 px-2 items-center flex hover:text-blue-700 hover:border-blue-700 focus:outline-none whitespace-nowrap"
+			:class="extraClass"
 			v-click-outside="hide"
 		>
-			<span>{{ selected.name }}</span>
+			<span>{{ selected[selectionName] }}</span>
 			<div class="h-6 w-5">
 				<button v-if="!hasSelected"
 						@click.prevent="isOpen = !isOpen"
@@ -41,11 +41,11 @@
 			<div class="py-2 bg-gray-900 rounded">
 				<button
 					class="text-left py-2 px-2 block leading-5 hover:text-gray-900 hover:bg-gray-400 focus:outline-none w-full"
-					v-for="account in accounts"
-					:key="account.id"
-					@click.prevent="setSelected(account)"
+					v-for="item in selections"
+					:key="item[selectionKey]"
+					@click.prevent="setSelected(item)"
 				>
-					{{ account.name }}
+					{{ item[selectionName] }}
 				</button>
 			</div>
 		</div>
@@ -53,16 +53,26 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
-
 export default {
 	props: {
 		title: {
 			required: true,
 			type: String
 		},
-		propClass: {
+		extraClass: {
 			type: String,
+		},
+		selections: {
+			required: true,
+			type: Array
+		},
+		selectionKey: {
+			type: String,
+			default: 'id',
+		},
+		selectionName: {
+			type: String,
+			default: 'name'
 		}
 	},
 
@@ -79,12 +89,8 @@ export default {
 	},
 
 	computed: {
-		...mapGetters({
-			accounts: 'accounts/accounts'
-		}),
-
 		hasSelected() {
-			return this.selected.name !== this.defaultSelection.name
+			return this.selected[this.selectionName] !== this.defaultSelection.name
 		}
 	},
 
@@ -93,9 +99,9 @@ export default {
 			this.isOpen = false
 		},
 
-		setSelected(account) {
-			this.selected = account
-			this.$emit('filterChanged', account)
+		setSelected(item) {
+			this.selected = item
+			this.$emit('filterChanged', item)
 		},
 
 		removeSelection() {

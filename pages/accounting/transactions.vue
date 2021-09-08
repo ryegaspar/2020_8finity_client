@@ -12,15 +12,21 @@
 			</button>
 
 			<div class="flex flex-col">
-				<div class="mt-8 shadow overflow-hidden sm:rounded-lg">
+				<div class="mt-8 shadow overflow-hidden">
 					<div class="flex sm:flex-row flex-col">
 						<div class=" flex flex-row mb-2">
-							<vuetable-per-page :per-page-options="perPageOptions"
-											   :selected="perPageSelected"
-											   @perPageChanged="setPerPage"
+							<table-filters-paging :per-page-options="perPageOptions"
+												  :selected="perPageSelected"
+												  @perPageChanged="setPerPage"
 							/>
-							<transactions-table-filter @filterChanged="setType"/>
-							<transactions-table-search @searchUpdated="setSearch"/>
+							<table-filters-dropdown @filterChanged="setType"
+													@filterRemoved="removeType"
+													title="type"
+													:selections="typeSelections"
+							/>
+							<table-filters-search @searchUpdated="setSearch"
+												  extraClass="rounded-r-lg"
+							/>
 						</div>
 					</div>
 					<vuetable ref="vuetable"
@@ -185,7 +191,7 @@ export default {
 					titleClass: 'hidden md:table-cell text-xs lg:text-sm',
 					dataClass: 'hidden md:table-cell text-center text-sm lg:text-md',
 					sortField: 'date',
-					callback: function(value) {
+					callback: function (value) {
 						return DateTime.fromISO(value, {setZone: true}).toLocaleString(DateTime.DATE_MED)
 					}
 				},
@@ -205,6 +211,17 @@ export default {
 				{
 					field: 'id',
 					direction: 'desc'
+				}
+			],
+
+			typeSelections: [
+				{
+					id: 1,
+					name: 'income'
+				},
+				{
+					id: 2,
+					name: 'expense'
 				}
 			]
 		}
@@ -228,7 +245,17 @@ export default {
 		},
 
 		setType(option) {
-			this.moreParams.type = option
+			if (option.id === 1) {
+				this.moreParams.type = 'income'
+			} else {
+				this.moreParams.type = 'expense'
+			}
+
+			this.$nextTick(() => this.$refs.vuetable.refresh())
+		},
+
+		removeType() {
+			this.moreParams.type = 'all'
 			this.$nextTick(() => this.$refs.vuetable.refresh())
 		},
 

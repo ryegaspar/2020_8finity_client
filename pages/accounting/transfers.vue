@@ -12,23 +12,25 @@
 			</button>
 
 			<div class="flex flex-col">
-				<div class="mt-8 shadow overflow-hidden sm:rounded-lg">
+				<div class="mt-8 shadow overflow-hidden">
 					<div class="flex sm:flex-row flex-col w-full">
 						<div class="flex flex-row mb-2">
-							<vuetable-per-page :per-page-options="perPageOptions"
+							<table-filters-paging :per-page-options="perPageOptions"
 											   :selected="perPageSelected"
 											   @perPageChanged="setPerPage"
 							/>
 
-							<transfers-to-from-filter @filterChanged="setFrom"
-													  @filterRemoved="removeFrom"
-													  title="from account"
+							<table-filters-dropdown @filterChanged="setFrom"
+													@filterRemoved="removeFrom"
+													title="from account"
+													:selections="accounts"
 							/>
 
-							<transfers-to-from-filter @filterChanged="setTo"
-													  @filterRemoved="removeTo"
-													  title="to account"
-													  propClass="rounded-r-lg"
+							<table-filters-dropdown @filterChanged="setTo"
+													@filterRemoved="removeTo"
+													title="to account"
+													:selections="accounts"
+													extraClass="rounded-r-lg"
 							/>
 						</div>
 					</div>
@@ -116,6 +118,7 @@ import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePagination
 // import TableIcon from "@/components/transactions/TableIcon"
 // import TableAmount from "@/components/transactions/TableAmount"
 import {DateTime} from 'luxon'
+import {mapGetters} from "vuex"
 
 // Vue.component('table-icon', TableIcon)
 // Vue.component('table-amount', TableAmount)
@@ -224,6 +227,12 @@ export default {
 				}
 			]
 		}
+	},
+
+	computed: {
+		...mapGetters({
+			accounts: 'accounts/accounts'
+		}),
 	},
 
 	methods: {
