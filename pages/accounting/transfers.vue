@@ -13,14 +13,23 @@
 
 			<div class="flex flex-col">
 				<div class="mt-8 shadow overflow-hidden sm:rounded-lg">
-					<div class="flex sm:flex-row flex-col">
-						<div class=" flex flex-row mb-2">
+					<div class="flex sm:flex-row flex-col w-full">
+						<div class="flex flex-row mb-2">
 							<vuetable-per-page :per-page-options="perPageOptions"
 											   :selected="perPageSelected"
 											   @perPageChanged="setPerPage"
 							/>
-<!--							<transactions-table-filter @filterChanged="setType"/>-->
-<!--							<transactions-table-search @searchUpdated="setSearch"/>-->
+
+							<transfers-to-from-filter @filterChanged="setFrom"
+													  @filterRemoved="removeFrom"
+													  title="from account"
+							/>
+
+							<transfers-to-from-filter @filterChanged="setTo"
+													  @filterRemoved="removeTo"
+													  title="to account"
+													  propClass="rounded-r-lg"
+							/>
 						</div>
 					</div>
 					<vuetable ref="vuetable"
@@ -34,36 +43,36 @@
 							  :append-params="moreParams"
 							  :multi-sort="true"
 					>
-<!--						<template slot="actions" slot-scope="props">-->
-<!--							<div v-if="$auth.user.id === props.rowData.admin_id">-->
-<!--								<button-->
-<!--									class="bg-blue-400 rounded-md text-gray-900 hover:bg-blue-500 focus:outline-none"-->
-<!--									@click.prevent="showModal(props.rowData)"-->
-<!--								>-->
-<!--									<font-awesome-layers class="fa-fw">-->
-<!--										<font-awesome-icon icon="pen"/>-->
-<!--									</font-awesome-layers>-->
-<!--								</button>-->
-<!--								<button-->
-<!--									class="bg-red-400 rounded-md text-gray-900 ml-2 hover:bg-red-500 focus:outline-none"-->
-<!--									@click.prevent="confirmDelete(props.rowData)"-->
-<!--								>-->
-<!--									<font-awesome-layers class="fa-fw">-->
-<!--										<font-awesome-icon icon="trash"/>-->
-<!--									</font-awesome-layers>-->
-<!--								</button>-->
-<!--							</div>-->
-<!--							<div v-else>-->
-<!--								<button-->
-<!--									class="bg-green-400 rounded-md text-gray-900 hover:bg-blue-500 focus:outline-none"-->
-<!--									@click.prevent="showModal(props.rowData, true)"-->
-<!--								>-->
-<!--									<font-awesome-layers class="fa-fw">-->
-<!--										<font-awesome-icon icon="eye"/>-->
-<!--									</font-awesome-layers>-->
-<!--								</button>-->
-<!--							</div>-->
-<!--						</template>-->
+						<!--						<template slot="actions" slot-scope="props">-->
+						<!--							<div v-if="$auth.user.id === props.rowData.admin_id">-->
+						<!--								<button-->
+						<!--									class="bg-blue-400 rounded-md text-gray-900 hover:bg-blue-500 focus:outline-none"-->
+						<!--									@click.prevent="showModal(props.rowData)"-->
+						<!--								>-->
+						<!--									<font-awesome-layers class="fa-fw">-->
+						<!--										<font-awesome-icon icon="pen"/>-->
+						<!--									</font-awesome-layers>-->
+						<!--								</button>-->
+						<!--								<button-->
+						<!--									class="bg-red-400 rounded-md text-gray-900 ml-2 hover:bg-red-500 focus:outline-none"-->
+						<!--									@click.prevent="confirmDelete(props.rowData)"-->
+						<!--								>-->
+						<!--									<font-awesome-layers class="fa-fw">-->
+						<!--										<font-awesome-icon icon="trash"/>-->
+						<!--									</font-awesome-layers>-->
+						<!--								</button>-->
+						<!--							</div>-->
+						<!--							<div v-else>-->
+						<!--								<button-->
+						<!--									class="bg-green-400 rounded-md text-gray-900 hover:bg-blue-500 focus:outline-none"-->
+						<!--									@click.prevent="showModal(props.rowData, true)"-->
+						<!--								>-->
+						<!--									<font-awesome-layers class="fa-fw">-->
+						<!--										<font-awesome-icon icon="eye"/>-->
+						<!--									</font-awesome-layers>-->
+						<!--								</button>-->
+						<!--							</div>-->
+						<!--						</template>-->
 					</vuetable>
 					<div class="block sm:flex sm:flex-row-reverse justify-between mt-4">
 						<vuetable-pagination ref="pagination"
@@ -84,18 +93,18 @@
 						@submit_success="submitFormSuccess"
 		/>
 
-<!--		<modal-transaction :transaction="selectedTransaction"-->
-<!--						   :show="modalOpen"-->
-<!--						   :readonly="modalReadOnly"-->
-<!--						   @close="modalOpen = false"-->
-<!--						   @submit_success="submitFormSuccess"-->
-<!--		/>-->
+		<!--		<modal-transaction :transaction="selectedTransaction"-->
+		<!--						   :show="modalOpen"-->
+		<!--						   :readonly="modalReadOnly"-->
+		<!--						   @close="modalOpen = false"-->
+		<!--						   @submit_success="submitFormSuccess"-->
+		<!--		/>-->
 
-<!--		<modal-confirm @close="confirmOpen = false"-->
-<!--					   ref="deleteDialog"-->
-<!--					   title="Delete Transaction"-->
-<!--					   message="Are you sure you want to delete this transaction? This action cannot be undone"-->
-<!--		/>-->
+		<!--		<modal-confirm @close="confirmOpen = false"-->
+		<!--					   ref="deleteDialog"-->
+		<!--					   title="Delete Transaction"-->
+		<!--					   message="Are you sure you want to delete this transaction? This action cannot be undone"-->
+		<!--		/>-->
 	</div>
 </template>
 
@@ -192,7 +201,7 @@ export default {
 					titleClass: 'hidden md:table-cell text-xs lg:text-sm',
 					dataClass: 'hidden md:table-cell text-center text-sm lg:text-md',
 					sortField: 'date',
-					callback: function(value) {
+					callback: function (value) {
 						return DateTime.fromISO(value, {setZone: true}).toLocaleString(DateTime.DATE_MED)
 					}
 				},
@@ -232,6 +241,26 @@ export default {
 			this.$nextTick(() => {
 				this.$refs.vuetable.refresh()
 			})
+		},
+
+		setFrom(account) {
+			this.moreParams.from_account = account.id
+			this.$nextTick(() => this.$refs.vuetable.refresh())
+		},
+
+		removeFrom() {
+			this.moreParams.from_account = ''
+			this.$nextTick(() => this.$refs.vuetable.refresh())
+		},
+
+		setTo(account) {
+			this.moreParams.to_account = account.id
+			this.$nextTick(() => this.$refs.vuetable.refresh())
+		},
+
+		removeTo() {
+			this.moreParams.to_account = ''
+			this.$nextTick(() => this.$refs.vuetable.refresh())
 		},
 
 		showModal(transfer, readonly = false) {
