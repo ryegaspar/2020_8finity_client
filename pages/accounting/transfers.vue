@@ -33,6 +33,12 @@
 													extraClass="rounded-r-lg"
 							/>
 						</div>
+
+						<div class="flex flex-row mb-2 sm:ml-2 h-8 sm:h-auto">
+							<table-filters-search @searchUpdated="setSearch"
+												  extraClass="rounded-lg"
+							/>
+						</div>
 					</div>
 					<vuetable ref="vuetable"
 							  :http-options="httpOptions"
@@ -269,6 +275,11 @@ export default {
 
 		removeTo() {
 			this.moreParams.to_account = ''
+			this.$nextTick(() => this.$refs.vuetable.refresh())
+		},
+
+		setSearch(text) {
+			this.moreParams.search = text
 			this.$nextTick(() => this.$refs.vuetable.refresh())
 		},
 
