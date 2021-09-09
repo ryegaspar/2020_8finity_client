@@ -16,8 +16,8 @@
 					<div class="flex sm:flex-row flex-col w-full">
 						<div class="flex flex-row mb-2">
 							<table-filters-paging :per-page-options="perPageOptions"
-											   :selected="perPageSelected"
-											   @perPageChanged="setPerPage"
+												  :selected="perPageSelected"
+												  @perPageChanged="setPerPage"
 							/>
 
 							<table-filters-dropdown @filterChanged="setFrom"
@@ -51,36 +51,36 @@
 							  :append-params="moreParams"
 							  :multi-sort="true"
 					>
-						<!--						<template slot="actions" slot-scope="props">-->
-						<!--							<div v-if="$auth.user.id === props.rowData.admin_id">-->
-						<!--								<button-->
-						<!--									class="bg-blue-400 rounded-md text-gray-900 hover:bg-blue-500 focus:outline-none"-->
-						<!--									@click.prevent="showModal(props.rowData)"-->
-						<!--								>-->
-						<!--									<font-awesome-layers class="fa-fw">-->
-						<!--										<font-awesome-icon icon="pen"/>-->
-						<!--									</font-awesome-layers>-->
-						<!--								</button>-->
-						<!--								<button-->
-						<!--									class="bg-red-400 rounded-md text-gray-900 ml-2 hover:bg-red-500 focus:outline-none"-->
-						<!--									@click.prevent="confirmDelete(props.rowData)"-->
-						<!--								>-->
-						<!--									<font-awesome-layers class="fa-fw">-->
-						<!--										<font-awesome-icon icon="trash"/>-->
-						<!--									</font-awesome-layers>-->
-						<!--								</button>-->
-						<!--							</div>-->
-						<!--							<div v-else>-->
-						<!--								<button-->
-						<!--									class="bg-green-400 rounded-md text-gray-900 hover:bg-blue-500 focus:outline-none"-->
-						<!--									@click.prevent="showModal(props.rowData, true)"-->
-						<!--								>-->
-						<!--									<font-awesome-layers class="fa-fw">-->
-						<!--										<font-awesome-icon icon="eye"/>-->
-						<!--									</font-awesome-layers>-->
-						<!--								</button>-->
-						<!--							</div>-->
-						<!--						</template>-->
+						<template slot="actions" slot-scope="props">
+							<div v-if="$auth.user.id === props.rowData.admin_id">
+								<button
+									class="bg-blue-400 rounded-md text-gray-900 hover:bg-blue-500 focus:outline-none"
+									@click.prevent="showModal(props.rowData)"
+								>
+									<font-awesome-layers class="fa-fw">
+										<font-awesome-icon icon="pen"/>
+									</font-awesome-layers>
+								</button>
+								<!--								<button-->
+								<!--									class="bg-red-400 rounded-md text-gray-900 ml-2 hover:bg-red-500 focus:outline-none"-->
+								<!--									@click.prevent="confirmDelete(props.rowData)"-->
+								<!--								>-->
+								<!--									<font-awesome-layers class="fa-fw">-->
+								<!--										<font-awesome-icon icon="trash"/>-->
+								<!--									</font-awesome-layers>-->
+								<!--								</button>-->
+							</div>
+							<div v-else>
+								<button
+									class="bg-green-400 rounded-md text-gray-900 hover:bg-blue-500 focus:outline-none"
+									@click.prevent="showModal(props.rowData, true)"
+								>
+									<font-awesome-layers class="fa-fw">
+										<font-awesome-icon icon="eye"/>
+									</font-awesome-layers>
+								</button>
+							</div>
+						</template>
 					</vuetable>
 					<div class="block sm:flex sm:flex-row-reverse justify-between mt-4">
 						<vuetable-pagination ref="pagination"
@@ -97,16 +97,10 @@
 
 		<modal-transfer :transfer="selectedTransfer"
 						:show="modalOpen"
+						:readonly="modalReadOnly"
 						@close="modalOpen = false"
 						@submit_success="submitFormSuccess"
 		/>
-
-		<!--		<modal-transaction :transaction="selectedTransaction"-->
-		<!--						   :show="modalOpen"-->
-		<!--						   :readonly="modalReadOnly"-->
-		<!--						   @close="modalOpen = false"-->
-		<!--						   @submit_success="submitFormSuccess"-->
-		<!--		/>-->
 
 		<!--		<modal-confirm @close="confirmOpen = false"-->
 		<!--					   ref="deleteDialog"-->

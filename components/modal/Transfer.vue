@@ -151,11 +151,11 @@
 								</div>
 							</div>
 
-							<!--							<div class="col-span-6 block text-sm font-medium text-gray-500"-->
-							<!--								 v-if="this.readonly"-->
-							<!--							>-->
-							<!--								{{ 'only ' }}<i>{{ transaction.admin_username }}</i>{{ ' can modify this transaction' }}-->
-							<!--							</div>-->
+							<div class="col-span-6 block text-sm font-medium text-gray-500"
+								 v-if="this.readonly"
+							>
+								{{ 'only ' }}<i>{{ transfer.admin_username }}</i>{{ ' can modify this transfer' }}
+							</div>
 						</div>
 						<div class="mt-6 pt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
 							<template v-if="!this.readonly">
@@ -229,13 +229,11 @@ export default {
 
 			selectedFromAccount: '',
 
-			// transaction_admin: '',
 			isLoading: false
 		}
 	},
 
 	mounted() {
-		// this.getCategories()
 		this.getAccounts()
 	},
 
@@ -245,8 +243,6 @@ export default {
 		},
 
 		...mapGetters({
-			// incomeCategory: 'categories/incomeCategory',
-			// expenseCategory: 'categories/expenseCategory',
 			accounts: 'accounts/accounts'
 		}),
 
@@ -255,27 +251,14 @@ export default {
 				return account.id !== this.form.from_account
 			})
 		},
-		// selectedTypeCategories() {
-		// 	if (this.form.type)
-		// 		return this.incomeCategory
-		// 	else
-		// 		return this.expenseCategory
-		// },
-		//
+
 		isNew() {
 			return (_.isEmpty(this.transfer))
 		}
 	},
 
 	methods: {
-		// toggleType() {
-		// 	if (this.readonly) return
-		// 	this.form.category_id = null
-		// 	this.form.type = !this.form.type
-		// },
-		//
 		...mapActions({
-			// getCategories: 'categories/getCategories',
 			getAccounts: 'accounts/getAccounts'
 		}),
 
@@ -288,31 +271,31 @@ export default {
 		},
 
 		async submitForm() {
-				this.isLoading = true
+			this.isLoading = true
 
-				try {
-					if (this.isNew) {
-						await this.$axios.$post('/admin/accounting/transfers', this.form)
-						this.$emit('submit_success', true)
-					} else {
-						// await this.$axios.$patch(`/admin/accounting/transfers/${this.transfer.id}`, this.form)
-						// this.$emit('submit_success', false)
-					}
-
-					this.isLoading = false
-					this.form.onSuccess()
-				} catch (e) {
-					this.isLoading = false
-					if (parseInt(e.response.status) === 422) {
-						this.form.onFail(e.response.data)
-					}
-					// if (parseInt(e.response.status) === 403) {
-					// 	this.$emit('close')
-					// 	this.$toast.error(`cannot update transaction, you do not own the transaction.`, {
-					// 		hideProgressBar: true
-					// 	})
-					// }
+			try {
+				if (this.isNew) {
+					await this.$axios.$post('/admin/accounting/transfers', this.form)
+					this.$emit('submit_success', true)
+				} else {
+					await this.$axios.$patch(`/admin/accounting/transfers/${this.transfer.id}`, this.form)
+					this.$emit('submit_success', false)
 				}
+
+				this.isLoading = false
+				this.form.onSuccess()
+			} catch (e) {
+				this.isLoading = false
+				if (parseInt(e.response.status) === 422) {
+					this.form.onFail(e.response.data)
+				}
+				if (parseInt(e.response.status) === 403) {
+					this.$emit('close')
+					this.$toast.error(`cannot update transfer, you do not own the transfer.`, {
+						hideProgressBar: true
+					})
+				}
+			}
 		},
 
 		closeModal() {
@@ -322,25 +305,24 @@ export default {
 	},
 
 	watch: {
-		// show() {
-		// 	if (this.show) {
-		// 		this.form.reset()
-		//
-		// 		if (!this.isNew) {
-		// 			this.form.description = this.transaction.description
-		// 			this.form.type = this.transaction.category_type === 'income' ? true : false
-		// 			this.form.category_id = this.transaction.category_id
-		// 			this.form.account_id = this.transaction.account_id
-		// 			this.form.amount = (Math.abs(this.transaction.amount) / 100)
-		// 			this.form.date = this.transaction.date
-		// 			this.form.notes = this.transaction.notes
-		// 		}
-		//
-		// 		this.$nextTick(() => {
-		// 			this.$refs.description.focus()
-		// 		})
-		// 	}
-		// },
+		show() {
+			if (this.show) {
+				this.form.reset()
+
+				if (!this.isNew) {
+					this.form.description = this.transfer.description
+					this.form.from_account = this.transfer.from_account
+					this.form.to_account = this.transfer.to_account
+					this.form.amount = (Math.abs(this.transfer.amount) / 100)
+					this.form.date = this.transfer.date
+					this.form.notes = this.transfer.notes
+				}
+
+				this.$nextTick(() => {
+					this.$refs.description.focus()
+				})
+			}
+		},
 	}
 }
 </script>
