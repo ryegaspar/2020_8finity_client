@@ -61,14 +61,14 @@
 										<font-awesome-icon icon="pen"/>
 									</font-awesome-layers>
 								</button>
-								<!--								<button-->
-								<!--									class="bg-red-400 rounded-md text-gray-900 ml-2 hover:bg-red-500 focus:outline-none"-->
-								<!--									@click.prevent="confirmDelete(props.rowData)"-->
-								<!--								>-->
-								<!--									<font-awesome-layers class="fa-fw">-->
-								<!--										<font-awesome-icon icon="trash"/>-->
-								<!--									</font-awesome-layers>-->
-								<!--								</button>-->
+								<button
+									class="bg-red-400 rounded-md text-gray-900 ml-2 hover:bg-red-500 focus:outline-none"
+									@click.prevent="confirmDelete(props.rowData)"
+								>
+									<font-awesome-layers class="fa-fw">
+										<font-awesome-icon icon="trash"/>
+									</font-awesome-layers>
+								</button>
 							</div>
 							<div v-else>
 								<button
@@ -102,26 +102,20 @@
 						@submit_success="submitFormSuccess"
 		/>
 
-		<!--		<modal-confirm @close="confirmOpen = false"-->
-		<!--					   ref="deleteDialog"-->
-		<!--					   title="Delete Transaction"-->
-		<!--					   message="Are you sure you want to delete this transaction? This action cannot be undone"-->
-		<!--		/>-->
+		<modal-confirm @close="confirmOpen = false"
+					   ref="deleteDialog"
+					   title="Delete Transfer"
+					   message="Are you sure you want to delete this transfer? This action cannot be undone"
+		/>
 	</div>
 </template>
 
 <script>
-import Vue from 'vue'
 import Vuetable from 'vuetable-2'
 import VuetablePagination from "@/components/VuetablePagination"
 import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
-// import TableIcon from "@/components/transactions/TableIcon"
-// import TableAmount from "@/components/transactions/TableAmount"
 import {DateTime} from 'luxon'
 import {mapGetters} from "vuex"
-
-// Vue.component('table-icon', TableIcon)
-// Vue.component('table-amount', TableAmount)
 
 export default {
 	middleware: 'admin',
@@ -293,50 +287,26 @@ export default {
 			this.modalOpen = false
 			this.$refs.vuetable.refresh()
 		},
-		//
-		// toDate(value) {
-		// 	return DateTime.fromISO(value, {setZone: true}).toLocaleString(DateTime.DATE_MED)
-		// },
-		//
-		// toCurrency(value) {
-		// 	return (value / 10).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})
-		// },
-		//
-		// formatType(value) {
-		// 	return (value === 'income' ? `<span class="text-green-400">income</span>` : `<span class="text-red-400">expense</span>`)
-		// },
-		//
-		//
-		// setType(option) {
-		// 	this.moreParams.type = option
-		// 	this.$nextTick(() => this.$refs.vuetable.refresh())
-		// },
-		//
-		// setSearch(text) {
-		// 	this.moreParams.search = text
-		// 	this.$nextTick(() => this.$refs.vuetable.refresh())
-		// },
-		//
-		//
-		// confirmDelete(transaction) {
-		// 	this.$refs.deleteDialog.show({
-		// 		confirmAction() {
-		// 			return this.$axios.$delete(`/admin/accounting/transactions/${transaction.id}`)
-		// 		}
-		// 	}).then(() => {
-		// 		this.$refs.vuetable.refresh()
-		// 		this.$toast.success('transaction was successfully deleted', {
-		// 			hideProgressBar: true,
-		// 		})
-		// 	}).catch((e) => {
-		// 		if (e) {
-		// 			if (this.$refs.deleteDialog.error.response.status === 403)
-		// 				this.$toast.error(`cannot delete transaction, you do not own the transaction.`, {
-		// 					hideProgressBar: true
-		// 				})
-		// 		}
-		// 	})
-		// },
+
+		confirmDelete(transfer) {
+			this.$refs.deleteDialog.show({
+				confirmAction() {
+					return this.$axios.$delete(`/admin/accounting/transfers/${transfer.id}`)
+				}
+			}).then(() => {
+				this.$refs.vuetable.refresh()
+				this.$toast.success('transfer was successfully deleted', {
+					hideProgressBar: true,
+				})
+			}).catch((e) => {
+				if (e) {
+					if (this.$refs.deleteDialog.error.response.status === 403)
+						this.$toast.error(`cannot delete transfer, you do not own the transfer.`, {
+							hideProgressBar: true
+						})
+				}
+			})
+		},
 	}
 }
 </script>

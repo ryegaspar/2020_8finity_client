@@ -76,6 +76,10 @@ export default {
 		Vuetable,
 	},
 
+	activated() {
+		this.$refs.vuetable.refresh()
+	},
+
 	data() {
 		return {
 
@@ -179,7 +183,7 @@ export default {
 					if (this.$refs.deleteDialog.error.response.status === 409)
 						this.$toast.error(`the account you wish to delete may still have transactions/transfers, delete transactions/transfers with the account first`, {
 							hideProgressBar: true
-					})
+						})
 					else
 						this.$toast.error(`something went wrong. could not delete account`, {
 							hideProgressBar: true
