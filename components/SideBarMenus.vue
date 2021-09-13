@@ -74,8 +74,8 @@ export default {
 							url: '/accounting/transfers'
 						},
 						{
-							name: 'Bank Checks',
-							url: '/accounting/bank-checks'
+							name: 'Checks',
+							url: '/accounting/checks'
 						},
 						{
 							name: 'Categories',
