@@ -41,34 +41,34 @@
 							  :multi-sort="true"
 					>
 						<template slot="actions" slot-scope="props">
-							<!--							<div v-if="$auth.user.id === props.rowData.admin_id">-->
-							<!--								<button-->
-							<!--									class="bg-blue-400 rounded-md text-gray-900 hover:bg-blue-500 focus:outline-none"-->
-							<!--									@click.prevent="showModal(props.rowData)"-->
-							<!--								>-->
-							<!--									<font-awesome-layers class="fa-fw">-->
-							<!--										<font-awesome-icon icon="pen"/>-->
-							<!--									</font-awesome-layers>-->
-							<!--								</button>-->
-							<!--								<button-->
-							<!--									class="bg-red-400 rounded-md text-gray-900 ml-2 hover:bg-red-500 focus:outline-none"-->
-							<!--									@click.prevent="confirmDelete(props.rowData)"-->
-							<!--								>-->
-							<!--									<font-awesome-layers class="fa-fw">-->
-							<!--										<font-awesome-icon icon="trash"/>-->
-							<!--									</font-awesome-layers>-->
-							<!--								</button>-->
-							<!--							</div>-->
-							<!--							<div v-else>-->
-							<!--								<button-->
-							<!--									class="bg-green-400 rounded-md text-gray-900 hover:bg-blue-500 focus:outline-none"-->
-							<!--									@click.prevent="showModal(props.rowData, true)"-->
-							<!--								>-->
-							<!--									<font-awesome-layers class="fa-fw">-->
-							<!--										<font-awesome-icon icon="eye"/>-->
-							<!--									</font-awesome-layers>-->
-							<!--								</button>-->
-							<!--							</div>-->
+							<div v-if="$auth.user.id === props.rowData.admin_id">
+								<button
+									class="bg-blue-400 rounded-md text-gray-900 hover:bg-blue-500 focus:outline-none"
+									@click.prevent="showModal(props.rowData)"
+								>
+									<font-awesome-layers class="fa-fw">
+										<font-awesome-icon icon="pen"/>
+									</font-awesome-layers>
+								</button>
+								<button
+									class="bg-red-400 rounded-md text-gray-900 ml-2 hover:bg-red-500 focus:outline-none"
+									@click.prevent="confirmDelete(props.rowData)"
+								>
+									<font-awesome-layers class="fa-fw">
+										<font-awesome-icon icon="trash"/>
+									</font-awesome-layers>
+								</button>
+							</div>
+							<div v-else>
+								<button
+									class="bg-green-400 rounded-md text-gray-900 hover:bg-blue-500 focus:outline-none"
+									@click.prevent="showModal(props.rowData, true)"
+								>
+									<font-awesome-layers class="fa-fw">
+										<font-awesome-icon icon="eye"/>
+									</font-awesome-layers>
+								</button>
+							</div>
 						</template>
 					</vuetable>
 					<div class="block sm:flex sm:flex-row-reverse justify-between mt-4">
@@ -91,11 +91,11 @@
 					 @submit_success="submitFormSuccess"
 		/>
 
-		<!--		<modal-confirm @close="confirmOpen = false"-->
-		<!--					   ref="deleteDialog"-->
-		<!--					   title="Delete Transaction"-->
-		<!--					   message="Are you sure you want to delete this transaction? This action cannot be undone"-->
-		<!--		/>-->
+		<modal-confirm @close="confirmOpen = false"
+					   ref="deleteDialog"
+					   title="Delete Check"
+					   message="Are you sure you want to delete this check? This action cannot be undone"
+		/>
 	</div>
 </template>
 
@@ -193,7 +193,14 @@ export default {
 					dataClass: 'hidden md:table-cell text-center text-sm lg:text-md',
 					sortField: 'post_date',
 					callback: function (value) {
-						return DateTime.fromISO(value, {setZone: true}).toLocaleString(DateTime.DATE_MED)
+						const postDate = DateTime.fromISO(value, {setZone: true})
+						const today = DateTime.now()
+
+						if (today.startOf('day') > postDate.startOf('day')) {
+							return `<span class="text-red-500">${postDate.toLocaleString(DateTime.DATE_MED)}</span>`
+						}
+
+						return `<span class="text-green-400">${postDate.toLocaleString(DateTime.DATE_MED)}</span>`
 					}
 				},
 				{
@@ -282,25 +289,25 @@ export default {
 			this.$refs.vuetable.refresh()
 		},
 
-			// confirmDelete(transaction) {
-			// 	this.$refs.deleteDialog.show({
-			// 		confirmAction() {
-			// 			return this.$axios.$delete(`/admin/accounting/transactions/${transaction.id}`)
-			// 		}
-			// 	}).then(() => {
-			// 		this.$refs.vuetable.refresh()
-			// 		this.$toast.success('transaction was successfully deleted', {
-			// 			hideProgressBar: true,
-			// 		})
-			// 	}).catch((e) => {
-			// 		if (e) {
-			// 			if (this.$refs.deleteDialog.error.response.status === 403)
-			// 				this.$toast.error(`cannot delete transaction, you do not own the transaction.`, {
-			// 					hideProgressBar: true
-			// 				})
-			// 		}
-			// 	})
-			// },
-		}
+		confirmDelete(check) {
+			this.$refs.deleteDialog.show({
+				confirmAction() {
+					return this.$axios.$delete(`/admin/accounting/checks/${check.id}`)
+				}
+			}).then(() => {
+				this.$refs.vuetable.refresh()
+				this.$toast.success('check was successfully deleted', {
+					hideProgressBar: true,
+				})
+			}).catch((e) => {
+				if (e) {
+					if (this.$refs.deleteDialog.error.response.status === 403)
+						this.$toast.error(`cannot delete check, you do not own the check.`, {
+							hideProgressBar: true
+						})
+				}
+			})
+		},
 	}
+}
 </script>
