@@ -123,10 +123,25 @@ export default {
 					dataClass: 'text-left text-sm lg:text-md lg:text-center',
 					sortField: 'balance',
 					callback: function (value) {
-						return (value / 100).toLocaleString('en-US', {
+						const color = value >= 0 ? 'text-green-400' : 'text-red-400'
+						return `<span class="${color}">${(value / 100).toLocaleString('en-US', {
 							minimumFractionDigits: 2,
 							maximumFractionDigits: 2
-						})
+						})}</span>`
+					}
+				},
+				{
+					name: 'check_balance',
+					title: 'Check',
+					titleClass: 'text-center text-sm lg:text-md',
+					dataClass: 'text-left text-sm lg:text-md lg:text-center',
+					sortField: 'check_balance',
+					callback: function (value) {
+						const color = value >= 0 ? 'text-green-400' : 'text-red-400'
+						return `<span class="${color}">${(value / 100).toLocaleString('en-US', {
+							minimumFractionDigits: 2,
+							maximumFractionDigits: 2
+						})}</span>`
 					}
 				},
 				{
