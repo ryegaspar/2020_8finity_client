@@ -181,7 +181,17 @@
 							<div class="col-span-6 block text-sm font-medium text-gray-500"
 								 v-if="this.readonly"
 							>
-								{{ 'only ' }}<i>{{ check.admin_username }}</i>{{ ' can modify this transaction' }}
+								<template v-if="check.status === 'pending'">
+									only <i>{{ check.admin_username }}</i> can modify this transaction
+								</template>
+								<template v-else>
+									check has been <span :class="{'text-green-500' : check.status=== 'cleared', 'text-red-500': check.status=== 'cancelled'}">{{ check.status }}</span>, only pending checks can be modified.
+								</template>
+							</div>
+							<div class="col-span-6 block text-sm font-medium text-gray-500"
+								 v-if="check.status === 'cleared'"
+							>
+								Transaction #: {{ check.transaction_id }}
 							</div>
 						</div>
 						<div class="mt-6 pt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">

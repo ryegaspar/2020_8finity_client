@@ -181,7 +181,7 @@
 							<div class="col-span-6 block text-sm font-medium text-gray-500"
 								 v-if="this.readonly"
 							>
-								{{ 'only ' }}<i>{{ transaction.admin_username }}</i>{{ ' can modify this transaction' }}
+								only <i>{{ transaction.admin_username }}</i> can modify this transaction
 							</div>
 						</div>
 						<div class="mt-6 pt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">

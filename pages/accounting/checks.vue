@@ -41,9 +41,27 @@
 							  :multi-sort="true"
 					>
 						<template slot="actions" slot-scope="props">
-							<div v-if="$auth.user.id === props.rowData.admin_id">
+							<div v-if="$auth.user.id === props.rowData.admin_id && props.rowData.status === 'pending'">
 								<button
-									class="bg-blue-400 rounded-md text-gray-900 hover:bg-blue-500 focus:outline-none"
+									class="bg-green-400 rounded-md text-gray-900 hover:bg-green-500 focus:outline-none mr-1"
+									@click.prevent="confirmClear(props.rowData)"
+								>
+									<font-awesome-layers class="fa-fw">
+										<font-awesome-icon icon="check-circle"/>
+									</font-awesome-layers>
+								</button>
+
+								<button
+									class="bg-red-400 rounded-md text-gray-900 hover:bg-red-500 focus:outline-none mr-1"
+									@click.prevent="confirmCancel(props.rowData)"
+								>
+									<font-awesome-layers class="fa-fw">
+										<font-awesome-icon icon="times-circle"/>
+									</font-awesome-layers>
+								</button>
+
+								<button
+									class="bg-blue-400 rounded-md text-gray-900 hover:bg-blue-500 focus:outline-none mr-1"
 									@click.prevent="showModal(props.rowData)"
 								>
 									<font-awesome-layers class="fa-fw">
@@ -51,7 +69,7 @@
 									</font-awesome-layers>
 								</button>
 								<button
-									class="bg-red-400 rounded-md text-gray-900 ml-2 hover:bg-red-500 focus:outline-none"
+									class="bg-red-400 rounded-md text-gray-900 hover:bg-red-500 focus:outline-none"
 									@click.prevent="confirmDelete(props.rowData)"
 								>
 									<font-awesome-layers class="fa-fw">
@@ -91,10 +109,24 @@
 					 @submit_success="submitFormSuccess"
 		/>
 
-		<modal-confirm @close="confirmOpen = false"
+		<modal-confirm @close="confirmDeleteOpen = false"
 					   ref="deleteDialog"
 					   title="Delete Check"
 					   message="Are you sure you want to delete this check? This action cannot be undone"
+		/>
+
+		<modal-confirm @close="confirmClearCheckOpen = false"
+					   ref="clearCheckDialog"
+					   title="Clear Check"
+					   message="Are you sure you want to clear this check? When checks are marked as cleared, a transaction will be created on the same amount and account and you will no longer be able to edit this check.  This action cannot be undone"
+					   confirmButtonText="Clear Check"
+		/>
+
+		<modal-confirm @close="confirmCancelCheckOpen = false"
+					   ref="cancelCheckDialog"
+					   title="Cancel Check"
+					   message="Are you sure you want to cancel this check? When checks are marked as cancelled, you will no longer be able to edit this check.  This action cannot be undone"
+					   confirmButtonText="Cancel Check"
 		/>
 	</div>
 </template>
@@ -128,7 +160,9 @@ export default {
 			modalOpen: false,
 			modalReadOnly: false,
 			selectedCheck: {},
-			confirmOpen: false,
+			confirmDeleteOpen: false,
+			confirmClearCheckOpen: false,
+			confirmCancelCheckOpen: false,
 
 			httpOptions: {
 				withCredentials: true,
@@ -174,10 +208,19 @@ export default {
 					dataClass: 'hidden sm:table-cell text-center text-sm lg:text-md'
 				},
 				{
-					title: 'By',
-					name: 'admin_username',
-					titleClass: 'hidden lg:table-cell text-xs lg:text-sm',
-					dataClass: 'hidden lg:table-cell text-left text-sm lg:text-md',
+					title: 'Status',
+					name: 'status',
+					titleClass: 'lg:table-cell text-xs lg:text-sm',
+					dataClass: 'lg:table-cell text-center text-sm lg:text-md',
+					callback: function (value) {
+						if (value === 'pending')
+							return `<span class="text-yellow-500">pending</span>`
+
+						if (value === 'cleared')
+							return `<span class="text-green-500">cleared</span>`
+
+						return `<span class="text-red-500">cancelled</span>`
+					}
 				},
 				{
 					name: '__component:table-amount',
@@ -302,12 +345,52 @@ export default {
 			}).catch((e) => {
 				if (e) {
 					if (this.$refs.deleteDialog.error.response.status === 403)
-						this.$toast.error(`cannot delete check, you do not own the check.`, {
+						this.$toast.error(`cannot delete check, you do not own the check or the check is cleared/cancelled`, {
 							hideProgressBar: true
 						})
 				}
 			})
 		},
+
+		confirmClear(check) {
+			this.$refs.clearCheckDialog.show({
+				confirmAction() {
+					return this.$axios.$patch(`/admin/accounting/checks/process/${check.id}`)
+				}
+			}).then(() => {
+				this.$refs.vuetable.refresh()
+				this.$toast.success('check was successfully cleared, a transaction was also created', {
+					hideProgressBar: true,
+				})
+			}).catch((e) => {
+				if (e) {
+					if (this.$refs.deleteDialog.error.response.status === 403)
+						this.$toast.error(`cannot clear check, you do not own the check.`, {
+							hideProgressBar: true
+						})
+				}
+			})
+		},
+
+		confirmCancel(check) {
+			this.$refs.cancelCheckDialog.show({
+				confirmAction() {
+					return this.$axios.$delete(`/admin/accounting/checks/process/${check.id}`)
+				}
+			}).then(() => {
+				this.$refs.vuetable.refresh()
+				this.$toast.success('check was successfully cancelled', {
+					hideProgressBar: true,
+				})
+			}).catch((e) => {
+				if (e) {
+					if (this.$refs.deleteDialog.error.response.status === 403)
+						this.$toast.error(`cannot cancel check, you do not own the check.`, {
+							hideProgressBar: true
+						})
+				}
+			})
+		}
 	}
 }
 </script>
