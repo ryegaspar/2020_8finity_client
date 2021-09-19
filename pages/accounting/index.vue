@@ -210,7 +210,7 @@ export default {
 			}).catch((rejected) => {
 				if (rejected) {
 					if (this.$refs.deleteDialog.error.response.status === 409)
-						this.$toast.error(`the account you wish to delete may still have transactions/transfers, delete transactions/transfers with the account first`, {
+						this.$toast.error(`the account you wish to delete may still have transactions/transfers/checks, delete transactions/transfers/checks associated with the account first`, {
 							hideProgressBar: true
 						})
 					else
