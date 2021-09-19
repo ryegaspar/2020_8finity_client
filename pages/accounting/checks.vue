@@ -57,6 +57,7 @@
 								<button
 									class="bg-green-400 rounded-md text-gray-900 hover:bg-green-500 focus:outline-none mr-1"
 									@click.prevent="confirmClear(props.rowData)"
+									title="clear"
 								>
 									<font-awesome-layers class="fa-fw">
 										<font-awesome-icon icon="check-circle"/>
@@ -66,6 +67,7 @@
 								<button
 									class="bg-red-400 rounded-md text-gray-900 hover:bg-red-500 focus:outline-none mr-1"
 									@click.prevent="confirmCancel(props.rowData)"
+									title="cancel"
 								>
 									<font-awesome-layers class="fa-fw">
 										<font-awesome-icon icon="times-circle"/>
@@ -75,6 +77,7 @@
 								<button
 									class="bg-blue-400 rounded-md text-gray-900 hover:bg-blue-500 focus:outline-none mr-1"
 									@click.prevent="showModal(props.rowData)"
+									title="edit"
 								>
 									<font-awesome-layers class="fa-fw">
 										<font-awesome-icon icon="pen"/>
@@ -83,6 +86,7 @@
 								<button
 									class="bg-red-400 rounded-md text-gray-900 hover:bg-red-500 focus:outline-none"
 									@click.prevent="confirmDelete(props.rowData)"
+									title="delete"
 								>
 									<font-awesome-layers class="fa-fw">
 										<font-awesome-icon icon="trash"/>
@@ -93,6 +97,7 @@
 								<button
 									class="bg-green-400 rounded-md text-gray-900 hover:bg-blue-500 focus:outline-none"
 									@click.prevent="showModal(props.rowData, true)"
+									title="view"
 								>
 									<font-awesome-layers class="fa-fw">
 										<font-awesome-icon icon="eye"/>
