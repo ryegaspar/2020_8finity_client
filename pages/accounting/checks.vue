@@ -247,20 +247,20 @@ export default {
 					dataClass: 'text-right text-sm lg:text-md'
 				},
 				{
-					name: 'post_date',
-					title: 'Post Date',
+					name: 'due_date',
+					title: 'Due Date',
 					titleClass: 'hidden md:table-cell text-xs lg:text-sm',
 					dataClass: 'hidden md:table-cell text-center text-sm lg:text-md',
-					sortField: 'post_date',
+					sortField: 'due_date',
 					callback: function (value) {
-						const postDate = DateTime.fromISO(value, {setZone: true})
+						const dueDate = DateTime.fromISO(value, {setZone: true})
 						const today = DateTime.now()
 
-						if (today.startOf('day') > postDate.startOf('day')) {
-							return `<span class="text-red-500">${postDate.toLocaleString(DateTime.DATE_MED)}</span>`
+						if (today.startOf('day') > dueDate.startOf('day')) {
+							return `<span class="text-red-500">${dueDate.toLocaleString(DateTime.DATE_MED)}</span>`
 						}
 
-						return `<span class="text-green-400">${postDate.toLocaleString(DateTime.DATE_MED)}</span>`
+						return `<span class="text-green-400">${dueDate.toLocaleString(DateTime.DATE_MED)}</span>`
 					}
 				},
 				{
@@ -273,7 +273,7 @@ export default {
 
 			sortOrder: [
 				{
-					field: 'post_date',
+					field: 'due_date',
 					direction: 'desc'
 				},
 				{

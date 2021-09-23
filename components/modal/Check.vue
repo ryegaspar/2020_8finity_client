@@ -9,7 +9,7 @@
 				</h3>
 				<div class="mt-2 space-y-8 divide-gray-200">
 					<form class="divide-y"
-						  @submit.prevent="submit"
+						  @submit.prevent="submitForm"
 					>
 						<div class="mt-3 grid grid-cols-1 gap-y-4 gap-x-4 sm:grid-cols-6">
 							<div class="sm:col-span-6">
@@ -143,20 +143,20 @@
 							<div class="sm:col-span-6">
 								<label for="date"
 									   class="block text-sm font-medium text-gray-500">
-									Post Date
+									Due Date
 								</label>
 								<div class="mt-1">
 									<datetime class="theme-dark"
 											  ref="dateTimePicker"
 											  :week-start="7"
-											  :value="form.post_date"
+											  :value="form.due_date"
 											  @input="setDate"
 											  :disabled="this.readonly"
 									/>
 									<div class="block text-red-500 text-sm mt-1 -mb-2"
-										 v-show="form.errors.has('date')"
+										 v-show="form.errors.has('due_date')"
 									>
-										{{ form.errors.get('date') }}
+										{{ form.errors.get('due_date') }}
 									</div>
 								</div>
 							</div>
@@ -261,7 +261,7 @@ export default {
 				category_id: null,
 				account_id: 1,
 				amount: 0,
-				post_date: DateTime.local().toISODate(),
+				due_date: DateTime.local().toISODate(),
 				notes: ''
 			}),
 
@@ -305,7 +305,7 @@ export default {
 		},
 
 		setDate(date) {
-			this.form.date = DateTime.fromISO(date, {setZone: true}).toISODate()
+			this.form.due_date = DateTime.fromISO(date, {setZone: true}).toISODate()
 		},
 
 		...mapActions({
@@ -358,7 +358,7 @@ export default {
 					this.form.category_id = this.check.category_id
 					this.form.account_id = this.check.account_id
 					this.form.amount = (Math.abs(this.check.amount) / 100)
-					this.form.date = this.check.date
+					this.form.due_date = this.check.due_date
 					this.form.notes = this.check.notes
 				}
 
