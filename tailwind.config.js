@@ -14,7 +14,11 @@ module.exports = {
 	],
 	darkMode: false, // or 'media' or 'class'
 	theme: {
-		extend: {},
+		extend: {
+			fontSize: {
+				xxs: ['0.625rem', {lineHeight: '1rem'}]
+			}
+		},
 	},
 	variants: {
 		extend: {

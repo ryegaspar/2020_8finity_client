@@ -19,19 +19,19 @@
 			</span>
 		</button>
 
-		<div class="origin-top-right absolute w-48 max-h-80 overflow-y-auto right-0 mt-2 rounded-md shadow-lg"
+		<div class="origin-top-right absolute border border-gray-500 w-48 max-h-80 overflow-y-auto right-0 rounded-md shadow-lg"
 			 v-if="notificationWindow"
 		>
 			<div class="py-1 rounded-md bg-gray-900">
 				<template v-if="notifications.length">
 					<button v-for="notification in notifications"
 						 :key="notification.id"
-						 class="px-4 py-1 w-full flex flex-col justify-center leading-snug text-md text-gray-400 hover:text-gray-200 hover:bg-gray-700 transition ease-in-out duration-150"
+						 class="px-3 py-1 w-full leading-tight flex flex-col leading-snug text-xs text-gray-400 hover:text-gray-200 hover:bg-gray-700 transition ease-in-out duration-150 border-t border-b border-gray-800"
 					>
-						<span class="flex justify-center">
+						<span class="text-left">
 							{{ notification.message }}
 						</span>
-						<span class="text-xs"><i>{{ notification.created_at }}</i></span>
+						<span class="text-xxs text-left"><i>{{ notification.created_at }}</i></span>
 					</button>
 				</template>
 				<template v-else>
