@@ -7,7 +7,7 @@
 					class="bg-gray-900 border border-gray-600 text-gray-600 py-2 px-3 rounded-lg items-center flex justify-between hover:border-green-600 hover:text-green-600 focus:outline-none text-sm md:text-base"
 					@click.prevent="$refs.vuetable.refresh()"
 				>
-				<font-awesome-layers class="fa-fw mr-1">
+					<font-awesome-layers class="fa-fw mr-1">
 						<font-awesome-icon icon="sync"/>
 					</font-awesome-layers>
 					Refresh
@@ -18,18 +18,18 @@
 				<div class="mt-8 shadow overflow-hidden">
 					<div class="flex sm:flex-row flex-col">
 						<div class=" flex flex-row mb-2">
-<!--							<table-filters-paging :per-page-options="perPageOptions"-->
-<!--												  :selected="perPageSelected"-->
-<!--												  @perPageChanged="setPerPage"-->
-<!--							/>-->
-<!--							<table-filters-dropdown @filterChanged="setType"-->
-<!--													@filterRemoved="removeType"-->
-<!--													title="type"-->
-<!--													:selections="typeSelections"-->
-<!--							/>-->
-<!--							<table-filters-search @searchUpdated="setSearch"-->
-<!--												  extraClass="rounded-r-lg"-->
-<!--							/>-->
+							<!--							<table-filters-paging :per-page-options="perPageOptions"-->
+							<!--												  :selected="perPageSelected"-->
+							<!--												  @perPageChanged="setPerPage"-->
+							<!--							/>-->
+							<!--							<table-filters-dropdown @filterChanged="setType"-->
+							<!--													@filterRemoved="removeType"-->
+							<!--													title="type"-->
+							<!--													:selections="typeSelections"-->
+							<!--							/>-->
+							<!--							<table-filters-search @searchUpdated="setSearch"-->
+							<!--												  extraClass="rounded-r-lg"-->
+							<!--							/>-->
 						</div>
 					</div>
 					<vuetable ref="vuetable"
@@ -47,10 +47,9 @@
 							<button
 								class="bg-blue-400 rounded-md text-gray-900 hover:bg-blue-500 focus:outline-none"
 								title="view details"
-								>
-								<!--								@click.prevent="showModal(props.rowData)"-->
-								<!--							>-->
-								<font-awesome-layers class="fa-fw">
+								@click.prevent="showModal(props.rowData)"
+							>
+							<font-awesome-layers class="fa-fw">
 									<font-awesome-icon icon="eye"/>
 								</font-awesome-layers>
 							</button>
@@ -70,12 +69,17 @@
 			</div>
 		</div>
 
-<!--		<modal-transaction :transaction="selectedTransaction"-->
-<!--						   :show="modalOpen"-->
-<!--						   :readonly="modalReadOnly"-->
-<!--						   @close="modalOpen = false"-->
-<!--						   @submit_success="submitFormSuccess"-->
-<!--		/>-->
+		<modal-log :log="selectedLog"
+				   :show="modalOpen"
+				   @close="modalOpen = false"
+		/>
+
+		<!--		<modal-transaction :transaction="selectedTransaction"-->
+		<!--						   :show="modalOpen"-->
+		<!--						   :readonly="modalReadOnly"-->
+		<!--						   @close="modalOpen = false"-->
+		<!--						   @submit_success="submitFormSuccess"-->
+		<!--		/>-->
 	</div>
 </template>
 
@@ -100,9 +104,9 @@ export default {
 	data() {
 		return {
 
-			// modalOpen: false,
+			modalOpen: false,
 			// modalReadOnly: false,
-			// selectedTransaction: {},
+			selectedLog: {},
 			// confirmOpen: false,
 
 			httpOptions: {
@@ -137,7 +141,7 @@ export default {
 					title: 'Action',
 					titleClass: 'text-xs lg:text-sm',
 					dataClass: 'text-center text-sm lg:text-md',
-					callback: function(value) {
+					callback: function (value) {
 						if (value === 'created') {
 							return `<span class="text-green-500">created</span>`
 						}
@@ -163,7 +167,13 @@ export default {
 					sortField: 'created_at',
 					callback: function (value) {
 						return DateTime.fromISO(value, {setZone: true})
-							.toLocaleString({ weekday: 'short', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit' })
+							.toLocaleString({
+								weekday: 'short',
+								month: 'short',
+								day: '2-digit',
+								hour: '2-digit',
+								minute: '2-digit'
+							})
 					}
 				},
 				{
@@ -203,6 +213,11 @@ export default {
 		// 		this.$refs.vuetable.refresh()
 		// 	})
 		// },
+
+		showModal(log) {
+			this.selectedLog = log
+			this.modalOpen = true
+		},
 	}
 }
 </script>
