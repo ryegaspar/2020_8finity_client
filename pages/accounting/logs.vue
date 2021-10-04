@@ -18,18 +18,21 @@
 				<div class="mt-8 shadow overflow-hidden">
 					<div class="flex sm:flex-row flex-col">
 						<div class=" flex flex-row mb-2">
-							<!--							<table-filters-paging :per-page-options="perPageOptions"-->
-							<!--												  :selected="perPageSelected"-->
-							<!--												  @perPageChanged="setPerPage"-->
-							<!--							/>-->
-							<!--							<table-filters-dropdown @filterChanged="setType"-->
-							<!--													@filterRemoved="removeType"-->
-							<!--													title="type"-->
-							<!--													:selections="typeSelections"-->
-							<!--							/>-->
-							<!--							<table-filters-search @searchUpdated="setSearch"-->
-							<!--												  extraClass="rounded-r-lg"-->
-							<!--							/>-->
+							<table-filters-paging :per-page-options="perPageOptions"
+												  :selected="perPageSelected"
+												  @perPageChanged="setPerPage"
+							/>
+							<table-filters-dropdown @filterChanged="setType"
+													@filterRemoved="removeType"
+													title="type"
+													:selections="typeSelections"
+							/>
+							<table-filters-dropdown @filterChanged="setAction"
+													@filterRemoved="removeAction"
+													title="action"
+													:selections="actionSelections"
+													extraClass="rounded-r-lg"
+							/>
 						</div>
 					</div>
 					<vuetable ref="vuetable"
@@ -49,7 +52,7 @@
 								title="view details"
 								@click.prevent="showModal(props.rowData)"
 							>
-							<font-awesome-layers class="fa-fw">
+								<font-awesome-layers class="fa-fw">
 									<font-awesome-icon icon="eye"/>
 								</font-awesome-layers>
 							</button>
@@ -74,12 +77,6 @@
 				   @close="modalOpen = false"
 		/>
 
-		<!--		<modal-transaction :transaction="selectedTransaction"-->
-		<!--						   :show="modalOpen"-->
-		<!--						   :readonly="modalReadOnly"-->
-		<!--						   @close="modalOpen = false"-->
-		<!--						   @submit_success="submitFormSuccess"-->
-		<!--		/>-->
 	</div>
 </template>
 
@@ -117,7 +114,7 @@ export default {
 
 			perPageSelected: 50,
 
-			// perPageOptions: [10, 20, 50, 100, 500],
+			perPageOptions: [10, 20, 50, 100, 500],
 
 			moreParams: {},
 
@@ -133,8 +130,6 @@ export default {
 					title: 'Type',
 					titleClass: 'text-xs lg:text-sm',
 					dataClass: 'text-left text-sm lg:text-md',
-					// titleClass: 'hidden lg:table-cell text-xs lg:text-sm',
-					// dataClass: 'hidden lg:table-cell text-left text-sm lg:text-md'
 				},
 				{
 					name: 'action',
@@ -194,6 +189,44 @@ export default {
 					direction: 'desc'
 				}
 			],
+
+			typeSelections: [
+				{
+					id: 1,
+					name: 'Account'
+				},
+				{
+					id: 2,
+					name: 'Transaction'
+				},
+				{
+					id: 3,
+					name: 'Transfer'
+				},
+				{
+					id: 4,
+					name: 'Check'
+				},
+				{
+					id: 5,
+					name: 'Category'
+				},
+			],
+
+			actionSelections: [
+				{
+					id: 1,
+					name: 'created'
+				},
+				{
+					id: 2,
+					name: 'updated'
+				},
+				{
+					id: 3,
+					name: 'deleted'
+				}
+			]
 		}
 	},
 
@@ -207,12 +240,34 @@ export default {
 			this.$refs.vuetable.changePage(page)
 		},
 
-		// setPerPage(page) {
-		// 	this.perPageSelected = page
-		// 	this.$nextTick(() => {
-		// 		this.$refs.vuetable.refresh()
-		// 	})
-		// },
+		setPerPage(page) {
+			this.perPageSelected = page
+			this.$nextTick(() => {
+				this.$refs.vuetable.refresh()
+			})
+		},
+
+		setType(option) {
+			this.moreParams.type = this.typeSelections.find(i => i.id === option.id).name
+
+			this.$nextTick(() => this.$refs.vuetable.refresh())
+		},
+
+		removeType() {
+			this.moreParams.type = ''
+			this.$nextTick(() => this.$refs.vuetable.refresh())
+		},
+
+		setAction(action) {
+			this.moreParams.action = this.actionSelections.find(i => i.id === action.id).name
+
+			this.$nextTick(() => this.$refs.vuetable.refresh())
+		},
+
+		removeAction() {
+			this.moreParams.action = ''
+			this.$nextTick(() => this.$refs.vuetable.refresh())
+		},
 
 		showModal(log) {
 			this.selectedLog = log
