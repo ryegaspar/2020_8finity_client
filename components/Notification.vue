@@ -81,7 +81,7 @@ export default {
 
 	watch: {
 		hasSeen(val, oldVal) {
-			if (oldVal === false && val === true) {
+			if (oldVal === false && val === true && this.notifications.length) {
 				this.$axios.$delete(`admin/notifications`)
 			}
 		}
