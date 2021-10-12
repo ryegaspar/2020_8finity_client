@@ -87,28 +87,45 @@ export default {
 						}
 					]
 				},
-				'employees': {
-					name: 'Employees',
+				'receivables': {
+					name: 'Receivables',
+					icon: 'coins',
+					active: false,
+					submenu: [
+						{
+							name: 'accounts',
+							url: '/receivables/'
+						}
+					]
+				},
+				'hr': {
+					name: 'Human Resource',
 					icon: 'users',
 					active: false,
 					submenu: [
 						{
 							name: 'Employees',
-							url: '/employees',
+							url: '/hr/',
 						},
-						{
-							name: 'Time',
-							url: '/employees/time',
-						},
-						{
-							name: 'Salary',
-							url: 'employees/salary',
-						},
-						{
-							name: 'Cash Advance',
-							url: 'employees/cash-advance',
-						},
+						// {
+						// 	name: 'Time',
+						// 	url: '/employees/time',
+						// },
+						// {
+						// 	name: 'Salary',
+						// 	url: 'employees/salary',
+						// },
+						// {
+						// 	name: 'Cash Advance',
+						// 	url: 'employees/cash-advance',
+						// },
 					]
+				},
+				'admin': {
+					name: 'Admin',
+					icon: 'user-cog',
+					active: false,
+					url: '/admin'
 				}
 			},
 		}
