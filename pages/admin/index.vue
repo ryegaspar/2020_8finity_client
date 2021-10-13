@@ -4,9 +4,8 @@
 			<div class="flex justify-between">
 				<button
 					class="bg-gray-900 border border-gray-600 text-gray-600 py-2 px-3 rounded-lg items-center flex justify-between hover:border-blue-600 hover:text-blue-600 focus:outline-none text-sm md:text-base"
-					>
-<!--					@click.prevent="showModal({})"-->
-<!--				>-->
+					@click.prevent="showModal"
+				>
 					<font-awesome-layers class="fa-fw mr-1">
 						<font-awesome-icon icon="plus-circle"/>
 					</font-awesome-layers>
@@ -15,9 +14,9 @@
 
 				<button
 					class="bg-gray-900 border border-gray-600 text-gray-600 py-2 px-3 rounded-lg items-center flex justify-between hover:border-green-600 hover:text-green-600 focus:outline-none text-sm md:text-base"
-					>
-<!--					@click.prevent="$refs.vuetable.refresh()"-->
-<!--				>-->
+				>
+					<!--					@click.prevent="$refs.vuetable.refresh()"-->
+					<!--				>-->
 					<font-awesome-layers class="fa-fw mr-1">
 						<font-awesome-icon icon="sync"/>
 					</font-awesome-layers>
@@ -27,55 +26,48 @@
 
 			<div class="flex flex-col">
 				<div class="mt-8 shadow overflow-hidden sm:rounded-lg">
-<!--					<vuetable ref="vuetable"-->
-<!--							  :http-options="httpOptions"-->
-<!--							  :sort-order="sortOrder"-->
-<!--							  :api-url="url"-->
-<!--							  :fields="fields"-->
-<!--							  pagination-path=""-->
-<!--							  :per-page=50-->
-<!--							  :multi-sort="false"-->
-<!--					>-->
-<!--						<template slot="actions"-->
-<!--								  slot-scope="props"-->
-<!--						>-->
-<!--							<template>-->
-<!--								<button-->
-<!--									class="bg-blue-400 rounded-md text-gray-900 hover:bg-blue-500 focus:outline-none"-->
-<!--									@click.prevent="showModal(props.rowData)"-->
-<!--									title="edit"-->
-<!--								>-->
-<!--									<font-awesome-layers class="fa-fw">-->
-<!--										<font-awesome-icon icon="pen"/>-->
-<!--									</font-awesome-layers>-->
-<!--								</button>-->
-<!--								<button-->
-<!--									class="bg-red-400 rounded-md text-gray-900 ml-2 hover:bg-red-500 focus:outline-none"-->
-<!--									@click.prevent="confirmDelete(props.rowData.id)"-->
-<!--									title="delete"-->
-<!--								>-->
-<!--									<font-awesome-layers class="fa-fw">-->
-<!--										<font-awesome-icon icon="trash"/>-->
-<!--									</font-awesome-layers>-->
-<!--								</button>-->
-<!--							</template>-->
-<!--						</template>-->
-<!--					</vuetable>-->
+					<!--					<vuetable ref="vuetable"-->
+					<!--							  :http-options="httpOptions"-->
+					<!--							  :sort-order="sortOrder"-->
+					<!--							  :api-url="url"-->
+					<!--							  :fields="fields"-->
+					<!--							  pagination-path=""-->
+					<!--							  :per-page=50-->
+					<!--							  :multi-sort="false"-->
+					<!--					>-->
+					<!--						<template slot="actions"-->
+					<!--								  slot-scope="props"-->
+					<!--						>-->
+					<!--							<template>-->
+					<!--								<button-->
+					<!--									class="bg-blue-400 rounded-md text-gray-900 hover:bg-blue-500 focus:outline-none"-->
+					<!--									@click.prevent="showModal(props.rowData)"-->
+					<!--									title="edit"-->
+					<!--								>-->
+					<!--									<font-awesome-layers class="fa-fw">-->
+					<!--										<font-awesome-icon icon="pen"/>-->
+					<!--									</font-awesome-layers>-->
+					<!--								</button>-->
+					<!--								<button-->
+					<!--									class="bg-red-400 rounded-md text-gray-900 ml-2 hover:bg-red-500 focus:outline-none"-->
+					<!--									@click.prevent="confirmDelete(props.rowData.id)"-->
+					<!--									title="delete"-->
+					<!--								>-->
+					<!--									<font-awesome-layers class="fa-fw">-->
+					<!--										<font-awesome-icon icon="trash"/>-->
+					<!--									</font-awesome-layers>-->
+					<!--								</button>-->
+					<!--							</template>-->
+					<!--						</template>-->
+					<!--					</vuetable>-->
 				</div>
 			</div>
 		</div>
 
-<!--		<modal-account :account="selectedAccount"-->
-<!--					   :show="modalOpen"-->
-<!--					   @close="modalOpen = false"-->
-<!--					   @submit_success="submitFormSuccess"-->
-<!--		/>-->
-
-<!--		<modal-confirm @close="confirmOpen = false"-->
-<!--					   ref="deleteDialog"-->
-<!--					   title="Delete Account"-->
-<!--					   message="Are you sure you want to delete this account? This action cannot be undone"-->
-<!--		/>-->
+		<modal-admin-invite :show="modalOpen"
+							@close="modalOpen = false"
+							@submit_success="submitFormSuccess"
+		/>
 	</div>
 </template>
 
@@ -99,8 +91,7 @@ export default {
 	data() {
 		return {
 
-			// modalOpen: false,
-			// selectedAccount: {},
+			modalOpen: false,
 			//
 			// httpOptions: {
 			// 	withCredentials: true,
@@ -178,21 +169,18 @@ export default {
 	},
 
 	methods: {
-		// submitFormSuccess(isNew) {
-		// 	let message = isNew ? 'successfully added account' : 'successfully updated account'
-		//
-		// 	this.$toast.success(message, {
-		// 		hideProgressBar: true,
-		// 	})
-		//
-		// 	this.modalOpen = false
-		// 	this.$refs.vuetable.refresh()
-		// },
-		//
-		// showModal(account) {
-		// 	this.selectedAccount = account
-		// 	this.modalOpen = true
-		// },
+		submitFormSuccess() {
+			this.$toast.success('invitation was successfully sent', {
+				hideProgressBar: true,
+			})
+
+			this.modalOpen = false
+			// this.$refs.vuetable.refresh()
+		},
+
+		showModal() {
+			this.modalOpen = true
+		},
 	}
 }
 </script>

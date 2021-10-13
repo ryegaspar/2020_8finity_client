@@ -25,7 +25,7 @@
 			</div>
 			<div class="mt-2 space-y-8 divide-gray-200">
 				<form class="divide-y"
-					  @submit.prevent="submit"
+					  @submit.prevent="confirm"
 				>
 					<div class="mt-6 pt-2 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
 						<button type="submit"

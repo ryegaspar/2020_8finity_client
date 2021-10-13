@@ -9,7 +9,7 @@
 				</h3>
 				<div class="mt-2 space-y-8 divide-gray-200">
 					<form class="divide-y"
-						  @submit.prevent="submit"
+						  @submit.prevent="submitForm"
 					>
 						<div class="mt-3 grid grid-cols-1 gap-y-4 gap-x-4 sm:grid-cols-6">
 							<div class="sm:col-span-6">
