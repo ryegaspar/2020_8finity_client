@@ -1,8 +1,11 @@
 export const categoryIcons = [
 	'piggy-bank',
+	'money-bill',
 	'money-bill-wave',
 	'coins',
 	'credit-card',
+	'money-check',
+	'money-check-alt',
 	'lightbulb',
 	'wifi',
 	'water',

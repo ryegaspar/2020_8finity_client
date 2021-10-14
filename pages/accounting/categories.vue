@@ -48,7 +48,7 @@
 						<template slot="actions"
 								  slot-scope="props"
 						>
-							<template v-if="props.rowData.id > 13">
+							<template v-if="props.rowData.id > 14">
 								<button
 									class="bg-blue-400 rounded-md text-gray-900 hover:bg-blue-500 focus:outline-none"
 									@click.prevent="showModal(props.rowData)"
