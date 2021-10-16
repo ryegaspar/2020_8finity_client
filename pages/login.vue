@@ -29,6 +29,8 @@
 				>
 					Sign In
 				</button>
+
+				<nuxt-link to="/forgot-password" class="text-sm">forgot password?</nuxt-link>
 			</form>
 		</div>
 	</div>
