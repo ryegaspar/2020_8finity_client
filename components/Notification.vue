@@ -12,34 +12,45 @@
 					  stroke-width="2"
 					  d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
 			</svg>
-			<span class="absolute -top-1.5 left-4 rounded-full bg-red-600 text-xs w-5 h-5 flex justify-center items-center text-gray-300"
-				  v-if="notifications.length && !hasSeen"
+			<span
+				class="absolute -top-1.5 left-4 rounded-full bg-red-600 text-xs w-5 h-5 flex justify-center items-center text-gray-300"
+				v-if="notifications.length && !hasSeen"
 			>
 				{{ notifications.length }}
 			</span>
 		</button>
 
-		<div class="origin-top-right absolute border border-gray-500 w-48 max-h-80 overflow-y-auto right-0 rounded-md shadow-lg"
-			 v-if="notificationWindow"
+		<transition
+			enter-active-class="transition ease-out duration-100"
+			enter-class="transform opacity-0 scale-95"
+			enter-to-class="transform opacity-100 scale-100"
+			leave-active-class="transition ease-in duration-75"
+			leave-class="transform opacity-100 scale-100"
+			leave-to-class="transform opacity-0 scale-95"
 		>
-			<div class="py-1 rounded-md bg-gray-900">
-				<template v-if="notifications.length">
-					<button v-for="notification in notifications"
-						 :key="notification.id"
-						 class="px-3 py-1 w-full leading-tight flex flex-col leading-snug text-xs text-gray-400 hover:text-gray-200 hover:bg-gray-700 transition ease-in-out duration-150 border-t border-b border-gray-800"
-					>
+			<div
+				class="origin-top-right absolute border mt-2 border-gray-500 w-48 max-h-80 overflow-y-auto right-0 rounded-md shadow-lg"
+				v-if="notificationWindow"
+			>
+				<div class="py-1 rounded-md bg-gray-900">
+					<template v-if="notifications.length">
+						<button v-for="notification in notifications"
+								:key="notification.id"
+								class="px-3 py-1 w-full leading-tight flex flex-col leading-snug text-xs text-gray-400 hover:text-gray-200 hover:bg-gray-700 transition ease-in-out duration-150 border-t border-b border-gray-800"
+						>
 						<span class="text-left">
 							{{ notification.message }}
 						</span>
-						<span class="text-xxs text-left"><i>{{ notification.created_at }}</i></span>
-					</button>
-				</template>
-				<template v-else>
+							<span class="text-xxs text-left"><i>{{ notification.created_at }}</i></span>
+						</button>
+					</template>
+					<template v-else>
 					<span
 						class="flex px-4 py-2 text-sm text-gray-400 transition ease-in-out duration-150">no new notifications</span>
-				</template>
+					</template>
+				</div>
 			</div>
-		</div>
+		</transition>
 	</div>
 </template>
 
