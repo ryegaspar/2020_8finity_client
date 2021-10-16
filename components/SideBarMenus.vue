@@ -122,10 +122,10 @@ export default {
 					]
 				},
 				'admin': {
-					name: 'Admin',
+					name: 'Admins',
 					icon: 'user-cog',
 					active: false,
-					url: '/admin'
+					url: '/admins'
 				}
 			},
 		}
