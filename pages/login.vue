@@ -30,7 +30,7 @@
 					Sign In
 				</button>
 
-				<nuxt-link to="/forgot-password" class="text-sm">forgot password?</nuxt-link>
+				<nuxt-link to="/forgot-password" class="text-sm flex flex-row-reverse mt-1">forgot password?</nuxt-link>
 			</form>
 		</div>
 	</div>
