@@ -68,6 +68,7 @@ export default {
 		// '@nuxtjs/dotenv',
 		'@nuxtjs/auth',
 		'vue-toastification/nuxt',
+		'@nuxtjs/robots'
 	],
 
 	auth: {
@@ -128,5 +129,10 @@ export default {
 
 	router: {
 		middleware: ['auth']
+	},
+
+	robots: {
+		UserAgent: '*',
+		Disallow: '/'
 	}
 }
