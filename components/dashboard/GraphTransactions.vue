@@ -14,7 +14,6 @@
 					<button
 						class="relative bg-gray-900 border border-gray-800 text-gray-700 px-3 rounded items-center flex"
 						@click="menuActive = !menuActive"
-						v-click-outside="() => menuActive = false"
 					>
 						<span class="text-gray-400 mr-3">{{ periodSelected }}</span>
 						<svg class="fill-current w-4" xmlns="http://www.w3.org/2000/svg"
@@ -33,13 +32,14 @@
 					>
 						<div class="border border-gray-800 rounded absolute mt-1 z-10 right-0"
 							 v-if="menuActive"
+							 v-click-outside="() => menuActive = false"
 						>
 							<div class="py-1 bg-gray-900 rounded">
 								<a href="#"
 								   class="hover:bg-gray-400 py-1 px-2 block hover:text-gray-900"
 								   v-for="menu in selections"
 								   :key="menu"
-								   @click="selectPeriod(menu)"
+								   @click="select(menu)"
 								>
 									{{ menu }}
 								</a>
@@ -179,7 +179,12 @@ export default {
 	methods: {
 		...mapActions({
 			selectPeriod: 'dashboard_transactions/updatePeriodSelected'
-		})
+		}),
+
+		select(item) {
+			this.selectPeriod(item)
+			this.menuActive = false
+		}
 	},
 
 	directives: {

@@ -3,7 +3,6 @@
 		<div
 			class="relative flex justify-between md:w-36 bg-gray-900 border border-gray-800 text-gray-600 py-1 px-2 items-center flex hover:text-blue-700 hover:border-blue-700 focus:outline-none whitespace-nowrap"
 			:class="extraClass"
-			v-click-outside="hide"
 		>
 			<span>{{ selected[selectionName] }}</span>
 			<div class="h-6 w-5">
@@ -37,6 +36,7 @@
 		</div>
 		<div class="border border-gray-800 rounded absolute mt-1 z-10 w-full md:w-36"
 			 v-if="isOpen"
+			 v-click-outside="hide"
 		>
 			<div class="py-2 bg-gray-900 rounded">
 				<button
@@ -102,6 +102,7 @@ export default {
 		setSelected(item) {
 			this.selected = item
 			this.$emit('filterChanged', item)
+			this.hide()
 		},
 
 		removeSelection() {

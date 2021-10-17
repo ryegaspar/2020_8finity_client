@@ -5,7 +5,6 @@
 				<button
 					class="relative bg-gray-900 border border-gray-800 text-gray-700 px-3 rounded-lg items-center flex w-full md:w-auto justify-between md:justify-start h-10 hover:border-blue-600 hover:text-blue-600 focus:outline-none"
 					@click="isOpen = !isOpen"
-					v-click-outside="hide"
 				>
 					<span class="mr-1 my-2 text-gray-400">{{ selected.name }}</span>
 					<svg class="-mr-1 ml-2 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -23,13 +22,14 @@
 					<div
 						class="border border-gray-800 rounded absolute mt-2 sm:mt-12 z-10 w-full md:w-32"
 						v-if="isOpen"
+						v-click-outside="hide"
 					>
 						<div class="py-2 bg-gray-900 rounded">
 							<a href="#"
 							   class="py-2 px-4 block leading-5 hover:text-gray-900 hover:bg-gray-400 focus:outline-none"
 							   :class="[selected == item ? 'bg-gray-400 text-gray-900' : 'bg-gray-900']"
 							   v-for="item in presets"
-							   @click.prevent="changeSelection(item)"
+							   @click.prevent="select(item)"
 							   :key="item.name"
 							>
 								{{ item.name }}
@@ -63,7 +63,6 @@
 </template>
 
 <script>
-import vClickOutside from 'v-click-outside'
 import {presets} from '@/utilities/DatePresets'
 import {Datetime} from 'vue-datetime'
 import {DateTime} from 'luxon'
@@ -121,11 +120,12 @@ export default {
 			let d = DateTime.fromISO(date, {setZone: true}).toISODate()
 			this.updateEndDate(d)
 		},
-	},
 
-	directives: {
-		clickOutside: vClickOutside.directive
-	}
+		select(item) {
+			this.changeSelection(item)
+			this.hide()
+		}
+	},
 }
 </script>
 

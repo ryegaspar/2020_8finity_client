@@ -4,7 +4,6 @@
 			class="bg-gray-900 border border-gray-800 text-gray-600 py-1 px-2 rounded-l-lg rounded-r-none items-center flex hover:text-blue-700 hover:border-blue-700 focus:outline-none"
 			:class="extraClass"
 			@click.prevent="isOpen = !isOpen"
-			v-click-outside="hide"
 		>
 			{{ selectedValue }}
 			<svg class="-mr-1 ml-2 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -15,6 +14,7 @@
 		</button>
 		<div class="border border-gray-800 rounded absolute mt-1 z-10 w-14 md:w-16"
 			 v-if="isOpen"
+			 v-click-outside="hide"
 		>
 			<div class="py-2 bg-gray-900 rounded">
 				<a href="#"
@@ -49,6 +49,7 @@ export default {
 		updateSelected(page) {
 			this.selectedValue = page
 			this.$emit('perPageChanged', page)
+			this.hide()
 		}
 	}
 }

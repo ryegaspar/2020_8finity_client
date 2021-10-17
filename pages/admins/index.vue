@@ -18,7 +18,6 @@
 				<div class="mt-8 shadow overflow-hidden sm:rounded-lg">
 					<vuetable ref="vuetable"
 							  :http-options="httpOptions"
-							  :sort-order="sortOrder"
 							  :api-url="url"
 							  :fields="fields"
 							  pagination-path=""
