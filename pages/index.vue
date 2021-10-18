@@ -11,7 +11,7 @@
 
 		<div class="flex-flex-row flex-wrap flex-grow mt-2">
 			<div class="w-full p-3">
-				<graph-transactions/>
+				<graph-cash-flow/>
 			</div>
 		</div>
 

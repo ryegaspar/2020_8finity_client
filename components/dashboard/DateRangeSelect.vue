@@ -76,11 +76,6 @@ export default {
 		}
 	},
 
-	mounted() {
-		this.updateSummary()
-		this.updateTransactions()
-	},
-
 	activated() {
 		this.updateSummary()
 		this.updateTransactions()

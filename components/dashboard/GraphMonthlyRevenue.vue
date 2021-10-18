@@ -58,7 +58,6 @@ export default {
 		}),
 
 		revenueBarData() {
-			console.log('revenueBar')
 			const sumRevenueMonth = chain(this.transactionsLastFiveMonths)
 				.groupBy(result => DateTime.fromISO(result.date, {setZone: true}).toFormat("yyyy-MM-01"))
 				.map((o, id) => ({

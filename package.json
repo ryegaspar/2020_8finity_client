@@ -30,7 +30,6 @@
 		"vue-promise-btn": "^2.1.0",
 		"vue-toastification": "^1.7.11",
 		"vuetable-2": "^1.7.5",
-		"weeknumber": "^1.1.2",
 		"weekstart": "^1.0.1"
 	},
 	"devDependencies": {
