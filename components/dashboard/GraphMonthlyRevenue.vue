@@ -11,38 +11,13 @@
 
 <script>
 import {mapGetters, mapActions} from 'vuex'
+import {chain, sumBy} from "lodash"
+import {DateTime} from "luxon"
 
 export default {
-	mounted() {
-		this.getTransactionsLastFiveMonths()
-	},
-
-	activated() {
-		this.getTransactionsLastFiveMonths()
-	},
-
-	computed: {
-		...mapGetters({
-			revenuePerMonth: 'dashboard_transactions/revenuePerMonth'
-		}),
-
-		revenueBarData() {
-			return {
-				labels: this.revenuePerMonth.label,
-				datasets: [
-					{
-						label: 'Income',
-						data: this.revenuePerMonth.values,
-						backgroundColor: "rgba(255, 205, 86, 0.2)",
-						borderColor: "rgb(255, 205, 86)",
-						borderWidth: 1
-					}
-				]
-			}
-		},
-
-		revenueBarOptions() {
-			return {
+	data() {
+		return {
+			revenueBarOptions: {
 				responsive: true,
 				legend: {
 					display: false,
@@ -69,6 +44,44 @@ export default {
 						}
 					]
 				}
+			}
+		}
+	},
+
+	activated() {
+		this.getTransactionsLastFiveMonths()
+	},
+
+	computed: {
+		...mapGetters({
+			transactionsLastFiveMonths: 'dashboard_transactions/transactionsLastFiveMonths'
+		}),
+
+		revenueBarData() {
+			console.log('revenueBar')
+			const sumRevenueMonth = chain(this.transactionsLastFiveMonths)
+				.groupBy(result => DateTime.fromISO(result.date, {setZone: true}).toFormat("yyyy-MM-01"))
+				.map((o, id) => ({
+					monthYear: id,
+					amount: sumBy(o, (o) => parseInt(o.amount)) / 100
+				}))
+				.sort((a, b) => new Date(b.monthYear) - new Date(a.monthYear))
+				.reverse()
+
+			const label = sumRevenueMonth.map(t => t.monthYear)
+			const amount = sumRevenueMonth.map(t => t.amount)
+
+			return {
+				labels: label.value(),
+				datasets: [
+					{
+						label: 'Income',
+						data: amount.value(),
+						backgroundColor: "rgba(255, 205, 86, 0.2)",
+						borderColor: "rgb(255, 205, 86)",
+						borderWidth: 1
+					}
+				]
 			}
 		},
 	},

@@ -5,9 +5,9 @@ export default {
 
 	props: ['data', 'options'],
 
-	mounted() {
-		this.renderChart(this.data, this.options)
-	},
+	// mounted() {
+	// 	this.renderChart(this.data, this.options)
+	// },
 
 	watch: {
 		data() {
