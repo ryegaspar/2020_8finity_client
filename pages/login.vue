@@ -39,7 +39,7 @@
 <script>
 export default {
 
-	auth: false,
+	auth: 'guest',
 
 	data() {
 		return {

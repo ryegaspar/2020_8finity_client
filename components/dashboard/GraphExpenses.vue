@@ -10,19 +10,33 @@
 </template>
 <script>
 import {mapGetters} from 'vuex'
+import {chain, sumBy} from "lodash"
 
 export default {
 	computed: {
 		...mapGetters({
-			expensesByPeriod: 'dashboard_transactions/expensesByPeriod'
+			transactions: 'dashboard_transactions/transactions'
 		}),
 
 		expensesByPeriodData() {
+			const transactions = chain(this.transactions)
+				.filter((o) => o['category_type'] === 'expense')
+				.groupBy((o) => o['category_name'])
+				.map((o, id) => ({
+					categoryName: id,
+					amount: Math.abs(sumBy(o, 'amount') / 100)
+				}))
+				.sort((a, b) => b.amount - a.amount)
+				.slice(0, 10)
+
+			const label = transactions.map(t => t.categoryName)
+			const amount = transactions.map(t => t.amount)
+
 			return {
-				labels: this.expensesByPeriod.label,
+				labels: label.value(),
 				datasets: [
 					{
-						data: this.expensesByPeriod.values,
+						data: amount.value(),
 						fill: false,
 						backgroundColor: [
 							"rgba(255, 99, 132, 0.2)",
