@@ -15,7 +15,7 @@
 					   class="group flex items-center px-2 py-2 text-md leading-normal font-medium text-white rounded-md focus:outline-none focus:bg-gray-700 transition ease-in-out duration-300 hover:bg-gray-700 md:mr-6"
 					   :class="{'bg-gray-700' : isRouteActive(menu)}"
 					   v-else
-					   @click.native="closeSubmenus();clickedLink()"
+					   @click.prevent="closeSubmenus();clickedLink()"
 			>
 				<font-awesome-layers class="fa-fw mr-3">
 					<font-awesome-icon :icon="menu.icon"/>
@@ -34,7 +34,7 @@
 					>
 						<nuxt-link :to="submenu.url"
 								   class="block pl-12 py-1 transition ease-in-out duration-500 hover:text-white hover:bg-gray-700 rounded-md focus:outline-none"
-								   @click.native="clickedLink"
+								   @click.prevent="clickedLink"
 						>
 							{{ submenu.name }}
 						</nuxt-link>
