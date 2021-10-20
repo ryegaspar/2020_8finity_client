@@ -60,8 +60,7 @@
 
 <script>
 import {mapGetters, mapActions} from 'vuex'
-import {chain, sumBy} from "lodash"
-import {DateTime} from "luxon"
+import BarData from "~/utilities/BarData"
 
 export default {
 	data() {
@@ -123,49 +122,22 @@ export default {
 			transactions: 'dashboard_transactions/transactions'
 		}),
 
-		transactionData() {
-			const incomeTransactions = chain(this.transactions)
-				.filter((o) => o['category_type'] === 'income')
-
-			const expenseTransactions = chain(this.transactions)
-				.filter((o) => o['category_type'] === 'expense')
-
-			let groupedIncome, groupedExpense, sortCallback
-
-			if (this.periodSelected === 'daily') {
-
-				groupedIncome = this.groupByDateFormat(incomeTransactions, "yyyy-MM-dd")
-				groupedExpense = this.groupByDateFormat(expenseTransactions, "yyyy-MM-dd")
-				sortCallback = (a, b) => new Date(a) - new Date(b)
-
-			} else if (this.periodSelected === 'weekly') {
-
-				groupedIncome = this.groupByDateFormat(incomeTransactions, "kkkk-WW")
-				groupedExpense = this.groupByDateFormat(expenseTransactions, "kkkk-WW")
-				sortCallback = (a, b) => a.toString().localeCompare(b.toString())
-
-			} else {
-
-				groupedIncome = this.groupByDateFormat(incomeTransactions, "yyyy-MM-01")
-				groupedExpense = this.groupByDateFormat(expenseTransactions, "yyyy-MM-01")
-				sortCallback = (a, b) => new Date(a) - new Date(b)
-			}
-
-			return this.mapKeys(groupedIncome, groupedExpense, sortCallback)
-		},
-
 		barData() {
+			if (!this.transactions) return
+
+			const barData = new BarData(this.transactions, this.periodSelected)
+
 			return {
-				labels: this.transactionData.keys,
+				labels: barData.keys,
 				datasets: [
 					{
 						label: 'Income',
-						data: this.transactionData.incomeValues,
+						data: barData.income,
 						backgroundColor: '#38a169'
 					},
 					{
 						label: 'Expense',
-						data: this.transactionData.expenseValues,
+						data: barData.expense,
 						backgroundColor: '#dd6c20'
 					},
 				]
@@ -173,19 +145,23 @@ export default {
 		},
 
 		lineData() {
+			if (!this.transactions) return
+
+			const barData = new BarData(this.transactions, this.periodSelected)
+
 			return {
-				labels: this.transactionData.keys,
+				labels: barData.keys,
 				datasets: [
 					{
-						label: "income",
-						data: this.transactionData.incomeValues,
+						label: "Income",
+						data: barData.income,
 						fill: false,
 						borderColor: "#38a169",
 						lineTension: 0.1
 					},
 					{
-						label: "expense",
-						data: this.transactionData.expenseValues,
+						label: "Expense",
+						data: barData.expense,
 						fill: false,
 						borderColor: "#dd6c20",
 						lineTension: 0.1
@@ -207,46 +183,6 @@ export default {
 		select(item) {
 			this.selectPeriod(item)
 			this.menuActive = false
-		},
-
-		groupByDateFormat(data, dateFormat) {
-			return data
-				.groupBy(result => DateTime.fromISO(result.date, {setZone: true}).toFormat(dateFormat))
-				.map((o, id) => ({
-					id,
-					amount: Math.abs(sumBy(o, 'amount') / 100)
-				}))
-				.slice(0, 50)
-				.reverse()
-		},
-
-		mapKeys(income, expense, sortCallback) {
-			const keys = [
-				...new Set(
-					[
-						...income.map(t => t.id).value(),
-						...expense.map(t => t.id).value()
-					]
-				)]
-				.sort(sortCallback)
-
-			const incomeValues = keys.map((i) => {
-				const item = income.value().find((o) => o.id === i)
-
-				return item ? item['amount'] : 0
-			})
-
-			const expenseValues = keys.map((i) => {
-				const item = expense.value().find((o) => o.id === i)
-
-				return item ? item['amount'] : 0
-			})
-
-			return {
-				keys,
-				incomeValues,
-				expenseValues
-			}
 		},
 	},
 }
