@@ -2,47 +2,68 @@ import {chain, sumBy} from "lodash"
 import {DateTime} from "luxon"
 
 export default class BarData {
+	#transactions
+	#transactionObject
+	#uniqueKeys
+
 	constructor(transactions, period) {
-		this.transactions = transactions
+		this.#transactions = transactions
 		this.period = period
 
-		if (this.transactions)
-			this.prepareData()
+		if (this.#transactions)
+			this.#prepareData()
 	}
 
-	prepareData() {
+	get keys() {
+		return this.#uniqueKeys
+	}
+
+	getValues(type) {
+		return this.#uniqueKeys.map((i) => {
+			const item = this.#transactionObject[type].find((o) => o.id === i)
+
+			return item ? item['amount'] : 0
+		})
+	}
+
+	#prepareData() {
 		const types = ['income', 'expense']
 
-		let sortCallback, dateFormat
-		const transactions = {}
+		let sortMethod, dateFormat
+		this.#transactionObject = {}
 
 		types.forEach((type) => {
-			const categorizedTransactions = this.transactions.filter((o) => o['category_type'] === type)
+			const categorizedTransactions = this.#transactions.filter((o) => o['category_type'] === type)
 
 			if (this.period === 'daily') {
 				dateFormat = "yyyy-MM-dd"
-				sortCallback = (a, b) => new Date(a) - new Date(b)
+				sortMethod = (a, b) => new Date(a) - new Date(b)
 			} else if (this.period === 'weekly') {
 				dateFormat = "kkkk-WW"
-				sortCallback = (a, b) => a.toString().localeCompare(b.toString())
+				sortMethod = (a, b) => a.toString().localeCompare(b.toString())
 			} else {
 				dateFormat = "yyyy-MM-01"
-				sortCallback = (a, b) => new Date(a) - new Date(b)
+				sortMethod = (a, b) => new Date(a) - new Date(b)
 			}
 
 			/* creates an object:
 				transactions = {income: [...values], expense: [...values]}
 			 */
-			Object.defineProperty(transactions, type,
+			//todo: this needs to be refactored
+			Object.defineProperty(this.#transactionObject, type,
 				{
-					value: this.groupByDateFormat(categorizedTransactions, dateFormat).value()
+					value: this.#groupByDateFormat(categorizedTransactions, dateFormat).value()
 				})
 		})
 
-		this.mapKeys(transactions, sortCallback)
+		const t = types.map((type) => this.#transactionObject[type])
+			.flat()
+			.map((o) => o.id)
+
+		this.#uniqueKeys = [...new Set(t)].sort(sortMethod)
 	}
 
-	groupByDateFormat(data, dateFormat) {
+	#groupByDateFormat(data, dateFormat) {
 		return chain(data)
 			.groupBy(result => DateTime.fromISO(result.date, {setZone: true}).toFormat(dateFormat))
 			.map((o, id) => ({
@@ -51,28 +72,5 @@ export default class BarData {
 			}))
 			.slice(0, 50)
 			.reverse()
-	}
-
-	mapKeys(values, sortCallback) {
-		this.keys = [
-			...new Set(
-				[
-					...(values.income).map(t => t.id),
-					...(values.expense).map(t => t.id)
-				]
-			)]
-			.sort(sortCallback)
-
-		this.income = this.keys.map((i) => {
-			const item = values.income.find((o) => o.id === i)
-
-			return item ? item['amount'] : 0
-		})
-
-		this.expense = this.keys.map((i) => {
-			const item = values.expense.find((o) => o.id === i)
-
-			return item ? item['amount'] : 0
-		})
 	}
 }

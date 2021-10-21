@@ -58,8 +58,6 @@ export default {
 			try {
 				await this.$axios.$get('/sanctum/csrf-cookie')
 				await this.$auth.loginWith('local', {data: this.form})
-
-				this.$router.replace({name: 'index'})
 			} catch (e) {
 				if (parseInt(e.response.status) === 422) {
 					this.errorMessage = 'invalid username or password'

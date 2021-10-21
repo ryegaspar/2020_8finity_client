@@ -132,12 +132,12 @@ export default {
 				datasets: [
 					{
 						label: 'Income',
-						data: barData.income,
+						data: barData.getValues('income'),
 						backgroundColor: '#38a169'
 					},
 					{
 						label: 'Expense',
-						data: barData.expense,
+						data: barData.getValues('expense'),
 						backgroundColor: '#dd6c20'
 					},
 				]
@@ -154,14 +154,14 @@ export default {
 				datasets: [
 					{
 						label: "Income",
-						data: barData.income,
+						data: barData.getValues('income'),
 						fill: false,
 						borderColor: "#38a169",
 						lineTension: 0.1
 					},
 					{
 						label: "Expense",
-						data: barData.expense,
+						data: barData.getValues('expense'),
 						fill: false,
 						borderColor: "#dd6c20",
 						lineTension: 0.1
