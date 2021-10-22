@@ -60,7 +60,7 @@
 
 <script>
 import {mapGetters, mapActions} from 'vuex'
-import BarData from "~/utilities/BarData"
+import GraphTransactionByPeriod from "~/utilities/GraphTransactionByPeriod"
 
 export default {
 	data() {
@@ -125,19 +125,19 @@ export default {
 		barData() {
 			if (!this.transactions) return
 
-			const barData = new BarData(this.transactions, this.periodSelected)
+			const graphTransaction = new GraphTransactionByPeriod(this.transactions, this.periodSelected)
 
 			return {
-				labels: barData.keys,
+				labels: graphTransaction.keys,
 				datasets: [
 					{
 						label: 'Income',
-						data: barData.getValues('income'),
+						data: graphTransaction.getValues('income'),
 						backgroundColor: '#38a169'
 					},
 					{
 						label: 'Expense',
-						data: barData.getValues('expense'),
+						data: graphTransaction.getValues('expense'),
 						backgroundColor: '#dd6c20'
 					},
 				]
@@ -147,21 +147,21 @@ export default {
 		lineData() {
 			if (!this.transactions) return
 
-			const barData = new BarData(this.transactions, this.periodSelected)
+			const graphTransaction = new GraphTransactionByPeriod(this.transactions, this.periodSelected)
 
 			return {
-				labels: barData.keys,
+				labels: graphTransaction.keys,
 				datasets: [
 					{
 						label: "Income",
-						data: barData.getValues('income'),
+						data: graphTransaction.getValues('income'),
 						fill: false,
 						borderColor: "#38a169",
 						lineTension: 0.1
 					},
 					{
 						label: "Expense",
-						data: barData.getValues('expense'),
+						data: graphTransaction.getValues('expense'),
 						fill: false,
 						borderColor: "#dd6c20",
 						lineTension: 0.1

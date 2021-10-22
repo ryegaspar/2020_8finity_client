@@ -1,10 +1,10 @@
 import {chain, sumBy} from "lodash"
 import {DateTime} from "luxon"
 
-export default class BarData {
+export default class GraphTransactionByPeriod {
 	#transactions
 	#transactionObject
-	#uniqueKeys
+	#combinedKeys
 
 	constructor(transactions, period) {
 		this.#transactions = transactions
@@ -15,11 +15,11 @@ export default class BarData {
 	}
 
 	get keys() {
-		return this.#uniqueKeys
+		return this.#combinedKeys
 	}
 
 	getValues(type) {
-		return this.#uniqueKeys.map((i) => {
+		return this.#combinedKeys.map((i) => {
 			const item = this.#transactionObject[type].find((o) => o.id === i)
 
 			return item ? item['amount'] : 0
@@ -49,7 +49,6 @@ export default class BarData {
 			/* creates an object:
 				transactions = {income: [...values], expense: [...values]}
 			 */
-			//todo: this needs to be refactored
 			Object.defineProperty(this.#transactionObject, type,
 				{
 					value: this.#groupByDateFormat(categorizedTransactions, dateFormat).value()
@@ -60,7 +59,7 @@ export default class BarData {
 			.flat()
 			.map((o) => o.id)
 
-		this.#uniqueKeys = [...new Set(t)].sort(sortMethod)
+		this.#combinedKeys = [...new Set(t)].sort(sortMethod)
 	}
 
 	#groupByDateFormat(data, dateFormat) {
