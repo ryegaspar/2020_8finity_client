@@ -30,7 +30,6 @@
 							  :sort-order="sortOrder"
 							  :api-url="url"
 							  :fields="fields"
-							  pagination-path=""
 							  :per-page=50
 							  :multi-sort="false"
 					>

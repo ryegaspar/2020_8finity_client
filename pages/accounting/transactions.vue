@@ -46,7 +46,7 @@
 							  :sort-order="sortOrder"
 							  :api-url="url"
 							  :fields="fields"
-							  pagination-path=""
+							  pagination-path="meta"
 							  @vuetable:pagination-data="onPaginationData"
 							  :per-page="perPageSelected"
 							  :append-params="moreParams"

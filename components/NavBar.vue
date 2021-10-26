@@ -68,10 +68,6 @@ export default {
 		}
 	},
 
-	mounted() {
-		console.log(this.$auth.user.gravatar)
-	},
-
 	methods: {
 		toggleMobileMenu() {
 			this.$root.$emit('toggle_menu')
