@@ -32,6 +32,7 @@
 							  :fields="fields"
 							  :per-page=50
 							  :multi-sort="false"
+							  pagination-path=""
 					>
 						<template slot="actions"
 								  slot-scope="props"

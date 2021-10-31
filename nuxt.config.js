@@ -97,7 +97,6 @@ export default {
 			login: '/login',
 			home: '/'
 		},
-		rewriteRedirects: false,
 		localStorage: false
 	},
 	/*
